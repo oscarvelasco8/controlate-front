@@ -1,1 +1,7 @@
-<p>Title home page</p>
+<p-megaMenu [model]="items" >
+  <ng-template pTemplate="end">
+    <a routerLink="/" class="p-button font-bold">
+      Router
+    </a>
+  </ng-template>
+</p-megaMenu>
