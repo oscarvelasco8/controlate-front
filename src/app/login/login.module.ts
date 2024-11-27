@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { CommonPrimengModule } from '../common-primeng/common-primeng.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
   ],
   imports: [
     CommonModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+    CommonPrimengModule
   ]
 })
 export class LoginModule { }
