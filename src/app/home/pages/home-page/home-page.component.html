@@ -1,1 +1,55 @@
-<p>Title home page</p>
+<header>
+  <p-megaMenu [model]="items" [style]="{ 'border-radius': '3rem', display: 'flex', flexWrap: 'wrap' }" styleClass="p-3 surface-0">
+    <ng-template pTemplate="end">
+      <div class="home-page-links">
+        <a routerLink="/" class="p-button font-bold">
+          Iniciar Sesión
+        </a>
+        <a routerLink="/" class="p-button font-bold">
+          Registrarse
+        </a>
+      </div>
+    </ng-template>
+  </p-megaMenu>
+</header>
+<main>
+  <section class="principal-section flex flex-column justify-content-center align-items-center">
+    <h1 class="mt-8 text-5xl text-center w-8">Optimiza tu salud con el cálculo preciso de macronutrientes e insulina</h1>
+    <p class="text-l text-center w-8 text-700">Nuestro sistema avanzado te ayuda a calcular la cantidad exacta de insulina y macronutrientes que necesitas para controlar tu diabetes de manera efectiva, mejorando tu bienestar diario y optimizando tus niveles de azúcar en sangre.</p>
+    <div class="mt-8 flex flex-wrap justify-content-center gap-8 font-light">
+      <a routerLink="/" class="p-button no-underline font-light px-8 py-3 text-blue-50">
+        Calcular macronutrientes
+      </a>
+      <a routerLink="/" class="p-button no-underline font-light px-8 py-3 text-blue-50">
+        Calcular insulina
+      </a>
+    </div>
+
+    <div class="home-page-images flex flex-wrap justify-content-center align-items-stretch gap-5 mt-8 mx-5">
+      <p-image
+        src="/home/consejos.webp"
+        alt="Image"
+        [preview]="true"
+        class="p-image"
+      ></p-image>
+      <p-image
+        src="/home/piramide.webp"
+        alt="Image"
+        [preview]="true"
+        class="p-image"
+      ></p-image>
+      <p-image
+        src="/home/plato-saludable.webp"
+        alt="Image"
+        [preview]="true"
+        class="p-image"
+      ></p-image>
+      <p-image
+        src="/home/prevencion.webp"
+        alt="Image"
+        [preview]="true"
+        class="p-image"
+      ></p-image>
+    </div>
+  </section>
+</main>
