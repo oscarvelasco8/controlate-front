@@ -1,0 +1,21 @@
+.home-page-links a{
+  margin-right: 8px;
+}
+
+.home-page-images {
+  height: auto;
+}
+
+.p-image {
+  flex: 1 1 200px;
+  height: auto;
+  display: flex;
+}
+
+::ng-deep .p-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  filter: grayscale(1);
+}

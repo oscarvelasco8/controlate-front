@@ -6,5 +6,15 @@ import { Component } from '@angular/core';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
-
+  public items = [
+    {
+      label: 'Home',
+    },
+    {
+      label: 'Macronutrientes',
+    },
+    {
+      label: 'Diabetes',
+    },
+  ];
 }
