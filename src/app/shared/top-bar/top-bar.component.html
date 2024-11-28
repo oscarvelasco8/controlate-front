@@ -1,0 +1,24 @@
+<header class=" top-bar">
+  <p-megaMenu [model]="items" [style]="{ 'font-family': 'Poppins', 'border-radius': '3rem', display: 'flex', flexWrap: 'wrap'}" styleClass="p-3 surface-0">
+    <ng-template pTemplate="start" class="flex-order-1">
+      <span>
+        <a routerLink="home">
+          <img src="top-bar/logo-test.png" alt="">
+        </a>
+
+      </span>
+    </ng-template>
+    <ng-template pTemplate="end">
+
+      <div class="home-page-links flex align-items-center text-black-alpha-90">
+
+        <i class="pi pi-moon mr-3 cursor-pointer" style="font-size: 1.5rem"></i>
+        <a routerLink="login" class="no-underline text-black-alpha-90 flex align-items-center">
+          <i class="pi pi-user mr-2 cursor-pointer" style="font-size: 1.5rem"></i>
+          <span class="font-bold">INICIAR SESION</span>
+        </a>
+      </div>
+    </ng-template>
+  </p-megaMenu>
+
+</header>
