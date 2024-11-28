@@ -4,6 +4,8 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
+import { StepsModule } from 'primeng/steps';
+import { ToastModule} from 'primeng/toast';
 
 
 @NgModule({
@@ -14,7 +16,10 @@ import { ImageModule } from 'primeng/image';
     CardModule,
     MegaMenuModule,
     ButtonModule,
-    ImageModule
+    ImageModule,
+    StepsModule,
+    ToastModule
+
   ]
 })
 export class CommonPrimengModule { }
