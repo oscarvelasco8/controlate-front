@@ -5,12 +5,14 @@ import {MegaMenuModule} from 'primeng/megamenu';
 import {PrimeTemplate} from 'primeng/api';
 import {RouterLink} from '@angular/router';
 import {Button} from 'primeng/button';
+import { FooterComponent } from './footer/footer.component';
 
 
 
 @NgModule({
   declarations: [
-    TopBarComponent
+    TopBarComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import {Button} from 'primeng/button';
     Button
   ],
   exports: [
-    TopBarComponent
+    TopBarComponent,
+    FooterComponent
   ]
 })
 export class SharedModule { }
