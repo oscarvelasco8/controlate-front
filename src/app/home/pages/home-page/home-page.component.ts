@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SECTIONS } from '../../constants';
 
 @Component({
   selector: 'app-home-page',
@@ -6,4 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
+  public sections = SECTIONS;
 }

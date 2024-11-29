@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
-
+import { AccordionModule } from 'primeng/accordion';
 
 @NgModule({
   declarations: [],
@@ -14,7 +14,8 @@ import { ImageModule } from 'primeng/image';
     CardModule,
     MegaMenuModule,
     ButtonModule,
-    ImageModule
+    ImageModule,
+    AccordionModule
   ]
 })
 export class CommonPrimengModule { }
