@@ -1,0 +1,28 @@
+.top-bar{
+  position: fixed;
+  z-index: 5;
+  top: 10px;
+  left: 10px;
+  width:98%;
+  border-radius: 40px;
+}
+.p-megamenu-end{
+  display:flex
+}
+::ng-deep .p-megamenu-start{
+  order:1;
+  align-self: center;
+  flex-grow:1;
+}
+
+::ng-deep .p-megamenu-start + .p-element{
+  flex-grow:1;
+}
+::ng-deep .p-megamenu-end{
+  order:2;
+
+}
+span{
+  display:inline-block;
+  height:100%;
+}
