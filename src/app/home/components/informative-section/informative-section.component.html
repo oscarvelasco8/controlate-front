@@ -1,0 +1,22 @@
+<section [id]="data.id" class="section px-8 py-5 mb-5">
+  <div class="container flex flex-wrap">
+    <div
+      class="content flex-1 p-2 flex justify-content-center flex-column sm:flex-order-0"
+      [ngClass]="{'flex-order-1': data.reverse}"
+    >
+      <h2>{{ data.title }}</h2>
+      <p class="text-xs">{{ data.description }}</p>
+      <ul class="text-xs">
+        <li *ngFor="let benefit of data.benefits">{{ benefit }}</li>
+      </ul>
+    </div>
+    <div class="image-container p-2 flex flex-1 align-items-center justify-content-center sm:flex-order-0">
+      <div
+        class="w-9 text-center sm:m-0"
+        [ngClass]="{'ml-auto': !data.reverse, 'mr-auto': data.reverse}"
+      >
+        <img [src]="data.imageSrc" [alt]="data.imageAlt" class="w-full border-round-2xl"/>
+      </div>
+    </div>
+  </div>
+</section>

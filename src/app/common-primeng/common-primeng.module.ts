@@ -13,6 +13,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {PasswordModule} from 'primeng/password';
 
+import { AccordionModule } from 'primeng/accordion';
 
 @NgModule({
   declarations: [],
@@ -30,8 +31,9 @@ import {PasswordModule} from 'primeng/password';
     SelectButtonModule,
     DropdownModule,
     InputSwitchModule,
-    PasswordModule
-
+    PasswordModule,
+    ImageModule,
+    AccordionModule
   ]
 })
 export class CommonPrimengModule { }
