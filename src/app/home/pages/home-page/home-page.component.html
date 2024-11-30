@@ -1,5 +1,5 @@
 <main>
-  <section class="principal-section flex flex-column justify-content-center align-items-center">
+  <section class="principal-section flex flex-column justify-content-center align-items-center mb-8">
     <h1 class="text-5xl text-center w-8">Optimiza tu salud con el cálculo preciso de macronutrientes e insulina</h1>
     <p class="text-l text-center w-8 text-700">Nuestro sistema avanzado te ayuda a calcular la cantidad exacta de insulina y macronutrientes que necesitas para controlar tu diabetes de manera efectiva, mejorando tu bienestar diario y optimizando tus niveles de azúcar en sangre.</p>
     <div class="mt-8 flex flex-wrap justify-content-center gap-8 font-light">
@@ -10,32 +10,7 @@
         Calcular insulina
       </a>
     </div>
-
-    <div class="home-page-images flex flex-wrap justify-content-center align-items-stretch gap-5 mt-8 mx-5">
-      <p-image
-        src="/home/consejos.webp"
-        alt="Image"
-        [preview]="true"
-        class="p-image"
-      ></p-image>
-      <p-image
-        src="/home/piramide.webp"
-        alt="Image"
-        [preview]="true"
-        class="p-image"
-      ></p-image>
-      <p-image
-        src="/home/plato-saludable.webp"
-        alt="Image"
-        [preview]="true"
-        class="p-image"
-      ></p-image>
-      <p-image
-        src="/home/prevencion.webp"
-        alt="Image"
-        [preview]="true"
-        class="p-image"
-      ></p-image>
-    </div>
   </section>
+  <home-informative-section *ngFor="let section of sections" [data]="section" [reverse]="section?.reverse"></home-informative-section>
+  <home-faq-accordion></home-faq-accordion>
 </main>

@@ -1,0 +1,11 @@
+<section class="accordion p-5 flex justify-content-center">
+  <div class="w-9">
+    <h2 class="text-white font-light text-4xl mb-5">Respuestas para nuestras preguntas mas frecuentes</h2>
+    <hr class="mb-5"/>
+    <p-accordion [activeIndex]="0">
+      <p-accordionTab *ngFor="let faq of faqList" [header]="faq.header">
+        <p>{{ faq.content }}</p>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</section>

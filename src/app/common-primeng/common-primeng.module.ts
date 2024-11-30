@@ -12,6 +12,7 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {DropdownModule} from 'primeng/dropdown';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {PasswordModule} from 'primeng/password';
+import {AccordionModule} from 'primeng/accordion';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 
 
@@ -31,6 +32,9 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
     SelectButtonModule,
     DropdownModule,
     InputSwitchModule,
+    PasswordModule,
+    ImageModule,
+    AccordionModule,
     PasswordModule,
     AutoCompleteModule
 

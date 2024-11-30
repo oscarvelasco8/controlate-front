@@ -1,0 +1,8 @@
+img {
+  object-fit: contain;
+  min-width: 280px;
+}
+
+.flex-container {
+  flex: 1 1 200px;
+}
