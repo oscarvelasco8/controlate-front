@@ -1,51 +1,41 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MenuItem, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
-  styleUrl: './register-page.component.css'
+  styleUrl: './register-page.component.css',
+  encapsulation: ViewEncapsulation.None
+
 })
 export class RegisterPageComponent implements OnInit{
-  /*constructor(public messageService: MessageService) {}
-  ngOnInit(): void {
-    this.items =  [
-      {label: 'Información Personal', routerLink: "personal" },
-      {label: 'Usuario', routerLink: "usuario"},
-      {label: 'Contraseña', routerLink: "password"}
-    ];
-  }
-  activeIndex: number = 1;
+
   items: MenuItem[] = [];
-  onActiveIndexChange(event: number) {
-    this.activeIndex = event;
-  }*/
-  items: MenuItem[] | undefined;
 
   activeIndex: number = 0;
 
-  constructor(public messageService: MessageService) {}
+  constructor(private messageService: MessageService) {}
 
-  onActiveIndexChange(event: number) {
-    this.activeIndex = event;
-  }
+
 
   ngOnInit() {
     this.items = [
       {
-        label: 'Personal',
+        label: 'Datos personales',
         routerLink: "personal"
       },
       {
-        label: 'Usuario',
-        routerLink: "usuario"
+        label: 'Datos de actividad',
+        routerLink: "activity"
       },
       {
-        label: 'Contraseña',
+        label: 'Creación del usuario',
         routerLink: "password"
       }
     ];
   }
+
+
 
 
 }

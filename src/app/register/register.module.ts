@@ -5,19 +5,21 @@ import { RegisterRoutingModule } from './register-routing.module';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import {CommonPrimengModule} from '../common-primeng/common-primeng.module';
 import { PersonalComponent } from './components/personal/personal.component';
-import { UsernameComponent } from './components/username/username.component';
+import { ActividadComponent } from './components/actividad/actividad.component';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     RegisterPageComponent,
     PersonalComponent,
-    UsernameComponent
+    ActividadComponent
   ],
   imports: [
     CommonModule,
     RegisterRoutingModule,
-    CommonPrimengModule
+    CommonPrimengModule,
+    FormsModule
   ]
 })
 export class RegisterModule { }
