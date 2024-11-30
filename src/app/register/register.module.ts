@@ -4,16 +4,18 @@ import { CommonModule } from '@angular/common';
 import { RegisterRoutingModule } from './register-routing.module';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import {CommonPrimengModule} from '../common-primeng/common-primeng.module';
-import { PersonalComponent } from './components/personal/personal.component';
-import { ActividadComponent } from './components/actividad/actividad.component';
+import { PersonalFormComponent } from './components/personal-form/personal-form.component';
+import { ActividadFormComponent } from './components/actividad-form/actividad-form.component';
 import {FormsModule} from '@angular/forms';
+import { UserFormComponent } from './components/user-form/user-form.component';
 
 
 @NgModule({
   declarations: [
     RegisterPageComponent,
-    PersonalComponent,
-    ActividadComponent
+    PersonalFormComponent,
+    ActividadFormComponent,
+    UserFormComponent
   ],
   imports: [
     CommonModule,

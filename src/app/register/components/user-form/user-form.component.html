@@ -1,0 +1,31 @@
+<div class="flex flex-column p-6">
+  <form class="flex flex-column gap-4" (submit)="onSubmit()">
+    <div class="flex flex-column gap-2">
+      <label for="username">Nombre de usuario</label>
+      <input
+        pInputText
+        id="username"
+        aria-describedby="name-help"
+      />
+      <small id="username-help">
+        Introduce tu nombre de usuario.
+      </small>
+    </div>
+    <div class="field flex flex-column">
+      <div class="mb-3">
+        <label for="password">Contraseña</label>
+      </div>
+      <p-password id="password" [toggleMask]="true" class="w-full" aria-describedby="password-help"/>
+      <small id="password-help">
+        Introduce tu contraseña. Tiene que tener al menos 8 caracteres, una letra mayúscula y un número.
+      </small>
+    </div>
+    <div class="flex justify-content-between">
+      <p-button routerLink="/register/activity" label="Anterior" [rounded]="true"/>
+      <p-button type="submit" label="Finalizar" [rounded]="true" styleClass="p-button-success"/>
+    </div>
+
+
+  </form>
+</div>
+

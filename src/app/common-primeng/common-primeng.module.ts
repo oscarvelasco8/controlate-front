@@ -12,6 +12,7 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {DropdownModule} from 'primeng/dropdown';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {PasswordModule} from 'primeng/password';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {PasswordModule} from 'primeng/password';
     SelectButtonModule,
     DropdownModule,
     InputSwitchModule,
-    PasswordModule
+    PasswordModule,
+    AutoCompleteModule
 
   ]
 })
