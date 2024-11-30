@@ -1,0 +1,38 @@
+<div class="flex flex-column p-6">
+  <form class="flex flex-column gap-4" (submit)="onSubmit()">
+    <div class="flex flex-column gap-2">
+      <label for="name">Nombre</label>
+      <input
+        pInputText
+        id="name"
+        aria-describedby="name-help"
+      />
+      <small id="username-help">
+        Introduce tu nombre personal.
+      </small>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label for="lastname">Apellidos</label>
+      <input
+        pInputText
+        id="lastname"
+        aria-describedby="lastname-help"
+      />
+      <small id="lastname-help">
+        Introduce tus apellidos.
+      </small>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label for="email">Email</label>
+      <input
+        pInputText
+        id="email"
+        aria-describedby="email-help"
+      />
+      <small id="email-help">
+        Introduce tu email personal.
+      </small>
+    </div>
+    <p-button type="submit" label="Siguiente" [rounded]="true" class="align-self-end"/>
+  </form>
+</div>

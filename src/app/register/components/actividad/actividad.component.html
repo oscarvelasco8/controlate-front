@@ -1,0 +1,64 @@
+<div class="flex flex-column p-6">
+  <form class="flex flex-column gap-4" (submit)="onSubmit()">
+    <div class="flex flex-column gap-2">
+      <label for="age">Edad</label>
+      <p-inputNumber
+        styleClass="w-full"
+        id="age"
+        aria-describedby="name-help"
+      />
+      <small id="age-help">
+        Introduce tu edad.
+      </small>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label for="weight">Peso</label>
+      <p-inputNumber
+        styleClass="w-full"
+        id="weight"
+        aria-describedby="weight-help"
+      />
+      <small id="weight-help">
+        Introduce tu peso en Kg.
+      </small>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label for="height">Altura</label>
+      <p-inputNumber
+        styleClass="w-full"
+        id="height"
+        aria-describedby="height-help"
+      />
+      <small id="email-help">
+        Introduce tu altura en centimetros.
+      </small>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label for="activity">Factor de actividad</label>
+      <div class="card flex justify-content-center">
+        <p-dropdown
+          id="activity"
+          [options]="activityOptions"
+          optionLabel="name"
+          placeholder="Selecciona un factor de actividad" />
+      </div>
+    </div>
+    <div class="card flex">
+      <label for="diabetes" class="mr-4">¿Eres diabetico?</label><p-inputSwitch name="isDiabetic" id="diabetes" [(ngModel)]="isDiabetic"/>
+    </div>
+    <div class="flex flex-column gap-2" *ngIf="isDiabetic">
+      <label for="factor-diabetes">Introduce tu factor de resistencia a la insulina</label>
+      <p-inputNumber
+        styleClass="w-full"
+        id="factor-diabetes"
+        name="factorDiabetes"
+      />
+    </div>
+    <div class="flex justify-content-between">
+      <p-button routerLink="/register/personal" label="Anterior" [rounded]="true"/>
+      <p-button type="submit" label="Siguiente" [rounded]="true"/>
+    </div>
+
+
+  </form>
+</div>
