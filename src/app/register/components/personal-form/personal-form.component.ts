@@ -3,11 +3,11 @@ import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 
 @Component({
-  selector: 'app-personal',
-  templateUrl: './personal.component.html',
-  styleUrl: './personal.component.css'
+  selector: 'app-personal-form',
+  templateUrl: './personal-form.component.html',
+  styleUrl: './personal-form.component.css'
 })
-export class PersonalComponent {
+export class PersonalFormComponent {
 
   constructor(private router:Router, private messageService: MessageService) {
   }

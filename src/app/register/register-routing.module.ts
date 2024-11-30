@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
-import {PersonalComponent} from './components/personal/personal.component';
-import {ActividadComponent} from './components/actividad/actividad.component';
+import {PersonalFormComponent} from './components/personal-form/personal-form.component';
+import {ActividadFormComponent} from './components/actividad-form/actividad-form.component';
+import {UserFormComponent} from './components/user-form/user-form.component';
 
 const routes: Routes = [
   {
@@ -10,13 +11,16 @@ const routes: Routes = [
     component:RegisterPageComponent,
     children:[
       {
-        path:'', redirectTo:'personal', pathMatch:'full'
+        path:'', redirectTo:'personal-form', pathMatch:'full'
       },
       {
-        path:'personal', component:PersonalComponent
+        path:'personal-form', component:PersonalFormComponent
       },
       {
-        path:'activity', component:ActividadComponent
+        path:'activity', component:ActividadFormComponent
+      },
+      {
+        path:'user', component:UserFormComponent
       }
     ]
   }
