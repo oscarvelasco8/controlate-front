@@ -1,8 +1,9 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RegisterValidatorService} from '../../services/register-validator.service';
+import {FormValidatorService} from '../../../shared/services/form-validator.service';
 
 @Component({
   selector: 'app-actividad-form',
@@ -10,9 +11,14 @@ import {RegisterValidatorService} from '../../services/register-validator.servic
   styleUrl: './actividad-form.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class ActividadFormComponent {
+export class ActividadFormComponent implements OnInit{
   isDiabetic: boolean = false;
-  activityOptions: any[] = [{ name: 'Poco Sedentario', code: '1' }, { name: 'Sedentario', code: '2' }, { name: 'Moderadamente Sedentario', code: '3' }, { name: 'Activo', code: '4' }, { name: 'Muy Activo', code: '5' }];
+  activityOptions: any[] = [
+    { name: 'Poco Sedentario', code: '1' , value:'POCO_SEDENTARIO' },
+    { name: 'Sedentario', code: '2', value: 'SEDENTARIO' },
+    { name: 'Moderadamente Sedentario', code: '3', value: 'MODERADAMENTE_SEDENTARIO' },
+    { name: 'Activo', code: '4', value: 'ACTIVO' },
+    { name: 'Muy Activo', code: '5', value: 'MUY_ACTIVO' }];
   public activityForm: FormGroup = this.formBuilder.group({
     age: [null, [Validators.required]],
     weight: [null, [Validators.required]],
@@ -25,7 +31,8 @@ export class ActividadFormComponent {
     private router:Router,
     private messageService: MessageService,
     private formBuilder:FormBuilder,
-    private registerValidatorService: RegisterValidatorService
+    private registerValidatorService: RegisterValidatorService,
+    private formValidatorService: FormValidatorService
   ) {
   }
   onSubmit():void{
@@ -34,6 +41,11 @@ export class ActividadFormComponent {
       return
     }
     this.messageService.add({ severity: 'success', summary: 'Datos guardados', detail: 'Datos de actividad guardados con éxito' })
+    this.formValidatorService.age = this.activityForm.get('age')?.value;
+    this.formValidatorService.weight = this.activityForm.get('weight')?.value;
+    this.formValidatorService.height = this.activityForm.get('height')?.value;
+    this.formValidatorService.activityFactor = this.activityForm.get('activity')?.value.value;
+    this.formValidatorService.insulinaFactor = this.activityForm.get('diabetesFactor')?.value;
     this.router.navigate(['/register/user']);
 
   }
@@ -43,5 +55,14 @@ export class ActividadFormComponent {
   }
   getFieldError( field: string ): string | null {
     return this.registerValidatorService.getFieldError(this.activityForm, field);
+  }
+  ngOnInit(): void {
+    this.activityForm.setValue({
+      age: this.formValidatorService.userInfo.age,
+      weight: this.formValidatorService.userInfo.weight,
+      height: this.formValidatorService.userInfo.height,
+      activity: this.activityOptions.find(option => option.value === this.formValidatorService.userInfo.activityFactor),
+      diabetesFactor: this.formValidatorService.userInfo.insulinaFactor
+    });
   }
 }
