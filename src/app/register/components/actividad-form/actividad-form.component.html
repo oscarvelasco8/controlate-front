@@ -1,42 +1,60 @@
 <div class="flex flex-column p-6">
-  <form class="flex flex-column gap-4" (submit)="onSubmit()">
+  <form [formGroup]="activityForm" class="flex flex-column gap-4" (submit)="onSubmit()">
     <div class="flex flex-column gap-2">
       <label for="age">Edad</label>
       <p-inputNumber
+        formControlName="age"
         styleClass="w-full"
         id="age"
         aria-describedby="name-help"
+        [max]="100"
       />
       <small id="age-help">
         Introduce tu edad.
       </small>
+      <span class="p-error" *ngIf="isValidField('age')">
+        {{getFieldError('age')}}
+      </span>
     </div>
     <div class="flex flex-column gap-2">
       <label for="weight">Peso</label>
       <p-inputNumber
+        formControlName="weight"
         styleClass="w-full"
         id="weight"
         aria-describedby="weight-help"
+        mode="decimal"
+        [maxFractionDigits]="1"
+        [max]="500"
       />
       <small id="weight-help">
         Introduce tu peso en Kg.
       </small>
+      <span class="p-error" *ngIf="isValidField('weight')">
+        {{getFieldError('weight')}}
+      </span>
     </div>
     <div class="flex flex-column gap-2">
       <label for="height">Altura</label>
       <p-inputNumber
+        formControlName="height"
         styleClass="w-full"
         id="height"
         aria-describedby="height-help"
+        [max]="250"
       />
       <small id="email-help">
         Introduce tu altura en centimetros.
       </small>
+      <span class="p-error" *ngIf="isValidField('height')">
+        {{getFieldError('height')}}
+      </span>
     </div>
     <div class="flex flex-column gap-2">
       <label for="activity">Factor de actividad</label>
       <div class="card flex justify-content-center">
         <p-dropdown
+          formControlName="activity"
           id="activity"
           [options]="activityOptions"
           optionLabel="name"
@@ -44,16 +62,23 @@
       </div>
     </div>
     <div class="card flex">
-      <label for="diabetes" class="mr-4">¿Eres diabetico?</label><p-inputSwitch name="isDiabetic" id="diabetes" [(ngModel)]="isDiabetic"/>
+      <label for="diabetes" class="mr-4">¿Eres diabetico?</label><p-inputSwitch name="isDiabetic" id="diabetes" [(ngModel)]="isDiabetic" [ngModelOptions]="{standalone: true}"/>
+
     </div>
     <div class="flex flex-column gap-2" *ngIf="isDiabetic">
       <label for="factor-diabetes">Introduce tu factor de resistencia a la insulina</label>
       <p-inputNumber
+        formControlName="diabetesFactor"
         styleClass="w-full"
         id="factor-diabetes"
         name="factorDiabetes"
+        mode="decimal"
+        [maxFractionDigits]="2"
       />
     </div>
+    <span class="p-error" *ngIf="isValidField('diabetesFactor')">
+        {{getFieldError('diabetesFactor')}}
+      </span>
     <div class="flex justify-content-between">
       <p-button routerLink="/register/personal" label="Anterior" [rounded]="true"/>
       <p-button type="submit" label="Siguiente" [rounded]="true"/>

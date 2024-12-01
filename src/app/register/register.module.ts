@@ -6,7 +6,7 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import {CommonPrimengModule} from '../common-primeng/common-primeng.module';
 import { PersonalFormComponent } from './components/personal-form/personal-form.component';
 import { ActividadFormComponent } from './components/actividad-form/actividad-form.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserFormComponent } from './components/user-form/user-form.component';
 
 
@@ -21,7 +21,8 @@ import { UserFormComponent } from './components/user-form/user-form.component';
     CommonModule,
     RegisterRoutingModule,
     CommonPrimengModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class RegisterModule { }

@@ -22,10 +22,10 @@ export class RegisterPageComponent implements OnInit{
     this.items = [
       {
         label: 'Datos personales',
-        routerLink: "personal-form"
+        routerLink: "personal"
       },
       {
-        label: 'Datos de actividad-form',
+        label: 'Datos de actividad',
         routerLink: "activity"
       },
       {

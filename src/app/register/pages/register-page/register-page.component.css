@@ -1,7 +1,12 @@
 main{
   margin-top:140px;
+  height:calc(100vh - 490px);
 }
 
 .p-steps-title{
   padding: 0 10px;
+}
+
+.decorator-img{
+  object-fit: cover;
 }

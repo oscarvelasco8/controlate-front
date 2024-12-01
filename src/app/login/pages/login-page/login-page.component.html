@@ -1,6 +1,6 @@
 <main class="flex max-h-screen">
     <div class="flex flex-1 justify-content-center align-items-center p-7 max-h-full w-6">
-        <div class="w-6">
+        <div class="w-6 h-full">
             <img src="login/login-image.jpg" alt="" class="decorator-img w-full h-full border-round-2xl">
         </div>
 
@@ -23,7 +23,7 @@
               <div class="mb-3">
                 <i class="mr-3 pi pi-lock" style="font-size: 1.5rem"></i><label for="password">Contraseña</label>
               </div>
-              <p-password id="password" [toggleMask]="true" class="w-full"/>
+              <p-password id="password" [toggleMask]="true" [feedback]="false" class="w-full"/>
             </div>
             <p-button label="Login" [rounded]="true" />
             <div class="field text-right flex align-content-between">

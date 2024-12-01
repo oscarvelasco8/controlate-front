@@ -11,10 +11,10 @@ const routes: Routes = [
     component:RegisterPageComponent,
     children:[
       {
-        path:'', redirectTo:'personal-form', pathMatch:'full'
+        path:'', redirectTo:'personal', pathMatch:'full'
       },
       {
-        path:'personal-form', component:PersonalFormComponent
+        path:'personal', component:PersonalFormComponent
       },
       {
         path:'activity', component:ActividadFormComponent
