@@ -1,13 +1,13 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component,  ViewEncapsulation} from '@angular/core';
 import {MegaMenuItem} from 'primeng/api';
-import {UserService} from '../services/user.service';
+
 import {LocalStorageService} from '../services/local-storage.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'shared-top-bar',
   templateUrl: './top-bar.component.html',
-  styleUrl: './top-bar.component.css'
+  styleUrl: './top-bar.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class TopBarComponent{
 
@@ -33,7 +33,7 @@ export class TopBarComponent{
     private localStorageService: LocalStorageService
   ) {
   }
-  getLoginStatus(): boolean{
+  get userLogged(): boolean{
     console.log(this.localStorageService.getLoginStatus())
     return this.localStorageService.getLoginStatus();
   }

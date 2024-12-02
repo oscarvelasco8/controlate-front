@@ -5,43 +5,27 @@
   left: 10px;
   width:98%;
   border-radius: 40px;
-}
-.p-megamenu-end{
-  display:flex
-}
-::ng-deep .p-megamenu-start{
-  order:1;
-  align-self: center;
-  flex-grow:1;
+  border:solid lightgrey 1px;
+  background-color: white;
+  padding: 0 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-::ng-deep .p-megamenu-start + .p-element{
-  flex-grow:1;
-}
-::ng-deep .p-megamenu-end{
-  order:2;
-
-}
-span{
-  display:inline-block;
-  height:100%;
-}
-
-.image-container {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap:10px;
-}
-
-.image-container img {
-  width: 100%;
-  height: 100%;
+.p-avatar img {
   object-fit: cover;
 }
+.p-megamenu{
+  border:0;
 
+}
+p-megamenu{
+  flex: 1 1 0;
+}
+.p-button.p-button-secondary:enabled:focus{
+  box-shadow: none;
+}
+
+span{
+  color:black;
+}
 
