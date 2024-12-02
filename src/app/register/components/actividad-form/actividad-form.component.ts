@@ -20,9 +20,9 @@ export class ActividadFormComponent implements OnInit{
     { name: 'Activo', code: '4', value: 'ACTIVO' },
     { name: 'Muy Activo', code: '5', value: 'MUY_ACTIVO' }];
   public activityForm: FormGroup = this.formBuilder.group({
-    age: [null, [Validators.required]],
-    weight: [null, [Validators.required]],
-    height: [null, [Validators.required]],
+    age: [null, [Validators.required, Validators.min(1)]],
+    weight: [null, [Validators.required , Validators.min(1)]],
+    height: [null, [Validators.required, Validators.min(1)]],
     activity: [null, [Validators.required]],
     diabetesFactor: [null]
   });
@@ -57,11 +57,11 @@ export class ActividadFormComponent implements OnInit{
     return this.registerValidatorService.getFieldError(this.activityForm, field);
   }
   ngOnInit(): void {
-    this.activityForm.setValue({
+    this.activityForm.patchValue({
       age: this.formValidatorService.userInfo.age,
       weight: this.formValidatorService.userInfo.weight,
       height: this.formValidatorService.userInfo.height,
-      activity: this.activityOptions.find(option => option.value === this.formValidatorService.userInfo.activityFactor),
+      activity: this.activityOptions.find(option => option.value === this.formValidatorService.userInfo.activityFactor) || this.formValidatorService.userInfo.activityFactor,
       diabetesFactor: this.formValidatorService.userInfo.insulinaFactor
     });
   }

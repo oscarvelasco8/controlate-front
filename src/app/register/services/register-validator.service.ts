@@ -20,19 +20,22 @@ export class RegisterValidatorService {
     for (const key of Object.keys(errors) ) {
       switch( key ) {
         case 'required':
-          return 'Este campo es requerido';
+          return 'Este campo es requerido.';
+
+        case 'min':
+          return 'Utiliza un valor diferente a 0.';
 
         case 'minlength':
-          return `El campo debe tener al menos ${ errors['minlength'].requiredLength } caracteres`;
+          return `El campo debe tener al menos ${ errors['minlength'].requiredLength } caracteres.`;
 
         case 'password':
           return `La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.`;
 
         case 'email':
-          return 'El correo no es valido';
+          return 'El correo no es valido.';
 
           case 'maxLength':
-            return `El campo debe tener como maximo ${ errors['maxlength'].requiredLength } caracteres`;
+            return `El campo debe tener como maximo ${ errors['maxlength'].requiredLength } caracteres.`;
       }
     }
 
