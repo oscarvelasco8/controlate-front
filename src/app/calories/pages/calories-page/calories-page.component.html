@@ -1,18 +1,28 @@
-<main>
-  <div class="flex max-w-full">
+<main class="mr-8 ml-8">
+  <p>Hola, usuario, segun los datos de tu perfil tienes una tasa metabolica basal de : tasametabolica
+  Si quieres bajar de peso de forma rápida, deberás de ingerir X calorias,
+  Si quieres bajar de peso de forma progresiva, deberás de ingerir x calorias,
+  Si quieres subir de peso de forma rapida, deberás de ingerir x calorias
+  Si quieres subir de peso de forma progresiva, deberás de ingerir x calorias
+  Elige por favor qué quieres hacer:</p>
+
+  <div class="flex align-items-center mb-5">
     <div>
       <calories-calendar></calories-calendar>
     </div>
-    <div class="flex-1">
-      <div class="flex flex-wrap">
-        <calories-dought [data]="proteinData"></calories-dought>
-        <calories-dought [data]="carbsData"></calories-dought>
-        <calories-dought [data]="fatsData"></calories-dought>
-        <calories-dought [data]="totalData"></calories-dought>
-
-      </div>
-
+    <div class="flex-1 ">
+      <calories-dought class="flex flex-wrap justify-content-around"></calories-dought>
     </div>
   </div>
+  <div class="flex align-items-center justify-content-center gap-8 mb-5">
+    <div class=" flex-1 flex flex-wrap">
+      <calories-food-info></calories-food-info>
+    </div>
+    <div class="flex-1">
+      <calories-graphic></calories-graphic>
+    </div>
+  </div>
+
+
 
 </main>

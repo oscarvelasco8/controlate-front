@@ -1,1 +1,3 @@
-<p-chart type="doughnut" [data]="data" [options]="options" />
+<div *ngFor="let doughtData of doughtsData">
+  <p-chart type="doughnut" [data]="doughtData" [options]="options" />
+</div>

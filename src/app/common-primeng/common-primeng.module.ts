@@ -17,6 +17,8 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {AvatarModule} from 'primeng/avatar';
 import {CalendarModule} from 'primeng/calendar';
 import {ChartModule} from 'primeng/chart';
+import {DialogModule} from 'primeng/dialog';
+import {TableModule} from 'primeng/table';
 
 
 @NgModule({
@@ -42,7 +44,10 @@ import {ChartModule} from 'primeng/chart';
     AutoCompleteModule,
     AvatarModule,
     CalendarModule,
-    ChartModule
+    ChartModule,
+    CardModule,
+    DialogModule,
+    TableModule
 
   ]
 })
