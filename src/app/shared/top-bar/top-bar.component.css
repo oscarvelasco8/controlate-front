@@ -29,3 +29,7 @@ span{
   color:black;
 }
 
+.p-megamenu-root-list{
+  flex-wrap:nowrap;
+}
+

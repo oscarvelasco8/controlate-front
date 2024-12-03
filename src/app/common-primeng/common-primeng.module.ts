@@ -15,6 +15,8 @@ import {PasswordModule} from 'primeng/password';
 import {AccordionModule} from 'primeng/accordion';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {AvatarModule} from 'primeng/avatar';
+import {CalendarModule} from 'primeng/calendar';
+import {ChartModule} from 'primeng/chart';
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import {AvatarModule} from 'primeng/avatar';
     PasswordModule,
     AutoCompleteModule,
     AvatarModule,
-
+    CalendarModule,
+    ChartModule
 
   ]
 })

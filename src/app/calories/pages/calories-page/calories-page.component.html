@@ -1,1 +1,18 @@
-<p>calories-page works!</p>
+<main>
+  <div class="flex max-w-full">
+    <div>
+      <calories-calendar></calories-calendar>
+    </div>
+    <div class="flex-1">
+      <div class="flex flex-wrap">
+        <calories-dought [data]="proteinData"></calories-dought>
+        <calories-dought [data]="carbsData"></calories-dought>
+        <calories-dought [data]="fatsData"></calories-dought>
+        <calories-dought [data]="totalData"></calories-dought>
+
+      </div>
+
+    </div>
+  </div>
+
+</main>
