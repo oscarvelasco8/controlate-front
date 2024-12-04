@@ -27,6 +27,7 @@ export class FoodService {
         this.setSearching = false;
       },
       complete: () => {
+        this.messageService.add({ severity: 'success', summary: 'Busqueda exitosa', detail: '¡Resultados encontrados!' });
         this.setSearching = false;
       }
     });
