@@ -1,5 +1,4 @@
 <div class="flex flex-column flex-wrap gap-3 justify-content-start">
-  <!-- Cajas Resumen -->
   <div class="flex flex-column gap-5 flex-1">
     <p-button (click)="addMeal()" class="w-full"><i class="pi pi-plus"></i></p-button>
     <calories-progress-bar class="w-auto"></calories-progress-bar>
@@ -20,34 +19,9 @@
       <p><strong>Total de alimentos:</strong> {{ meal.foods.length }}</p>
     </p-card>
   </div>
-
+  <search-food
+    [visible]="displayModal"
+    (visibleChange)="displayModal=$event"
+    [selectedMeal]="selectedMeal"
+  ></search-food>
 </div>
-
-<!-- Modal con detalles -->
-<p-dialog [(visible)]="displayModal" [modal]="true" header="{{ selectedMeal?.name }}">
-  <div *ngIf="selectedMeal" class="p-fluid">
-    <div class="field">
-      <label for="search">Buscar alimentos</label>
-      <input
-        id="search"
-        type="text"
-        pInputText
-        (input)="filterFoods($event)"
-        placeholder="Escribe el nombre del alimento..."
-      />
-    </div>
-
-    <p-table [value]="selectedMeal.filteredFoods || selectedMeal.foods">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Alimento</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-food>
-        <tr>
-          <td>{{ food }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</p-dialog>

@@ -34,7 +34,6 @@ export class TopBarComponent{
   ) {
   }
   get userLogged(): boolean{
-    console.log(this.localStorageService.getLoginStatus())
     return this.localStorageService.getLoginStatus();
   }
   logout(): void{

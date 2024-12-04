@@ -1,0 +1,67 @@
+<p-dialog [(visible)]="visible" [modal]="true" header="{{ selectedMeal?.name }}" (onHide)="closeModal()">
+  <div *ngIf="selectedMeal" class="p-fluid">
+    <div class="field">
+      <label for="search">Buscar alimentos</label>
+      <form class="flex gap-2 mb-4">
+        <input
+          #searchTerm
+          id="search"
+          type="text"
+          pInputText
+          (keydown.backspace)="deleteSearch()"
+          (keydown.enter)="searchFoods(searchTerm.value)"
+          placeholder="Escribe el nombre del alimento..."
+        />
+        <p-button (click)="searchFoods(searchTerm.value)" icon="pi pi-search"></p-button>
+      </form>
+      <div class="card" *ngIf="isSearching">
+        <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+      </div>
+
+    </div>
+    <div class="flex gap-8">
+      <p-table [value]="foods" *ngIf="foods.length > 0" class="">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Alimentos</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-food>
+          <tr>
+            <td class="flex align-items-center justify-content-center gap-2">
+              {{ food }}
+              <p-inputNumber #quantity/>
+              <p-selectButton
+                [options]="selectUnitOptions"
+                [(ngModel)]="unitValue"
+                optionLabel="label"
+                optionValue="value"
+                class="mr-1 w-5"
+              />
+              <p-button (click)="addFoodToMeal(food, quantity.value, unitValue)" icon="pi pi-plus"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-table [value]="foodsAdded" [ngClass]="foods.length > 0 ? 'w-1/2' : 'w-full'" >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Alimentos Añadidos</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-foodAdded let-index>
+          <tr>
+            <td class="flex align-items-center justify-content-between gap-2">
+              {{ foodAdded.food }} {{ foodAdded.quantity }} {{ foodAdded.unit }}
+
+              <p-button (click)="deleteFoodFromMeal(index)" icon="pi pi-minus"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+
+
+  </div>
+</p-dialog>

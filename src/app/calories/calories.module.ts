@@ -10,6 +10,7 @@ import { DoughtComponent } from './components/dought/dought.component';
 import { FoodInfoComponent } from './components/food-info/food-info.component';
 import { GraphicComponent } from './components/graphic/graphic.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { SearchFoodComponent } from './components/search-food/search-food.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
     DoughtComponent,
     FoodInfoComponent,
     GraphicComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    SearchFoodComponent
   ],
   imports: [
     CommonModule,

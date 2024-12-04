@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectorRef, Component, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'calories-food-info',
@@ -7,6 +7,8 @@ import {Component, ViewEncapsulation} from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class FoodInfoComponent {
+  constructor(private cdr: ChangeDetectorRef) {
+  }
   displayModal: boolean = false;
 
   // Datos de ejemplo
@@ -23,14 +25,10 @@ export class FoodInfoComponent {
   openModal(meal: any) {
     this.selectedMeal = meal;
     this.displayModal = true;
-  }
 
-  // Filtrar alimentos
-  filterFoods(event: any) {
-    const query = event.target.value.toLowerCase();
-    this.selectedMeal.filteredFoods = this.selectedMeal.foods.filter((food: string) =>
-      food.toLowerCase().includes(query)
-    );
+    console.log(this.selectedMeal);
+    console.log(this.displayModal);
+    this.cdr.detectChanges();
   }
   addMeal(){
     this.meals.push(
