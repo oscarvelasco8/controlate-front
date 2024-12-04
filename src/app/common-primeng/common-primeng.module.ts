@@ -19,6 +19,7 @@ import {CalendarModule} from 'primeng/calendar';
 import {ChartModule} from 'primeng/chart';
 import {DialogModule} from 'primeng/dialog';
 import {TableModule} from 'primeng/table';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import {TableModule} from 'primeng/table';
     ChartModule,
     CardModule,
     DialogModule,
-    TableModule
+    TableModule,
+    ProgressBarModule
 
   ]
 })

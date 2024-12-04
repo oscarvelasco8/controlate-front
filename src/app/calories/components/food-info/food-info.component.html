@@ -1,19 +1,26 @@
-<div class="flex flex-wrap gap-3 justify-content-start">
+<div class="flex flex-column flex-wrap gap-3 justify-content-start">
   <!-- Cajas Resumen -->
-  <p-button (click)="addMeal()" class="w-full"><i class="pi pi-plus"></i></p-button>
-  <p-card
-    *ngFor="let meal of meals"
-    header="{{ meal.name }} "
-    styleClass="w-10 food-info cursor-pointer hover:scale-105 transition-all"
-    (click)="openModal(meal)"
-  >
-    <p>
-      <strong>Resumen:</strong>
-      {{ meal.foods.slice(0, 3).join(', ') }}
-      <span *ngIf="meal.foods.length > 3">...</span>
-    </p>
-    <p><strong>Total de alimentos:</strong> {{ meal.foods.length }}</p>
-  </p-card>
+  <div class="flex flex-column gap-5 flex-1">
+    <p-button (click)="addMeal()" class="w-full"><i class="pi pi-plus"></i></p-button>
+    <calories-progress-bar class="w-auto"></calories-progress-bar>
+  </div>
+  <div class="flex flex-1 flex-wrap gap-4 justify-content-between">
+    <p-card
+      *ngFor="let meal of meals"
+      header="{{ meal.name }} "
+      styleClass="cursor-pointer hover:scale-105 transition-all"
+      (click)="openModal(meal)"
+      class="w-5"
+    >
+      <p>
+        <strong>Resumen:</strong>
+        {{ meal.foods.slice(0, 3).join(', ') }}
+        <span *ngIf="meal.foods.length > 3">...</span>
+      </p>
+      <p><strong>Total de alimentos:</strong> {{ meal.foods.length }}</p>
+    </p-card>
+  </div>
+
 </div>
 
 <!-- Modal con detalles -->

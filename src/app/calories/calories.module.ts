@@ -9,6 +9,7 @@ import {FormsModule} from '@angular/forms';
 import { DoughtComponent } from './components/dought/dought.component';
 import { FoodInfoComponent } from './components/food-info/food-info.component';
 import { GraphicComponent } from './components/graphic/graphic.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { GraphicComponent } from './components/graphic/graphic.component';
     CalendarComponent,
     DoughtComponent,
     FoodInfoComponent,
-    GraphicComponent
+    GraphicComponent,
+    ProgressBarComponent
   ],
   imports: [
     CommonModule,
