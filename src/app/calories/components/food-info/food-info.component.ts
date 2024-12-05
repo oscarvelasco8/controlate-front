@@ -19,15 +19,12 @@ export class FoodInfoComponent {
     { name: 'Cena', foods: ['Pasta', 'Carne', 'Verduras'] }
   ];
 
-  selectedMeal: any = null;
+  selectedMeal:string = '';
 
   // Abrir modal para una comida específica
   openModal(meal: any) {
     this.selectedMeal = meal;
     this.displayModal = true;
-
-    console.log(this.selectedMeal);
-    console.log(this.displayModal);
     this.cdr.detectChanges();
   }
   addMeal(){

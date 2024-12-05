@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {doughtData} from '../../interfaces/doughtData';
 
 @Component({
@@ -6,7 +6,7 @@ import {doughtData} from '../../interfaces/doughtData';
   templateUrl: './dought.component.html',
   styleUrl: './dought.component.css'
 })
-export class DoughtComponent {
+export class DoughtComponent implements OnInit{
   doughtsData:doughtData[] = [
     {
       labels:['Proteinas','Carbohidratos','Grasas'],

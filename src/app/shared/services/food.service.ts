@@ -9,7 +9,7 @@ import {MessageService} from 'primeng/api';
 })
 export class FoodService {
   private BASE_URL = 'http://localhost:8080/api';
-  private _foodsName: string[] = ['Test'];
+  private _foodsName: string[] = ['Test', 'Test2'];
   private _searching: boolean = false;
 
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }

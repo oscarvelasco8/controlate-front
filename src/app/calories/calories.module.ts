@@ -5,7 +5,7 @@ import { CaloriesRoutingModule } from './calories-routing.module';
 import { CaloriesPageComponent } from './pages/calories-page/calories-page.component';
 import {CommonPrimengModule} from '../common-primeng/common-primeng.module';
 import { CalendarComponent } from './components/calendar/calendar.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DoughtComponent } from './components/dought/dought.component';
 import { FoodInfoComponent } from './components/food-info/food-info.component';
 import { GraphicComponent } from './components/graphic/graphic.component';
@@ -27,7 +27,8 @@ import { SearchFoodComponent } from './components/search-food/search-food.compon
     CommonModule,
     CaloriesRoutingModule,
     CommonPrimengModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class CaloriesModule { }
