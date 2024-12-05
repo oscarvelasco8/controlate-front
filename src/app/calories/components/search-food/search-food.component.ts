@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {FoodService} from '../../../shared/services/food.service';
 import {FoodAddedFromUser} from '../../interfaces/foodAddedFromUser';
-import {Nullable} from 'primeng/ts-helpers';
-import {doughtData} from '../../interfaces/doughtData';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../shared/services/user.service';
+import {FoodInfo} from '../../../shared/interfaces/FoodInfo';
 
 @Component({
   selector: 'search-food',
@@ -21,9 +21,11 @@ export class SearchFoodComponent{
   proteinColor:string = 'rgb(60,50,140)';
   carbsColor:string = 'rgb(114,234,142)';
   fatColor:string = 'rgb(255, 99, 132)';
+  caloriesColor:string = 'rgb(228,234,60)';
+  private _foodsSearched:FoodInfo[] = this.foodService.foodsInfo;
 
   public foodForm: FormGroup = this.formBuilder.group({
-    quantity: [null, [Validators.required, Validators.min(1)]],
+    quantity: [0, [Validators.required, Validators.min(1)]],
     units: ['gr',[Validators.required]]
   })
 
@@ -42,31 +44,61 @@ export class SearchFoodComponent{
     this.visibleChange.emit(this.visible);
     this.foodForm.reset();
   }
-  get foods(){
-    return this.foodService.foodsName;
+  get foodsSearched(){
+    return this._foodsSearched;
   }
 
   addFoodToMeal(meal:string, food:string, formGroup: FormGroup): void {
     this.userService.addtoUserHistory(meal, food, formGroup);
-    console.log({history: this.userService.userHistory});
+    /*console.log({history: this.userService.userHistory});*/
   }
 
   getuserHistoryByMeal(meal:string):FoodAddedFromUser[]{
-    console.log({meal: this.userService.userHistory.filter(food => food.meal == meal)})
+    /*console.log({meal: this.userService.userHistory.filter(food => food.meal == meal)})*/
     return this.userService.userHistory.filter(food => food.meal == meal);
   }
 
   deleteFoodFromMeal(food:FoodAddedFromUser): void {
     let index = this.userService.userHistory.indexOf(food);
     this.userService.userHistory.splice(index, 1);
-    console.log({history: this.userService.userHistory});
+    /*console.log({history: this.userService.userHistory});*/
   }
 
   deleteSearch():void{
-    this.foodService.foodsName = [];
+    this.foodService.foodsInfo = [];
   }
 
   get isSearching():boolean{
     return this.foodService.searching;
   }
+  calculate(id: number): void {
+    let element: FoodInfo | undefined = this.foodService.foodsInfo.find(item => item.id == `${id}`);
+    const quantity = this.foodForm.controls['quantity'].value;
+
+    if (element) {
+
+
+
+      // Asegúrate de trabajar con valores numéricos
+      const protein = parseFloat(element.protein);
+      const carbs = parseFloat(element.carbohydrate);
+      const fat = parseFloat(element.fat);
+      const calories = parseFloat(element.calories);
+
+      // Realiza los cálculos
+      const newProtein = (protein / 100) * quantity;
+      console.log(protein, newProtein);
+      const newCarbs = (carbs / 100) * quantity;
+      const newFat = (fat / 100) * quantity;
+      const newCalories = (calories / 100) * quantity;
+
+      // Actualiza los valores con precisión
+      this._foodsSearched.find(item => item.id == `${id}`)!.calories = newCalories.toFixed(2);
+      this._foodsSearched.find(item => item.id == `${id}`)!.carbohydrate = newCarbs.toFixed(2);
+      this._foodsSearched.find(item => item.id == `${id}`)!.fat = newFat.toFixed(2);
+      this._foodsSearched.find(item => item.id == `${id}`)!.protein = newProtein.toFixed(2);
+      this._foodsSearched.find(item => item.id == `${id}`)!.calories = newCalories.toFixed(2);
+    }
+  }
+
 }

@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import {map} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {firstValueFrom, map} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {Food} from '../interfaces/food';
+import {Food, FoodElement} from '../interfaces/food';
 import {MessageService} from 'primeng/api';
+import {FoodInfo} from '../interfaces/FoodInfo';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FoodService {
   private BASE_URL = 'http://localhost:8080/api';
-  private _foodsName: string[] = ['Test', 'Test2'];
+  private _foodsInfo: FoodInfo[] = [];
   private _searching: boolean = false;
 
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }
@@ -20,37 +21,67 @@ export class FoodService {
       map(response => response.foods.food)
     ).subscribe({
       next: (response) => {
-        this.translateEnToEs(response[0].food_name);
+        response.forEach(async (food)=>{
+          const element = await this.mapToFoodInfo(food);
+          this._foodsInfo.push(element);
+        })
+        this.messageService.add({ severity: 'success', summary: 'Busqueda exitosa', detail: '¡Resultados encontrados!' });
+        this._searching = false;
       },
       error: (error) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La busqueda no arrojo ningun resultado' });
-        this.setSearching = false;
-      },
-      complete: () => {
-        this.messageService.add({ severity: 'success', summary: 'Busqueda exitosa', detail: '¡Resultados encontrados!' });
-        this.setSearching = false;
+        this._searching = false;
       }
     });
   }
 
-  get foodsName():string[]{
-    return this._foodsName;
+  get foodsInfo():FoodInfo[]{
+    return this._foodsInfo;
   }
 
-  set foodsName(value:string[]){
-    this._foodsName = value;
+  set foodsInfo(foodsInfo:FoodInfo[]) {
+    this._foodsInfo = foodsInfo;
   }
 
-  translateEnToEs(englishName:string):void{
-    this.httpClient.get<string>(`${this.BASE_URL}/translate?text=${englishName}&sourceLanguage=en&targetLanguage=es`, { responseType: 'text' as 'json' }).subscribe(food=> this._foodsName.push(food));
+  translateEnToEs(englishName: string): Promise<string> {
+    return firstValueFrom(
+      this.httpClient.get<string>(`${this.BASE_URL}/translate?text=${englishName}&sourceLanguage=en&targetLanguage=es`, {responseType: 'text' as 'json'})
+    );
   }
+
+
 
   get searching():boolean{
     return this._searching;
   }
 
-  set setSearching(value:boolean){
-    this._searching = value;
+  private async mapToFoodInfo(data: FoodElement): Promise<FoodInfo> {
+    // Divide la cadena de "food_description" para obtener los valores nutricionales
+    const descriptionParts = data.food_description.split('|').map(part => part.trim());
+    const servingSizeMatch = descriptionParts[0].match(/Per (\d+)g/); // Extrae el tamaño de la porción en gramos
+
+    const servingSize = servingSizeMatch ? parseFloat(servingSizeMatch[1]) : 100; // Por defecto 100 si no se encuentra
+    const calories = parseFloat(descriptionParts[0].split(':')[1].replace('kcal', '').trim());
+    const fat = parseFloat(descriptionParts[1].split(':')[1].replace('g', '').trim());
+    const carbs = parseFloat(descriptionParts[2].split(':')[1].replace('g', '').trim());
+    const protein = parseFloat(descriptionParts[3].split(':')[1].replace('g', '').trim());
+
+    // Ajusta los valores para 100 gramos
+    const scalingFactor = 100 / servingSize;
+    const foodName = await this.translateEnToEs(data.food_name);
+
+    let element = {
+      name: foodName,
+      id: data.food_id,
+      calories: (calories * scalingFactor).toFixed(2),
+      protein: (protein * scalingFactor).toFixed(2),
+      carbohydrate: (carbs * scalingFactor).toFixed(2),
+      fat: (fat * scalingFactor).toFixed(2),
+      serving_description: 'Por 100g', // Establece la descripción para 100g
+    };
+    console.log(element);
+    return element;
   }
+
 
 }
