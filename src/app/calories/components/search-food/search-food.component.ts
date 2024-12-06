@@ -22,7 +22,8 @@ export class SearchFoodComponent{
   carbsColor:string = 'rgb(114,234,142)';
   fatColor:string = 'rgb(255, 99, 132)';
   caloriesColor:string = 'rgb(228,234,60)';
-  private _foodsSearched:FoodInfo[] = this.foodService.foodsInfo;
+  private _foodsSearched:FoodInfo[] = structuredClone(this.foodService.foodsInfo);
+  private selectedElement: FoodInfo | undefined;
 
   public foodForm: FormGroup = this.formBuilder.group({
     quantity: [0, [Validators.required, Validators.min(1)]],
@@ -72,32 +73,31 @@ export class SearchFoodComponent{
     return this.foodService.searching;
   }
   calculate(id: number): void {
-    let element: FoodInfo | undefined = this.foodService.foodsInfo.find(item => item.id == `${id}`);
+    let element: FoodInfo | undefined = this._foodsSearched.find(item => item.id == `${id}`);
     const quantity = this.foodForm.controls['quantity'].value;
 
     if (element) {
-
-
-
-      // Asegúrate de trabajar con valores numéricos
-      const protein = parseFloat(element.protein);
-      const carbs = parseFloat(element.carbohydrate);
-      const fat = parseFloat(element.fat);
-      const calories = parseFloat(element.calories);
-
+      if (!this.selectedElement) {
+        this.selectedElement = {...element};
+      }
+      const protein = parseFloat(this.selectedElement.protein);
+      const carbs = parseFloat(this.selectedElement.carbohydrate);
+      const fat = parseFloat(this.selectedElement.fat);
+      const calories = parseFloat(this.selectedElement.calories);
       // Realiza los cálculos
       const newProtein = (protein / 100) * quantity;
-      console.log(protein, newProtein);
       const newCarbs = (carbs / 100) * quantity;
       const newFat = (fat / 100) * quantity;
       const newCalories = (calories / 100) * quantity;
 
       // Actualiza los valores con precisión
-      this._foodsSearched.find(item => item.id == `${id}`)!.calories = newCalories.toFixed(2);
-      this._foodsSearched.find(item => item.id == `${id}`)!.carbohydrate = newCarbs.toFixed(2);
-      this._foodsSearched.find(item => item.id == `${id}`)!.fat = newFat.toFixed(2);
-      this._foodsSearched.find(item => item.id == `${id}`)!.protein = newProtein.toFixed(2);
-      this._foodsSearched.find(item => item.id == `${id}`)!.calories = newCalories.toFixed(2);
+      const index = this._foodsSearched.findIndex(element => element.id == `${id}`);
+      element.calories = newCalories.toFixed(2);
+      element.carbohydrate = newCarbs.toFixed(2);
+      element.fat = newFat.toFixed(2);
+      element.protein = newProtein.toFixed(2);
+      element.calories = newCalories.toFixed(2);
+      this._foodsSearched[index] = element;
     }
   }
 

@@ -10,7 +10,26 @@ import {FoodInfo} from '../interfaces/FoodInfo';
 })
 export class FoodService {
   private BASE_URL = 'http://localhost:8080/api';
-  private _foodsInfo: FoodInfo[] = [];
+  private _foodsInfo: FoodInfo[] = [
+    {
+    name:'pollo',
+    id:'1',
+    calories:'500',
+    protein:'80',
+    carbohydrate:'0',
+    fat:'10',
+    serving_description:'x 100gr'
+  },
+  {
+    name:'arroz',
+    id:'2',
+    calories:'800',
+    protein:'10',
+    carbohydrate:'90',
+    fat:'20',
+    serving_description:'x 100gr'
+  }
+  ];
   private _searching: boolean = false;
 
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }
