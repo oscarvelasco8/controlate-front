@@ -1,20 +1,35 @@
-import { Component } from '@angular/core';
-import {doughtData} from '../../interfaces/doughtData';
+import {Component, OnInit} from '@angular/core';
+
+import {FoodHistoryService} from '../../../shared/services/food-history.service';
+import {FoodAddedFromUser} from '../../interfaces/foodAddedFromUser';
+import {FoodHistory} from '../../../shared/interfaces/foodHistory';
 
 @Component({
   selector: 'app-calories-page',
   templateUrl: './calories-page.component.html',
   styleUrl: './calories-page.component.css'
 })
-export class CaloriesPageComponent {
+export class CaloriesPageComponent implements OnInit{
+  date:string = '';
+  private _history:FoodHistory[] = [];
 
-  displayModal: boolean = false;
-
-  openModal() {
-    this.displayModal = true;
+  constructor(private foodHistoryService:FoodHistoryService) {
   }
 
-  closeModal() {
-    this.displayModal = false;
+  onDateChange($event: string) {
+    this.date = $event;
+    this.foodHistoryService.getHistoryByDate(this.date).subscribe(data => this._history = data);
   }
+
+  ngOnInit(): void {
+    this.foodHistoryService.getHistoryByDate(new Date().toLocaleDateString()).subscribe(data =>{
+      this._history = data;
+      this._history.forEach(item => this.foodHistoryService.addCalories(item.calories));
+    } );
+
+  }
+  get history():FoodHistory[]{
+    return this._history;
+  }
+
 }

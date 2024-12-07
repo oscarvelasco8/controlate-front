@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
 
 @Component({
@@ -7,11 +7,16 @@ import {PrimeNGConfig} from 'primeng/api';
   styleUrl: './calendar.component.css'
 })
 export class CalendarComponent implements OnInit{
+  @Output() selectedDateChange = new EventEmitter<string>();
   selectedDate: Date | null = null;
 
   constructor(private primengConfig: PrimeNGConfig) {}
 
   ngOnInit() {
+    if (this.selectedDate === null) {
+      const date = new Date().toLocaleDateString();
+      this.selectedDateChange.emit(date);
+    }
     this.primengConfig.setTranslation({
       dayNames: [
         "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "DOMINGO"
@@ -33,5 +38,9 @@ export class CalendarComponent implements OnInit{
       clear: "Limpiar",
       firstDayOfWeek: 1
     });
+  }
+
+  onDateSelect( ) {
+    this.selectedDateChange.emit(this.selectedDate?.toLocaleDateString());
   }
 }

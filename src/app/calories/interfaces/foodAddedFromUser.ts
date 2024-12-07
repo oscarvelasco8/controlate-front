@@ -1,6 +1,7 @@
+import {FoodInfo} from '../../shared/interfaces/FoodInfo';
+
 export interface FoodAddedFromUser{
   meal:string
-  food: string;
-  quantity: number;
-  unit: string;
+  food: FoodInfo,
+  quantity: number
 }

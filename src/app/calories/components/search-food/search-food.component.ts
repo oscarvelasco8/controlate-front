@@ -1,10 +1,12 @@
-import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {FoodService} from '../../../shared/services/food.service';
-import {FoodAddedFromUser} from '../../interfaces/foodAddedFromUser';
 
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../../../shared/services/user.service';
 import {FoodInfo} from '../../../shared/interfaces/FoodInfo';
+import {FoodAddedFromUser} from '../../interfaces/foodAddedFromUser';
+import {FoodHistoryService} from '../../../shared/services/food-history.service';
+import {FoodHistory} from '../../../shared/interfaces/foodHistory';
+
 
 @Component({
   selector: 'search-food',
@@ -15,90 +17,132 @@ import {FoodInfo} from '../../../shared/interfaces/FoodInfo';
 export class SearchFoodComponent{
   @Input() visible: boolean = false; // Vincula displayModal
   @Input() selectedMeal: any; // Vincula selectedMeal
+  @Input() history: FoodHistory[] = [];
+  @Input() selectedDate:string = '';
   @Output() visibleChange = new EventEmitter<boolean>();
-  selectUnitOptions: ({ label: string; value: string })[] = [{ label: 'gr', value: 'gr' },{ label: 'ml', value: 'ml' }];
-  options:any;
+
   proteinColor:string = 'rgb(60,50,140)';
   carbsColor:string = 'rgb(114,234,142)';
   fatColor:string = 'rgb(255, 99, 132)';
   caloriesColor:string = 'rgb(228,234,60)';
-  private _foodsSearched:FoodInfo[] = structuredClone(this.foodService.foodsInfo);
-  private selectedElement: FoodInfo | undefined;
+  private _foodsSearched:FoodInfo[] = [];
+  private _foodAdded:FoodHistory[] = [];
+  private originalValues: { [key: string]: FoodInfo } = {};
 
   public foodForm: FormGroup = this.formBuilder.group({
-    quantity: [0, [Validators.required, Validators.min(1)]],
-    units: ['gr',[Validators.required]]
+    quantity: [100, [Validators.required, Validators.min(1)]]
   })
 
   constructor(
-    private foodService: FoodService,
+    public foodService: FoodService,
     private formBuilder: FormBuilder,
-    private userService:UserService
+    private foodHistoryService:FoodHistoryService
   ) {
   }
 
   searchFoods(searchTerm:string):void {
     this.foodService.getFoods(searchTerm);
+    this.foodForm.patchValue(
+      {
+        quantity: 100
+      }
+    );
   }
   closeModal() {
     this.visible = false;
     this.visibleChange.emit(this.visible);
-    this.foodForm.reset();
+    this.foodForm.patchValue(
+      {
+        quantity: 100
+      }
+    );
+    this.foodService.resetFoodsInfo();
   }
-  get foodsSearched(){
+  get foodsSearched(): FoodInfo[] {
+    this._foodsSearched = this.foodService.foodsInfo();
     return this._foodsSearched;
   }
 
-  addFoodToMeal(meal:string, food:string, formGroup: FormGroup): void {
-    this.userService.addtoUserHistory(meal, food, formGroup);
-    /*console.log({history: this.userService.userHistory});*/
+  addFoodToMeal(meal:string, food:FoodInfo): void {
+    this._foodAdded.push(
+      {
+        foodId:parseInt(food.id),
+        meal:meal,
+        foodName:food.name,
+        quantity: this.foodForm.controls['quantity'].value,
+        calories:parseFloat(food.calories),
+        carbohydrates:parseFloat(food.carbohydrate),
+        proteins:parseFloat(food.protein),
+        fats:parseFloat(food.fat),
+        units:food.serving_description
+      });
   }
 
-  getuserHistoryByMeal(meal:string):FoodAddedFromUser[]{
-    /*console.log({meal: this.userService.userHistory.filter(food => food.meal == meal)})*/
-    return this.userService.userHistory.filter(food => food.meal == meal);
+  getuserHistoryByMeal(meal:string):FoodHistory[]{
+    const historyService = this.history.filter(item => item.meal == meal);
+    const localHistory = this._foodAdded.filter(item => item.meal == meal);
+    return [...historyService, ...localHistory];
   }
 
-  deleteFoodFromMeal(food:FoodAddedFromUser): void {
-    let index = this.userService.userHistory.indexOf(food);
-    this.userService.userHistory.splice(index, 1);
-    /*console.log({history: this.userService.userHistory});*/
-  }
-
-  deleteSearch():void{
-    this.foodService.foodsInfo = [];
+  deleteFoodFromMeal(food:FoodHistory): void {
+    this._foodAdded = this._foodAdded.filter(item => item !== food);
   }
 
   get isSearching():boolean{
     return this.foodService.searching;
   }
   calculate(id: number): void {
-    let element: FoodInfo | undefined = this._foodsSearched.find(item => item.id == `${id}`);
-    const quantity = this.foodForm.controls['quantity'].value;
+    // Encuentra el alimento en la lista según el id
+    let element = this._foodsSearched.find(item => item.id == `${id}`);
 
     if (element) {
-      if (!this.selectedElement) {
-        this.selectedElement = {...element};
+      // Si nunca se han guardado los valores originales, los almacenamos
+      if (!this.originalValues[element.id]) {
+        // Creamos una copia de los valores originales de las macros
+        this.originalValues[element.id] = {
+          ...element, // Hacemos una copia completa de element
+          protein: element.protein,
+          carbohydrate: element.carbohydrate,
+          fat: element.fat,
+          calories: element.calories,
+        };
       }
-      const protein = parseFloat(this.selectedElement.protein);
-      const carbs = parseFloat(this.selectedElement.carbohydrate);
-      const fat = parseFloat(this.selectedElement.fat);
-      const calories = parseFloat(this.selectedElement.calories);
-      // Realiza los cálculos
-      const newProtein = (protein / 100) * quantity;
-      const newCarbs = (carbs / 100) * quantity;
-      const newFat = (fat / 100) * quantity;
-      const newCalories = (calories / 100) * quantity;
 
-      // Actualiza los valores con precisión
-      const index = this._foodsSearched.findIndex(element => element.id == `${id}`);
-      element.calories = newCalories.toFixed(2);
-      element.carbohydrate = newCarbs.toFixed(2);
-      element.fat = newFat.toFixed(2);
-      element.protein = newProtein.toFixed(2);
-      element.calories = newCalories.toFixed(2);
-      this._foodsSearched[index] = element;
+      // Usamos los valores originales para hacer los cálculos
+      const originalProtein = parseFloat(this.originalValues[element.id].protein);
+      const originalCarbs = parseFloat(this.originalValues[element.id].carbohydrate);
+      const originalFat = parseFloat(this.originalValues[element.id].fat);
+      const originalCalories = parseFloat(this.originalValues[element.id].calories);
+
+      // Obtén la cantidad que el usuario ha ingresado en el formulario
+      const quantity = this.foodForm.controls['quantity'].value;
+
+      // Si la cantidad ingresada es válida
+      if (!isNaN(quantity) && quantity > 0) {
+        // Realiza los cálculos según la cantidad ingresada
+        const newProtein = (originalProtein / 100) * quantity;
+        const newCarbs = (originalCarbs / 100) * quantity;
+        const newFat = (originalFat / 100) * quantity;
+        const newCalories = (originalCalories / 100) * quantity;
+
+        // Actualiza solo las macros calculadas en el objeto `element`
+        element.protein = newProtein.toFixed(2);  // Guardamos como string
+        element.carbohydrate = newCarbs.toFixed(2);  // Guardamos como string
+        element.fat = newFat.toFixed(2);  // Guardamos como string
+        element.calories = newCalories.toFixed(2);  // Guardamos como string
+      } else {
+        console.error('Cantidad no válida');
+      }
     }
   }
 
+  saveMeal() {
+    this.foodHistoryService.insertIntoHistory(this._foodAdded);
+    this.closeModal();
+  }
+
+  isToday(): boolean {
+    const date = new Date();
+    return this.selectedDate === date.toLocaleDateString();
+  }
 }

@@ -1,4 +1,6 @@
-import {ChangeDetectorRef, Component, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, ViewEncapsulation} from '@angular/core';
+import {FoodAddedFromUser} from '../../interfaces/foodAddedFromUser';
+import {FoodHistory} from '../../../shared/interfaces/foodHistory';
 
 @Component({
   selector: 'calories-food-info',
@@ -7,7 +9,9 @@ import {ChangeDetectorRef, Component, ViewEncapsulation} from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class FoodInfoComponent {
-  constructor(private cdr: ChangeDetectorRef) {
+  @Input() history: FoodHistory[] = [];
+  @Input() selectedDate: string = '';
+  constructor() {
   }
   displayModal: boolean = false;
 
@@ -25,7 +29,6 @@ export class FoodInfoComponent {
   openModal(meal: any) {
     this.selectedMeal = meal;
     this.displayModal = true;
-    this.cdr.detectChanges();
   }
   addMeal(){
     this.meals.push(

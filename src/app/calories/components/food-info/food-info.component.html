@@ -1,7 +1,7 @@
 <div class="flex flex-column flex-wrap gap-3 justify-content-start">
   <div class="flex flex-column gap-5 flex-1">
     <p-button (click)="addMeal()" class="w-full"><i class="pi pi-plus"></i></p-button>
-    <calories-progress-bar class="w-auto" [value]="50"></calories-progress-bar>
+    <calories-progress-bar class="w-auto"></calories-progress-bar>
   </div>
   <div class="flex flex-1 flex-wrap gap-4 justify-content-between">
     <p-card
@@ -23,5 +23,7 @@
     [visible]="displayModal"
     (visibleChange)="displayModal=$event"
     [selectedMeal]="selectedMeal"
+    [history]="history"
+    [selectedDate]="selectedDate"
   ></search-food>
 </div>
