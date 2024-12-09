@@ -10,7 +10,7 @@ import {LocalStorageService} from '../services/local-storage.service';
   encapsulation: ViewEncapsulation.None
 })
 export class TopBarComponent{
-
+  isLightTheme: boolean = true;
   public items: MegaMenuItem[] = [
     {
       label: 'Home',
@@ -38,5 +38,19 @@ export class TopBarComponent{
   }
   logout(): void{
     this.localStorageService.logout();
+  }
+
+  changeTheme() {
+    const link = document.getElementById("theme");
+    console.log(link)
+    if (this.isLightTheme) {
+      console.log("blanco")
+      link?.setAttribute("href", "themes/lara-dark-blue.css");
+      this.isLightTheme = false;
+    } else {
+      console.log("negro")
+      link?.setAttribute("href", "themes/lara-light-blue.css");
+      this.isLightTheme = true;
+    }
   }
 }

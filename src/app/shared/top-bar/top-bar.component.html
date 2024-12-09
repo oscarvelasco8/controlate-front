@@ -1,4 +1,4 @@
-<header class="top-bar flex align-items-center justify-content-between  ">
+<header class="top-bar flex align-items-center justify-content-between  " [ngStyle]="isLightTheme ? { 'background-color': '#fff' } : { 'background-color': '#111827' }">
   <p-megaMenu [model]="items" [style]="{ 'font-family': 'Poppins', 'border-radius': '3rem'}" styleClass="p-3 surface-0">
 
   </p-megaMenu>
@@ -8,23 +8,33 @@
         </a>
 
   </span>
-  <div class="flex-1 flex justify-content-end pr-5">
+  <div class="flex-1 flex justify-content-end align-items-center pr-5">
+    <i class="pi pi-moon mr-3 cursor-pointer" style="font-size: 1.5rem" (click)="changeTheme()" *ngIf="isLightTheme"></i>
+    <i class="pi pi-sun mr-3 cursor-pointer" style="font-size: 1.5rem" (click)="changeTheme()" *ngIf="!isLightTheme"></i>
     <div *ngIf="!userLogged">
 
       <div class="home-page-links flex align-items-center text-black-alpha-90">
 
-        <i class="pi pi-moon mr-3 cursor-pointer" style="font-size: 1.5rem"></i>
-        <i class="pi pi-user mr-2" style="font-size: 1.5rem"></i>
-        <p-button routerLink="/login" styleClass="labelColor p-button-outlined p-button-rounded p-button-secondary p-button-text p-2" label="INICIAR SESION" ></p-button>
+        <i class="pi pi-user mr-2" style="font-size: 1.5rem" [ngStyle]="isLightTheme ? { 'color': '#000' } : { 'color': '#fff' }"></i>
+        <p-button
+          routerLink="/login"
+          [styleClass]="'p-button-outlined p-button-rounded p-button-secondary p-button-text p-2 ' + (isLightTheme ? 'labelColor' : 'labelColorWhite')"
+          label="INICIAR SESION">
+        </p-button>
       </div>
     </div>
     <div *ngIf="userLogged">
 
       <div class="home-page-links flex align-items-center text-black-alpha-90">
-        <i class="pi pi-moon mr-3 cursor-pointer" style="font-size: 1.5rem"></i>
+
         <div class="no-underline text-black-alpha-90 flex align-items-center gap-2">
           <p-avatar image="home/memoji.jpg" shape="circle" size="xlarge"></p-avatar>
-          <p-button (click)="logout()" styleClass="labelColor p-button-outlined p-button-rounded p-button-secondary p-button-text p-0" label="CERRAR SESION" ></p-button>
+          <p-button
+            (click)="logout()"
+            [styleClass]="'p-button-outlined p-button-rounded p-button-secondary p-button-text p-2 ' + (isLightTheme ? 'labelColor' : 'labelColorWhite')"
+            label="CERRAR SESION">
+          </p-button>
+
         </div>
 
       </div>
