@@ -1,6 +1,6 @@
 export interface FoodHistory {
-  logId?:         number;
-  username?:      string;
+  logId:         string;
+  username:      string;
   meal:          string;
   foodName:      string;
   carbohydrates: number;
@@ -9,6 +9,6 @@ export interface FoodHistory {
   calories:      number;
   quantity:      number;
   foodId:        number;
-  logDate?:       string;
+  logDate:       string;
   units:         string;
 }

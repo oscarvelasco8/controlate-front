@@ -1,12 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {FoodService} from '../../../shared/services/food.service';
 
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FoodInfo} from '../../../shared/interfaces/FoodInfo';
-import {FoodAddedFromUser} from '../../interfaces/foodAddedFromUser';
 import {FoodHistoryService} from '../../../shared/services/food-history.service';
 import {FoodHistory} from '../../../shared/interfaces/foodHistory';
-
+import {v4 as uuid} from 'uuid';
 
 @Component({
   selector: 'search-food',
@@ -28,6 +27,7 @@ export class SearchFoodComponent{
   private _foodsSearched:FoodInfo[] = [];
   private _foodAdded:FoodHistory[] = [];
   private originalValues: { [key: string]: FoodInfo } = {};
+  private _foodDeleted:FoodHistory[] = [];
 
   public foodForm: FormGroup = this.formBuilder.group({
     quantity: [100, [Validators.required, Validators.min(1)]]
@@ -56,7 +56,7 @@ export class SearchFoodComponent{
         quantity: 100
       }
     );
-    this.foodService.resetFoodsInfo();
+    /*this.foodService.resetFoodsInfo();*/
   }
   get foodsSearched(): FoodInfo[] {
     this._foodsSearched = this.foodService.foodsInfo();
@@ -66,6 +66,9 @@ export class SearchFoodComponent{
   addFoodToMeal(meal:string, food:FoodInfo): void {
     this._foodAdded.push(
       {
+        logId:uuid(),
+        username:localStorage.getItem('userLogged')!,
+        logDate: this.selectedDate,
         foodId:parseInt(food.id),
         meal:meal,
         foodName:food.name,
@@ -84,8 +87,14 @@ export class SearchFoodComponent{
     return [...historyService, ...localHistory];
   }
 
-  deleteFoodFromMeal(food:FoodHistory): void {
-    this._foodAdded = this._foodAdded.filter(item => item !== food);
+  deleteFoodFromMeal(foodHistory:FoodHistory): void {
+    this._foodDeleted.push(foodHistory);
+    this._foodAdded = this._foodAdded.filter( food =>{
+      return food.logId !== foodHistory.logId
+    });
+    this.history = this.history.filter( food =>{
+      return food.logId !== foodHistory.logId
+    });
   }
 
   get isSearching():boolean{
@@ -137,7 +146,12 @@ export class SearchFoodComponent{
   }
 
   saveMeal() {
-    this.foodHistoryService.insertIntoHistory(this._foodAdded);
+    this.foodHistoryService.insertIntoHistory(this._foodAdded, this.selectedDate);
+    this.foodHistoryService.deleteFromHistory(this._foodDeleted, this.selectedDate);
+    /*this.foodHistoryService.getHistoryByDate(this.selectedDate);*/
+    /*this.foodHistoryService.getTotalCaloriesWeek(this.selectedDate);*/
+    this._foodAdded = [];
+    this._foodDeleted = [];
     this.closeModal();
   }
 

@@ -1,72 +1,111 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
+import { FoodHistoryService } from '../../../shared/services/food-history.service';
+import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
+import { effect } from '@angular/core';
 
 @Component({
   selector: 'calories-graphic',
   templateUrl: './graphic.component.html',
-  styleUrl: './graphic.component.css',
-
+  styleUrls: ['./graphic.component.css'],
 })
-export class GraphicComponent implements OnInit{
+export class GraphicComponent implements OnInit {
   data: any;
-
   options: any;
 
+  @ViewChild('chart') chart: any; // Referencia al gráfico
+  days: string[] = [];
+  calories: number[] = [];
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cd: ChangeDetectorRef,
+    private foodHistoryService: FoodHistoryService
+  ) {
+    // Uso del 'effect' para actualizar los datos cuando cambian
+    effect(() => {
+      const updatedCaloriesWeek = this.foodHistoryService.caloriesGraphicWeek();
+
+      // Asegurarse de que las arrays de días y calorías se actualicen correctamente
+      this.days = updatedCaloriesWeek.map(item => item.date);
+      this.calories = updatedCaloriesWeek.map(item => item.calories);
+
+      // Actualizar el gráfico con los datos nuevos
+      this.updateChartData(this.calories, this.days);
+    });
+  }
+
   ngOnInit() {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    this.initChart();
+  }
 
-    this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--blue-500'),
-          tension: 0.4
-        },
-        {
-          label: 'Second Dataset',
-          data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--pink-500'),
-          tension: 0.4
-        }
-      ]
-    };
+  initChart() {
+    if (isPlatformBrowser(this.platformId)) {
+      const documentStyle = getComputedStyle(document.documentElement);
+      const textColor = documentStyle.getPropertyValue('--p-text-color');
+      const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
+      const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
+      const borderColorCyan = documentStyle.getPropertyValue('--p-cyan-500');
 
-    this.options = {
-      maintainAspectRatio: false,
-      aspectRatio: 0.6,
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor
+      // Inicializar los datos para el gráfico
+      this.data = {
+        labels: this.foodHistoryService.caloriesGraphicWeek().map(item => item.date),
+        datasets: [
+          {
+            label: 'Calorías consumidas en una semana',
+            data: this.foodHistoryService.caloriesGraphicWeek().map(item => item.calories),
+            fill: false,
+            borderColor: borderColorCyan,
+            tension: 0.4
           }
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: textColorSecondary
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false
+        ]
+      };
+
+      this.options = {
+        maintainAspectRatio: false,
+        aspectRatio: 0.6,
+        plugins: {
+          legend: {
+            labels: {
+              color: textColor
+            }
           }
         },
-        y: {
-          ticks: {
-            color: textColorSecondary
+        scales: {
+          x: {
+            ticks: {
+              color: textColorSecondary
+            },
+            grid: {
+              color: surfaceBorder,
+              drawBorder: false
+            }
           },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false
+          y: {
+            ticks: {
+              color: textColorSecondary
+            },
+            grid: {
+              color: surfaceBorder,
+              drawBorder: false
+            }
           }
         }
-      }
-    };
+      };
+    }
+  }
+
+  updateChartData(calories: number[], days: string[]) {
+    // Actualizar los datos del gráfico
+    this.data.datasets[0].data = calories;
+    this.data.labels = days;
+
+    // Si el gráfico ya está inicializado, actualizamos los datos
+    if (this.chart && this.chart.chart) {
+      this.chart.chart.update();
+    }
+
+    // Forzar la detección de cambios
+    this.cd.detectChanges();
   }
 }

@@ -17,7 +17,8 @@ export class FormValidatorService {
     activityFactor: '',
     insulinaFactor: 0,
     username: '',
-    password: ''
+    password: '',
+    gender: ''
   };
 
   constructor(
@@ -68,6 +69,14 @@ export class FormValidatorService {
     this._userInfo.password = password;
   }
 
+  set gender(gender:string){
+    this._userInfo.gender = gender;
+  }
+
+  get gender ():string{
+    return this._userInfo.gender;
+  }
+
   isValidForm():boolean{
     return this._userInfo.name.length > 0 && this._userInfo.lastname.length > 0 && this._userInfo.email.length > 0 &&
     this._userInfo.age > 0 && this._userInfo.weight > 0 && this._userInfo.height > 0 && this._userInfo.activityFactor.length > 0 &&
@@ -85,7 +94,8 @@ export class FormValidatorService {
       activityFactor: '',
       insulinaFactor: 0,
       username: '',
-      password: ''
+      password: '',
+      gender: ''
     };
   }
 

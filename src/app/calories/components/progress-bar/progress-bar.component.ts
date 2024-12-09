@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, effect, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {color} from 'chart.js/helpers';
 import {FoodHistoryService} from '../../../shared/services/food-history.service';
 
@@ -7,19 +7,16 @@ import {FoodHistoryService} from '../../../shared/services/food-history.service'
   templateUrl: './progress-bar.component.html',
   styleUrl: './progress-bar.component.css'
 })
-export class ProgressBarComponent implements OnInit{
-  @Input() value: number = 0;
+export class ProgressBarComponent{
   @Input() color: string = '';
-  private _totalCalories: number = this.foodHistoryService.totalCalories;
+  totalCaloriesDiary: number = 2000;
+  constructor(private foodHistoryService: FoodHistoryService) {
 
-  constructor(private foodHistoryService:FoodHistoryService) {
   }
 
-  ngOnInit(): void {
-    this._totalCalories = this.foodHistoryService.totalCalories;
-    console.log(this.totalCalories);
+  get totalCaloriesHistory(){
+    return this.foodHistoryService.totalCalories;
   }
-  get totalCalories(): number {
-    return this._totalCalories;
-  }
+
+
 }

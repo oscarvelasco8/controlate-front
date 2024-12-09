@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
 import {FoodHistoryService} from '../../../shared/services/food-history.service';
-import {FoodAddedFromUser} from '../../interfaces/foodAddedFromUser';
 import {FoodHistory} from '../../../shared/interfaces/foodHistory';
+import {UserService} from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-calories-page',
@@ -11,25 +11,32 @@ import {FoodHistory} from '../../../shared/interfaces/foodHistory';
 })
 export class CaloriesPageComponent implements OnInit{
   date:string = '';
-  private _history:FoodHistory[] = [];
+  userTmb:number = 0;
 
-  constructor(private foodHistoryService:FoodHistoryService) {
+  constructor(private foodHistoryService:FoodHistoryService, private userService:UserService) {
   }
 
   onDateChange($event: string) {
+    /*console.log("llamada 2")*/
     this.date = $event;
-    this.foodHistoryService.getHistoryByDate(this.date).subscribe(data => this._history = data);
+    this.foodHistoryService.getHistoryByDate(this.date);
+    this.foodHistoryService.getTotalCaloriesWeek(this.date);
+
   }
 
   ngOnInit(): void {
-    this.foodHistoryService.getHistoryByDate(new Date().toLocaleDateString()).subscribe(data =>{
-      this._history = data;
-      this._history.forEach(item => this.foodHistoryService.addCalories(item.calories));
-    } );
+    /*console.log("llamada 1")*/
+    this.date = new Date().toLocaleDateString();
+    this.foodHistoryService.getHistoryByDate(this.date);
+    this.userService.tmb.subscribe({
+      next: (data) => {
+        this.userTmb = data;
+      }
+    })
 
   }
   get history():FoodHistory[]{
-    return this._history;
+    return this.foodHistoryService.history;
   }
 
 }

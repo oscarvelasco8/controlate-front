@@ -31,6 +31,17 @@
       </span>
     </div>
     <div class="flex flex-column gap-2">
+      <label for="gender">Género</label>
+      <div class="card flex justify-content-center">
+        <p-dropdown
+          formControlName="gender"
+          id="gender"
+          [options]="genderOptions"
+          optionLabel="name"
+          placeholder="Introduce tu género" />
+      </div>
+    </div>
+    <div class="flex flex-column gap-2">
       <label for="email">Email</label>
       <input
         formControlName="email"

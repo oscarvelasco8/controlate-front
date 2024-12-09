@@ -49,7 +49,7 @@ export class UserFormComponent implements OnInit{
           }, 2000);
         },
         error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar el registro' });
         }
       }
     );

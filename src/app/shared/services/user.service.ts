@@ -9,7 +9,6 @@ import {FormGroup} from '@angular/forms';
 })
 export class UserService {
   private baseUrl: string = 'http://localhost:8080';
-  /*private _userHistory: FoodAddedFromUser[] = [];*/
 
   constructor(
     private httpClient: HttpClient
@@ -22,10 +21,7 @@ export class UserService {
     return this.httpClient.get(this.baseUrl + `/api/users/login?username=${username}&password=${password}`);
   }
 
-  /*addtoUserHistory(meal:string, food:string, formGroup: FormGroup): void{
-    this._userHistory.push({meal:meal,food:food, quantity:formGroup.controls['quantity'].value, unit:formGroup.controls['units'].value});
-  }*/
-  /*get userHistory():FoodAddedFromUser[]{
-    return this._userHistory;
-  }*/
+  get tmb(): Observable<any> {
+    return this.httpClient.get(this.baseUrl + `/api/users/tmb/${localStorage.getItem('userLogged')}`);
+  }
 }

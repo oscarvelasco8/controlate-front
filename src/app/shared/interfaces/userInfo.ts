@@ -8,5 +8,6 @@ export interface userInfo{
   activityFactor: string,
   insulinaFactor?: number,
   username:string,
-  password:string
+  password:string,
+  gender:string
 }

@@ -1,6 +1,6 @@
 
-<p-progressBar [value]="value" [color] = color >
-  <ng-template pTemplate="content" let-value>
-    <span>{{totalCalories}}/100</span>
+<p-progressBar [value]="totalCaloriesHistory*100/totalCaloriesDiary" [color] = color >
+  <ng-template pTemplate="content">
+    <span>{{totalCaloriesHistory}}/{{totalCaloriesDiary}}</span>
   </ng-template>
 </p-progressBar>

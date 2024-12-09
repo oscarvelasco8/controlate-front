@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -8,14 +8,17 @@ import {FormValidatorService} from '../../../shared/services/form-validator.serv
 @Component({
   selector: 'app-personal-form',
   templateUrl: './personal-form.component.html',
-  styleUrl: './personal-form.component.css'
+  styleUrl: './personal-form.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class PersonalFormComponent implements OnInit{
   public personalForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required]],
     lastname: ['',[Validators.required]],
-    email: ['',[Validators.required, Validators.email]]
+    email: ['',[Validators.required, Validators.email]],
+    gender: ['',[Validators.required]]
   })
+  genderOptions: any[] = [{ name: 'Hombre', code: '1', value:'male' }, { name: 'Mujer', code: '2', value: 'female' }];
 
   constructor(
     private router:Router,
@@ -34,6 +37,7 @@ export class PersonalFormComponent implements OnInit{
     this.formValidatorService.name = this.personalForm.get('name')?.value;
     this.formValidatorService.lastName = this.personalForm.get('lastname')?.value;
     this.formValidatorService.email = this.personalForm.get('email')?.value;
+    this.formValidatorService.gender = this.personalForm.get('gender')?.value.value.toUpperCase();
     this.router.navigate(['/register/activity']);
 
   }
@@ -49,7 +53,8 @@ export class PersonalFormComponent implements OnInit{
     this.personalForm.setValue({
       name: this.formValidatorService.userInfo.name,
       lastname: this.formValidatorService.userInfo.lastname,
-      email: this.formValidatorService.userInfo.email
+      email: this.formValidatorService.userInfo.email,
+      gender: this.formValidatorService.userInfo.gender
     });
   }
 }
