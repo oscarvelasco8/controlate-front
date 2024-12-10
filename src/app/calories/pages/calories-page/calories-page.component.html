@@ -1,7 +1,8 @@
 <main class="mr-8 ml-8">
   <div class="card flex gap-4 mb-4">
-    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tus calorías de mantenimiento son de : {{userTmb}} kcal.</p>
-    <form class="flex gap-4" (submit)="saveUserObjective()" [formGroup]="userObjectiveForm" *ngIf="!userObjective">
+    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tus calorías de mantenimiento son de : {{userTmb}} kcal. Actualmente tu objetivo es:
+      {{userObjective}}</p>
+    <form class="flex gap-4" (submit)="saveUserObjective()" [formGroup]="userObjectiveForm" *ngIf="userWantsModifyObjective">
 
         <p-dropdown
           formControlName="objective"
@@ -11,7 +12,7 @@
           placeholder="Elige tu objetivo" />
         <p-button type="submit">Guardar preferencias</p-button>
     </form>
-    <p-button *ngIf="userObjective">Modificar preferencias</p-button>
+    <p-button *ngIf="!userWantsModifyObjective" (click) = "modifyObjective()">Modificar preferencias</p-button>
   </div>
 
   <div class="flex align-items-center mb-5">

@@ -1,5 +1,8 @@
 import {Component, effect, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { FoodHistoryService } from '../../../shared/services/food-history.service';// Importar effect
+import { FoodHistoryService } from '../../../shared/services/food-history.service';
+import {UserService} from '../../../shared/services/user.service';
+
+// Importar effect
 
 @Component({
   selector: 'calories-dought',
@@ -10,7 +13,7 @@ export class DoughtComponent implements OnInit{
   doughtsData: any[] = [];
   options: any;
 
-  constructor(private foodHistoryService: FoodHistoryService) {
+  constructor(private foodHistoryService: FoodHistoryService, private userService:UserService) {
     // Aquí se coloca el effect dentro del constructor
     effect(() => {
       const totalProtein = this.foodHistoryService.totalProtein();
@@ -37,7 +40,7 @@ export class DoughtComponent implements OnInit{
           labels: ['Proteinas', 'Total'],
           datasets: [
             {
-              data: [totalProtein, 200],
+              data: [totalProtein, this.userService.proteinesObjective()],
               backgroundColor: [
                 'rgb(60,50,140)',
                 'rgb(54, 162, 235)'
@@ -50,7 +53,7 @@ export class DoughtComponent implements OnInit{
           labels: ['Carbohidratos', 'Total'],
           datasets: [
             {
-              data: [totalCarbs, 200],
+              data: [totalCarbs, this.userService.carbohydratesObjective()],
               backgroundColor: [
                 'rgb(114,234,142)',
                 'rgb(54, 162, 235)'
@@ -63,7 +66,7 @@ export class DoughtComponent implements OnInit{
           labels: ['Grasas', 'Total'],
           datasets: [
             {
-              data: [totalFat, 200],
+              data: [totalFat, this.userService.fatsObjective()],
               backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)'

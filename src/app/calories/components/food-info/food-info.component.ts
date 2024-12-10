@@ -30,9 +30,9 @@ export class FoodInfoComponent {
     this.selectedMeal = meal;
     this.displayModal = true;
   }
-  addMeal(){
+  /*addMeal(){
     this.meals.push(
       { name: 'Nueva comida', foods: [] }
     )
-  }
+  }*/
 }
