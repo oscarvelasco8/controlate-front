@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {userInfo} from '../interfaces/userInfo';
 import {Observable} from 'rxjs';
@@ -9,7 +9,7 @@ import {FormGroup} from '@angular/forms';
 })
 export class UserService {
   private baseUrl: string = 'http://localhost:8080';
-
+  public userObjective:WritableSignal<string> = signal('');
   constructor(
     private httpClient: HttpClient
   ) { }
@@ -24,4 +24,13 @@ export class UserService {
   get tmb(): Observable<any> {
     return this.httpClient.get(this.baseUrl + `/api/users/tmb/${localStorage.getItem('userLogged')}`);
   }
+
+  saveUserObjective(value:string): Observable<any> {
+    return this.httpClient.patch(this.baseUrl + `/api/users/objective/${localStorage.getItem('userLogged')}`, value);
+  }
+
+  getUserObjective(): Observable<any> {
+    return this.httpClient.get(this.baseUrl + `/api/users/objective/${localStorage.getItem('userLogged')}`, { responseType: 'text' });
+  }
+
 }

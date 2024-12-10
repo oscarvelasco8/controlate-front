@@ -42,15 +42,14 @@ export class TopBarComponent{
 
   changeTheme() {
     const link = document.getElementById("theme");
-    console.log(link)
     if (this.isLightTheme) {
-      console.log("blanco")
       link?.setAttribute("href", "themes/lara-dark-blue.css");
       this.isLightTheme = false;
+      this.localStorageService.isDarkTheme();
     } else {
-      console.log("negro")
       link?.setAttribute("href", "themes/lara-light-blue.css");
       this.isLightTheme = true;
+      this.localStorageService.isLightTheme();
     }
   }
 }

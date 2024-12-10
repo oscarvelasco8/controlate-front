@@ -28,7 +28,8 @@
       <div class="home-page-links flex align-items-center text-black-alpha-90">
 
         <div class="no-underline text-black-alpha-90 flex align-items-center gap-2">
-          <p-avatar image="home/memoji.jpg" shape="circle" size="xlarge"></p-avatar>
+          <p-avatar image="top-bar/memoji.jpg" shape="circle" size="xlarge" *ngIf="isLightTheme"></p-avatar>
+          <p-avatar image="top-bar/memoji-dark-mode.jpg" shape="circle" size="xlarge" *ngIf="!isLightTheme"></p-avatar>
           <p-button
             (click)="logout()"
             [styleClass]="'p-button-outlined p-button-rounded p-button-secondary p-button-text p-2 ' + (isLightTheme ? 'labelColor' : 'labelColorWhite')"

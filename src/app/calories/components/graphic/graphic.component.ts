@@ -3,6 +3,7 @@ import { FoodHistoryService } from '../../../shared/services/food-history.servic
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { effect } from '@angular/core';
+import {LocalStorageService} from '../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'calories-graphic',
@@ -20,7 +21,8 @@ export class GraphicComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private cd: ChangeDetectorRef,
-    private foodHistoryService: FoodHistoryService
+    private foodHistoryService: FoodHistoryService,
+    private localStorageService: LocalStorageService
   ) {
     // Uso del 'effect' para actualizar los datos cuando cambian
     effect(() => {
@@ -42,10 +44,6 @@ export class GraphicComponent implements OnInit {
   initChart() {
     if (isPlatformBrowser(this.platformId)) {
       const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-      const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-      const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
-      const borderColorCyan = documentStyle.getPropertyValue('--p-cyan-500');
 
       // Inicializar los datos para el gráfico
       this.data = {
@@ -54,8 +52,7 @@ export class GraphicComponent implements OnInit {
           {
             label: 'Calorías consumidas en una semana',
             data: this.foodHistoryService.caloriesGraphicWeek().map(item => item.calories),
-            fill: false,
-            borderColor: borderColorCyan,
+            fill: true,
             tension: 0.4
           }
         ]
@@ -64,34 +61,7 @@ export class GraphicComponent implements OnInit {
       this.options = {
         maintainAspectRatio: false,
         aspectRatio: 0.6,
-        plugins: {
-          legend: {
-            labels: {
-              color: textColor
-            }
-          }
-        },
-        scales: {
-          x: {
-            ticks: {
-              color: textColorSecondary
-            },
-            grid: {
-              color: surfaceBorder,
-              drawBorder: false
-            }
-          },
-          y: {
-            ticks: {
-              color: textColorSecondary
-            },
-            grid: {
-              color: surfaceBorder,
-              drawBorder: false
-            }
-          }
-        }
-      };
+      }
     }
   }
 
@@ -107,5 +77,9 @@ export class GraphicComponent implements OnInit {
 
     // Forzar la detección de cambios
     this.cd.detectChanges();
+  }
+
+  get isLightTheme():boolean{
+    return this.localStorageService.darkTheme;
   }
 }

@@ -1,11 +1,18 @@
 <main class="mr-8 ml-8">
+  <div class="card flex gap-4 mb-4">
+    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tus calorías de mantenimiento son de : {{userTmb}} kcal.</p>
+    <form class="flex gap-4" (submit)="saveUserObjective()" [formGroup]="userObjectiveForm" *ngIf="!userObjective">
 
-  <p>Hola, usuario, segun los datos de tu perfil tienes una tasa metabolica basal de : {{userTmb}}
-  Si quieres bajar de peso de forma rápida, deberás de ingerir X calorias,
-  Si quieres bajar de peso de forma progresiva, deberás de ingerir x calorias,
-  Si quieres subir de peso de forma rapida, deberás de ingerir x calorias
-  Si quieres subir de peso de forma progresiva, deberás de ingerir x calorias
-  Elige por favor qué quieres hacer:</p>
+        <p-dropdown
+          formControlName="objective"
+          id="userObjective"
+          [options]="userObjectiveOptions"
+          optionLabel="name"
+          placeholder="Elige tu objetivo" />
+        <p-button type="submit">Guardar preferencias</p-button>
+    </form>
+    <p-button *ngIf="userObjective">Modificar preferencias</p-button>
+  </div>
 
   <div class="flex align-items-center mb-5">
     <div>
@@ -24,7 +31,5 @@
     </div>
 
   </div>
-
-
 
 </main>
