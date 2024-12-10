@@ -23,7 +23,7 @@ export class DoughtComponent implements OnInit{
       // Actualizar los datos cuando las signals cambien
       this.doughtsData = [
         {
-          labels: ['Proteinas', 'Carbohidratos', 'Grasas'],
+          labels: ['PROTEÍNAS DIARIAS CONSUMIDAS', 'CARBOHIDRATOS DIARIOS CONSUMIDOS', 'GRASAS DIARIAS CONSUMIDAS'],
           datasets: [
             {
               data: [totalProtein | 100, totalCarbs | 100, totalFat | 100],
@@ -37,7 +37,7 @@ export class DoughtComponent implements OnInit{
           ]
         },
         {
-          labels: ['Proteinas', 'Total'],
+          labels: ['PROTEÍNAS DIARIAS CONSUMIDAS', 'TOTAL DE PROTEÍNAS A CONSUMIR'],
           datasets: [
             {
               data: [totalProtein, this.userService.proteinesObjective()],
@@ -50,7 +50,7 @@ export class DoughtComponent implements OnInit{
           ]
         },
         {
-          labels: ['Carbohidratos', 'Total'],
+          labels: ['CARBOHIDRATOS DIARIOS CONSUMIDOS', 'TOTAL DE CARBOHIDRATOS A CONSUMIR'],
           datasets: [
             {
               data: [totalCarbs, this.userService.carbohydratesObjective()],
@@ -63,7 +63,7 @@ export class DoughtComponent implements OnInit{
           ]
         },
         {
-          labels: ['Grasas', 'Total'],
+          labels: ['GRASAS DIARIAS CONSUMIDAS', 'TOTAL DE GRASAS A CONSUMIR'],
           datasets: [
             {
               data: [totalFat, this.userService.fatsObjective()],

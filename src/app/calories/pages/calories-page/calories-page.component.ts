@@ -52,17 +52,21 @@ export class CaloriesPageComponent implements OnInit{
     this.userService.getUserObjective().subscribe({
       next: (response) => {
         this.userService.userObjective.set(response);
-        this.userService.tmb.subscribe({
-          next: (data) => {
-            this.userTmb = Math.round(data);
-            this.userService.tmbObjective.set(Math.round(data));
-            this.getObjectivesInBaseOfTmb()
-            console.log(this.userService.tmbAdjusted(), this.userService.proteinesObjective(), this.userService.carbohydratesObjective(), this.userService.fatsObjective());
-          }
-        });
+        this.getUserData();
+        this.userObjectiveName = this.userObjectiveOptions.find(item => item.value === this.userService.userObjective()).name;
       },
       error: (err) => {
         console.error('Error fetching user objective:', err);
+      }
+    });
+  }
+
+  getUserData():void{
+    this.userService.tmb.subscribe({
+      next: (data) => {
+        this.userTmb = Math.round(data);
+        this.userService.tmbObjective.set(Math.round(data));
+        this.getObjectivesInBaseOfTmb()
       }
     });
   }
@@ -80,14 +84,7 @@ export class CaloriesPageComponent implements OnInit{
         this.messageService.add({ severity: 'success', summary: 'Busqueda exitosa', detail: '¡Preferencias guardadas!' });
         this.localStorageService.saveUserObjective(objective);
         this.userService.userObjective.set(objective);
-        this.userService.tmb.subscribe({
-          next: (data) => {
-            this.userTmb = Math.round(data);
-            this.userService.tmbObjective.set(Math.round(data));
-            this.getObjectivesInBaseOfTmb()
-            console.log(this.userService.tmbAdjusted(), this.userService.proteinesObjective(), this.userService.carbohydratesObjective(), this.userService.fatsObjective());
-          }
-        });
+        this.getUserData();
       },
       error:() =>{
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar las preferencias' });

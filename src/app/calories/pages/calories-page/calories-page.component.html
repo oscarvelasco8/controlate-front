@@ -1,7 +1,7 @@
 <main class="mr-8 ml-8">
   <div class="card flex gap-4 mb-4">
-    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tus calorías de mantenimiento son de : {{userTmb}} kcal. Actualmente tu objetivo es:
-      {{userObjective}}</p>
+    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tus calorías de mantenimiento son de : <b>{{userTmb}} kcal</b>. Actualmente tu objetivo es:
+      <b>{{userObjectiveName}}</b></p>
     <form class="flex gap-4" (submit)="saveUserObjective()" [formGroup]="userObjectiveForm" *ngIf="userWantsModifyObjective">
 
         <p-dropdown
