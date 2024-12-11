@@ -1,6 +1,6 @@
-import {ChangeDetectorRef, Component, Input, ViewEncapsulation} from '@angular/core';
-import {FoodAddedFromUser} from '../../interfaces/foodAddedFromUser';
+import {Component, effect, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {FoodHistory} from '../../../shared/interfaces/foodHistory';
+import {FoodHistoryService} from '../../../shared/services/food-history.service';
 
 @Component({
   selector: 'calories-food-info',
@@ -8,20 +8,17 @@ import {FoodHistory} from '../../../shared/interfaces/foodHistory';
   styleUrl: './food-info.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class FoodInfoComponent {
+export class FoodInfoComponent{
   @Input() history: FoodHistory[] = [];
   @Input() selectedDate: string = '';
-  constructor() {
+  meals: {name:string, foods: string[]}[] = []
+  constructor(private foodHistoryService: FoodHistoryService) {
+    effect(() => {
+      this.meals = this.foodHistoryService.foodByMeal();
+    });
   }
   displayModal: boolean = false;
 
-  // Datos de ejemplo
-  meals = [
-    { name: 'Desayuno', foods: ['Pan', 'Leche', 'Fruta', 'Café'] },
-    { name: 'Almuerzo', foods: ['Arroz', 'Pollo', 'Ensalada'] },
-    { name: 'Comida', foods: ['Arroz', 'Pollo', 'Ensalada'] },
-    { name: 'Cena', foods: ['Pasta', 'Carne', 'Verduras'] }
-  ];
 
   selectedMeal:string = '';
 

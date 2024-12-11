@@ -29,40 +29,42 @@
         </ng-template>
         <ng-template pTemplate="body" let-food>
           <tr class="tr-space">
-            <td class=" bg-blue-100 border-round flex justify-content-center">
-              <form [formGroup]="foodForm" (submit)="addFoodToMeal(selectedMeal.name, food)" class="flex align-items-center justify-content-center gap-2">
-                <label>{{food.name}}</label>
-                <p-inputNumber formControlName="quantity" (keyup)="calculate(food.id)"/>
-                <span>{{food.serving_description}}</span>
-                <p-button type="submit" icon="pi pi-plus"></p-button>
-              </form>
-            </td>
-          </tr>
-          <tr>
-            <td class="flex flex-nowrap gap-2 justify-content-around pb-4">
-              <div class="flex flex-column gap-2 flex-1">
-                <span class="text-center">Proteínas</span>
-                <div [style]="{'background-color': proteinColor}" class="border-round flex justify-content-center">
-                  <span class="text-white">{{food.protein}}</span>
-                </div>
+            <td class="flex flex-column align-items-center justify-content-between gap-4">
+              <div>
+                <form [formGroup]="foodForm" (submit)="addFoodToMeal(selectedMeal.name, food)" class="flex align-items-center justify-content-center gap-2">
+                  <label>{{food.name}}</label>
+                  <p-inputNumber formControlName="quantity" (keyup)="calculate(food.id)"/>
+                  <span>{{food.serving_description}}</span>
+                  <p-button type="submit" icon="pi pi-plus"></p-button>
+                </form>
               </div>
-              <div class="flex flex-column gap-2 flex-1">
-                <span class="text-center">Carbohidratos</span>
-                <div [style]="{'background-color': carbsColor}" class="border-round flex justify-content-center">
-                  <span class="text-white">{{food.carbohydrate}}</span>
-                </div>
-              </div>
-              <div class="flex flex-column gap-2 flex-1" >
-                <span class="text-center">Grasas</span>
-                <div [style]="{'background-color': fatColor}" class="border-round flex justify-content-center">
-                  <span class="text-white">{{food.fat}}</span>
-                </div>
-              </div>
-              <div class="flex flex-column gap-2 flex-1" >
-                <span class="text-center">Calorias</span>
-                <div [style]="{'background-color': caloriesColor}" class="border-round flex justify-content-center">
-                  <span class="text-white">{{food.calories}}</span>
-                </div>
+              <div>
+                <td class="flex flex-nowrap gap-2 justify-content-around pb-4">
+                  <div class="flex flex-column gap-2 flex-1">
+                    <span class="text-center">Proteínas</span>
+                    <div [style]="{'background-color': proteinColor}" class="border-round flex justify-content-center">
+                      <span class="text-white">{{food.protein}}</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-column gap-2 flex-1">
+                    <span class="text-center">Carbohidratos</span>
+                    <div [style]="{'background-color': carbsColor}" class="border-round flex justify-content-center">
+                      <span class="text-white">{{food.carbohydrate}}</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-column gap-2 flex-1" >
+                    <span class="text-center">Grasas</span>
+                    <div [style]="{'background-color': fatColor}" class="border-round flex justify-content-center">
+                      <span class="text-white">{{food.fat}}</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-column gap-2 flex-1" >
+                    <span class="text-center">Calorias</span>
+                    <div [style]="{'background-color': caloriesColor}" class="border-round flex justify-content-center">
+                      <span class="text-white">{{food.calories}}</span>
+                    </div>
+                  </div>
+                </td>
               </div>
             </td>
           </tr>

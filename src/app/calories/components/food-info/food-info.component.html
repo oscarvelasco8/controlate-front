@@ -11,12 +11,23 @@
       (click)="openModal(meal)"
       class="w-5"
     >
-      <p>
-        <strong>Resumen:</strong>
-        {{ meal.foods.slice(0, 3).join(', ') }}
-        <span *ngIf="meal.foods.length > 3">...</span>
-      </p>
-      <p><strong>Total de alimentos:</strong> {{ meal.foods.length }}</p>
+    <div *ngIf="meal.foods && meal.foods.length > 0" class="flex gap-2 flex-column">
+      <div class="flex flex-column gap-2">
+        <p-button
+          *ngFor="let mealName of meal.foods"
+          [label]="mealName.length > 15 ? mealName.slice(0, 15) + '...' : mealName"
+          icon="pi pi-check"
+          iconPos="right"
+          [rounded]="true"
+          class="flex-1"
+        />
+      </div>
+
+      <p><strong>Total de alimentos:</strong> {{ meal.foods.length}}</p>
+    </div>
+    <div *ngIf="meal.foods && meal.foods.length == 0">
+      <strong>Sin alimentos que mostrar</strong>
+    </div>
     </p-card>
   </div>
   <search-food

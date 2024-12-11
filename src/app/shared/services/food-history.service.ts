@@ -16,6 +16,7 @@ export class FoodHistoryService {
   private _history:FoodHistory[] = [];
   private selectedDate:string = '';
   public caloriesGraphicWeek: WritableSignal<{ date: string, calories: number }[]> = signal([]);
+  public foodByMeal:WritableSignal<{name:string, foods:string[]}[]> = signal([]);
 
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }
 
@@ -53,8 +54,9 @@ export class FoodHistoryService {
     });
   }
 
-  getHistoryByDate(date:string):void{
+  getHistoryByDate(date: string): void {
     const username = localStorage.getItem('userLogged');
+    const meals = ['Desayuno', 'Almuerzo', 'Comida', 'Cena'];
     this.httpClient.get<FoodHistory[]>(`${this.BASE_URL}/by-date?username=${username}&logDate=${date}`).subscribe({
       next: (data) => {
         this._history = data;
@@ -62,16 +64,27 @@ export class FoodHistoryService {
         this.totalProtein.set(0);
         this.totalCarbs.set(0);
         this.totalFat.set(0);
-        this._history.forEach(item =>{
+
+        // Recalcular calorías y macronutrientes
+        this._history.forEach(item => {
           this.addCalories(item.calories);
           this.totalProtein.set(this.totalProtein() + item.proteins);
           this.totalCarbs.set(this.totalCarbs() + item.carbohydrates);
           this.totalFat.set(this.totalFat() + item.fats);
         });
 
+        this.foodByMeal.set(meals.map(meal => ({
+          name: meal,
+          foods: this._history
+            .filter(item => item.meal === meal)
+            .map(item => item.foodName) // Asumimos que cada item tiene un campo `name` para el nombre de la comida
+        })));
+
+
       }
     });
   }
+
 
   getTotalCaloriesWeek(date: string): void {
 
