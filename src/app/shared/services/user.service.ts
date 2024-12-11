@@ -39,4 +39,11 @@ export class UserService {
     return this.httpClient.get(this.baseUrl + `/api/users/objective/${localStorage.getItem('userLogged')}`, { responseType: 'text' });
   }
 
+  get userInfo(): Observable<userInfo> {
+    return this.httpClient.get<userInfo>(this.baseUrl + `/api/users/${localStorage.getItem('userLogged')}`);
+  }
+  modifyUserInfo(userInfo: userInfo): Observable<any> {
+    return this.httpClient.put(this.baseUrl + `/api/users/${localStorage.getItem('userLogged')}`, userInfo);
+  }
+
 }

@@ -9,6 +9,7 @@
 
   </span>
   <div class="flex-1 flex justify-content-end align-items-center pr-5">
+    <i class="pi pi-cog mr-3 cursor-pointer" style="font-size: 1.5rem" routerLink="modify-profile"></i>
     <i class="pi pi-moon mr-3 cursor-pointer" style="font-size: 1.5rem" (click)="changeTheme()" *ngIf="isLightTheme"></i>
     <i class="pi pi-sun mr-3 cursor-pointer" style="font-size: 1.5rem" (click)="changeTheme()" *ngIf="!isLightTheme"></i>
     <div *ngIf="!userLogged">

@@ -9,5 +9,6 @@ export interface userInfo{
   insulinaFactor?: number,
   username:string,
   password:string,
-  gender:string
+  gender:string,
+  objective?:string
 }

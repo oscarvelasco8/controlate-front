@@ -54,7 +54,7 @@ export class PersonalFormComponent implements OnInit{
       name: this.formValidatorService.userInfo.name,
       lastname: this.formValidatorService.userInfo.lastname,
       email: this.formValidatorService.userInfo.email,
-      gender: this.formValidatorService.userInfo.gender
+      gender: this.genderOptions.find(option => option.value === this.formValidatorService.userInfo.gender)
     });
   }
 }
