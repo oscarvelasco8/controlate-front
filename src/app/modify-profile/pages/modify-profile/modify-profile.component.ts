@@ -26,7 +26,7 @@ export class ModifyProfileComponent implements OnInit{
     username: ['', [Validators.required]],
     password: ['',[Validators.required]],
     objective: ['', [Validators.required]],
-    ICR: ['', [Validators.required]],
+    icr: ['', [Validators.required]],
   })
 
   userObjectiveOptions: any[] = [
@@ -99,9 +99,9 @@ export class ModifyProfileComponent implements OnInit{
           username: response.username,
           password: response.password,
           objective: this.userObjectiveOptions.find(option => option.value === response.objective) || response.objective,
-          ICR: response.ICR
+          icr: response.icr
         });
       }
     })
   }
-  }
+}

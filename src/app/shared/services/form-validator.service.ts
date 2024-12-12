@@ -19,7 +19,7 @@ export class FormValidatorService {
     username: '',
     password: '',
     gender: '',
-    ICR: 0
+    icr: 0
   };
 
   constructor(
@@ -78,8 +78,8 @@ export class FormValidatorService {
     return this._userInfo.gender;
   }
 
-  set ICR(icr:number){
-    this._userInfo.ICR = icr;
+  set icr(icr:number){
+    this._userInfo.icr = icr;
   }
 
   isValidForm():boolean{
@@ -101,7 +101,7 @@ export class FormValidatorService {
       username: '',
       password: '',
       gender: '',
-      ICR:0
+      icr:0
     };
   }
 

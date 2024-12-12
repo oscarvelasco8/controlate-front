@@ -81,18 +81,18 @@
     </span>
 
     <div class="flex flex-column gap-2" *ngIf="isDiabetic">
-      <label for="ICR">Introduce tu ICR (Relación Carbohidratos-Insulina)</label>
+      <label for="icr">Introduce tu ICR (Relación Carbohidratos-Insulina)</label>
       <p-inputNumber
-        formControlName="ICR"
+        formControlName="icr"
         styleClass="w-full"
-        id="ICR"
-        name="ICR"
+        id="icr"
+        name="icr"
         mode="decimal"
         [maxFractionDigits]="2"
       />
     </div>
-    <span class="p-error" *ngIf="isValidField('ICR')">
-        {{getFieldError('ICR')}}
+    <span class="p-error" *ngIf="isValidField('icr')">
+        {{getFieldError('icr')}}
     </span>
     <div class="flex justify-content-between">
       <p-button routerLink="/register/personal" label="Anterior" [rounded]="true"/>
