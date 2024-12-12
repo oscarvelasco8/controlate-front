@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FoodHistory} from '../../../shared/interfaces/foodHistory';
 import {FoodInfo} from '../../../shared/interfaces/FoodInfo';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -7,13 +7,14 @@ import {FoodHistoryService} from '../../../shared/services/food-history.service'
 import {v4 as uuid} from 'uuid';
 import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.service';
 import {DiabetesHistory} from '../../../shared/interfaces/DiabetesHistory';
+import {UserService} from '../../../shared/services/user.service';
 
 @Component({
   selector: 'search-food-diabetes',
   templateUrl: './search-food-diabetes.component.html',
   styleUrl: './search-food-diabetes.component.css'
 })
-export class SearchFoodDiabetesComponent {
+export class SearchFoodDiabetesComponent implements OnInit{
   @Input() visible: boolean = false; // Vincula displayModal
   @Input() selectedMeal: any; // Vincula selectedMeal
   @Input() history: DiabetesHistory[] = [];
@@ -28,6 +29,10 @@ export class SearchFoodDiabetesComponent {
   private _foodAdded:DiabetesHistory[] = [];
   private originalValues: { [key: string]: FoodInfo } = {};
   private _foodDeleted:DiabetesHistory[] = [];
+  private _userIcr: number | undefined = 0;
+  private _userActivityFactor: string = '';
+  private _userInsulineResistence: number | undefined = 0;
+  portions:number = 0;
 
   public foodForm: FormGroup = this.formBuilder.group({
     quantity: [100, [Validators.required, Validators.min(1)]]
@@ -37,8 +42,56 @@ export class SearchFoodDiabetesComponent {
     public foodService: FoodService,
     private diabetesHistoryService:DiabetesHistoryService,
     private formBuilder: FormBuilder,
+    private userService:UserService
   ) {
   }
+
+  ngOnInit(): void {
+    this.userService.userInfo.subscribe(user =>{
+      this._userIcr = user.icr
+      this._userActivityFactor = user.activityFactor
+      this._userInsulineResistence = user.insulinaFactor
+    } );
+
+  }
+
+  calculatePortions(carbohydrates: number): void {
+    let basePortions = carbohydrates / this._userIcr!;
+
+    // Ajustar por resistencia a la insulina (incremento proporcional del 20% por cada punto adicional)
+    const insulinaResistence = this._userInsulineResistence!;
+    basePortions *= (1 + (insulinaResistence - 1) * 0.2);
+
+    // Obtener el nivel de actividad del usuario
+    const activityLevel = this._userActivityFactor;
+
+    // Ajustar las porciones según el nivel de actividad
+    switch (activityLevel) {
+      case 'POCO_SEDENTARIO':
+        basePortions *= 1.1;
+        break;
+      case 'SEDENTARIO':
+        basePortions *= 1.2;
+        break;
+      case 'MODERADAMENTE_SEDENTARIO':
+        basePortions *= 1.0;
+        break;
+      case 'ACTIVO':
+        basePortions *= 0.9;
+        break;
+      case 'MUY_ACTIVO':
+        basePortions *= 0.8;
+        break;
+      default:
+        console.warn('Nivel de actividad no reconocido');
+        break;
+    }
+
+    // Redondear a las unidades permitidas (0.5)
+    this.portions = Math.round(basePortions * 2) / 2;
+  }
+
+
 
   searchFoods(searchTerm:string):void {
     this.foodService.getFoods(searchTerm);
@@ -47,6 +100,7 @@ export class SearchFoodDiabetesComponent {
         quantity: 100
       }
     );
+    this.calculatePortions(100);
   }
   closeModal() {
     this.visible = false;
@@ -75,7 +129,7 @@ export class SearchFoodDiabetesComponent {
         quantity: this.foodForm.controls['quantity'].value,
         carbohydrates:parseFloat(food.carbohydrate),
         units:food.serving_description,
-        portions: 0
+        portions: this.portions
       });
   }
 
@@ -99,6 +153,7 @@ export class SearchFoodDiabetesComponent {
     return this.foodService.searching;
   }
   calculate(id: number): void {
+
     // Encuentra el alimento en la lista según el id
     let element = this._foodsSearched.find(item => item.id == `${id}`);
 
@@ -137,6 +192,7 @@ export class SearchFoodDiabetesComponent {
         element.carbohydrate = newCarbs.toFixed(2);  // Guardamos como string
         element.fat = newFat.toFixed(2);  // Guardamos como string
         element.calories = newCalories.toFixed(2);  // Guardamos como string
+        this.calculatePortions(newCarbs);
       } else {
         console.error('Cantidad no válida');
       }
@@ -153,8 +209,5 @@ export class SearchFoodDiabetesComponent {
     this.closeModal();
   }
 
-  isToday(): boolean {
-    const date = new Date();
-    return this.selectedDate === date.toLocaleDateString();
-  }
+
 }
