@@ -18,7 +18,8 @@ export class FormValidatorService {
     insulinaFactor: 0,
     username: '',
     password: '',
-    gender: ''
+    gender: '',
+    ICR: 0
   };
 
   constructor(
@@ -77,6 +78,10 @@ export class FormValidatorService {
     return this._userInfo.gender;
   }
 
+  set ICR(icr:number){
+    this._userInfo.ICR = icr;
+  }
+
   isValidForm():boolean{
     return this._userInfo.name.length > 0 && this._userInfo.lastname.length > 0 && this._userInfo.email.length > 0 &&
     this._userInfo.age > 0 && this._userInfo.weight > 0 && this._userInfo.height > 0 && this._userInfo.activityFactor.length > 0 &&
@@ -95,7 +100,8 @@ export class FormValidatorService {
       insulinaFactor: 0,
       username: '',
       password: '',
-      gender: ''
+      gender: '',
+      ICR:0
     };
   }
 

@@ -25,7 +25,8 @@ export class ModifyProfileComponent implements OnInit{
     insulinaFactor: ['', [Validators.required]],
     username: ['', [Validators.required]],
     password: ['',[Validators.required]],
-    objective: ['', [Validators.required]]
+    objective: ['', [Validators.required]],
+    ICR: ['', [Validators.required]],
   })
 
   userObjectiveOptions: any[] = [
@@ -97,7 +98,8 @@ export class ModifyProfileComponent implements OnInit{
           insulinaFactor: response.insulinaFactor,
           username: response.username,
           password: response.password,
-          objective: this.userObjectiveOptions.find(option => option.value === response.objective) || response.objective
+          objective: this.userObjectiveOptions.find(option => option.value === response.objective) || response.objective,
+          ICR: response.ICR
         });
       }
     })

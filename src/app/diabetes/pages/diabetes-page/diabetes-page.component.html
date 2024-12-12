@@ -1,4 +1,24 @@
-<main>
-  <h1>Work in progress!</h1>
+<main class="mr-8 ml-8">
+
+  <div class="flex align-items-center mb-5 gap-4">
+    <div>
+      <calories-calendar (selectedDateChange)="onDateChange($event)"></calories-calendar>
+    </div>
+    <div class="flex-1">
+      <diabetes-graphic></diabetes-graphic>
+    </div>
+  </div>
+  <div class="flex align-items-center justify-content-center gap-8 mb-5">
+    <div class="flex-1">
+      <calories-food-info [history]="history" [selectedDate]="date"></calories-food-info>
+    </div>
+    <div class="flex-1">
+      <diabetes-polar-graphic></diabetes-polar-graphic>
+    </div>
+
+  </div>
+
 </main>
+
+
 

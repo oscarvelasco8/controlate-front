@@ -29,6 +29,11 @@ import { SearchFoodComponent } from './components/search-food/search-food.compon
     CommonPrimengModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  exports:[
+    CalendarComponent,
+    FoodInfoComponent,
+    SearchFoodComponent
   ]
 })
 export class CaloriesModule { }

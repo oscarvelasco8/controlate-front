@@ -34,11 +34,12 @@ export class UserFormComponent implements OnInit{
     }
     this.formValidatorService.userName = this.userForm.get('username')?.value;
     this.formValidatorService.password = this.userForm.get('password')?.value;
-    console.log(this.formValidatorService.userInfo);
+
     if (!this.formValidatorService.isValidForm()){
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.' });
       return;
     }
+    console.log(this.formValidatorService.userInfo);
     this.userService.registerUser(this.formValidatorService.userInfo).subscribe(
       {
         next: (response) => {
@@ -49,7 +50,8 @@ export class UserFormComponent implements OnInit{
           }, 2000);
         },
         error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar el registro' });
+          console.log(err)
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
         }
       }
     );

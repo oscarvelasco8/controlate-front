@@ -24,7 +24,8 @@ export class ActividadFormComponent implements OnInit{
     weight: [null, [Validators.required , Validators.min(1)]],
     height: [null, [Validators.required, Validators.min(1)]],
     activity: [null, [Validators.required]],
-    diabetesFactor: [null]
+    diabetesFactor: [null],
+    ICR:[null],
   });
 
   constructor(
@@ -46,6 +47,8 @@ export class ActividadFormComponent implements OnInit{
     this.formValidatorService.height = this.activityForm.get('height')?.value;
     this.formValidatorService.activityFactor = this.activityForm.get('activity')?.value.value;
     this.formValidatorService.insulinaFactor = this.activityForm.get('diabetesFactor')?.value;
+    this.formValidatorService.ICR = this.activityForm.get('ICR')?.value;
+    console.log(this.formValidatorService.userInfo);
     this.router.navigate(['/register/user']);
 
   }
@@ -62,7 +65,8 @@ export class ActividadFormComponent implements OnInit{
       weight: this.formValidatorService.userInfo.weight,
       height: this.formValidatorService.userInfo.height,
       activity: this.activityOptions.find(option => option.value === this.formValidatorService.userInfo.activityFactor) || this.formValidatorService.userInfo.activityFactor,
-      diabetesFactor: this.formValidatorService.userInfo.insulinaFactor
+      diabetesFactor: this.formValidatorService.userInfo.insulinaFactor,
+      ICR: this.formValidatorService.userInfo.ICR,
     });
   }
 }

@@ -1,4 +1,4 @@
-<main class="flex-1">
+<main class="flex-1 mb-4 pl-2 pr-2">
   <div class="field-container">
     <div class="field flex align-items-center justify-content-center">
       <h2 class="font-light mr-3">Modifica tus datos</h2> <i class="pi pi-user" style="font-size: 1.5rem"></i>
@@ -90,7 +90,13 @@
           <div class="mb-3">
             <label for="insulinaFactor">Factor de Insulina</label>
           </div>
-          <input formControlName="insulinaFactor" pInputText id="insulinaFactor" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+          <input formControlName="insulinaFactor" pInputNumber id="insulinaFactor" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+        </div>
+        <div class="field">
+          <div class="mb-3">
+            <label for="ICR">ICR</label>
+          </div>
+          <input formControlName="ICR" pInputNumber id="ICR" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
         </div>
         <div class="field">
           <div class="mb-3">
