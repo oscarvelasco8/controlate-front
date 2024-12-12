@@ -31,9 +31,7 @@ import { SearchFoodComponent } from './components/search-food/search-food.compon
     ReactiveFormsModule
   ],
   exports:[
-    CalendarComponent,
-    FoodInfoComponent,
-    SearchFoodComponent
+    CalendarComponent
   ]
 })
 export class CaloriesModule { }

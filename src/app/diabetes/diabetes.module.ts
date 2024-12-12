@@ -8,15 +8,25 @@ import { GraphicComponent } from './components/graphic/graphic.component';
 import {ChartModule} from 'primeng/chart';
 import {Button} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PolarGraphicComponent } from './components/polar-graphic/polar-graphic.component';
+import { FoodInfoDiabetesComponent } from './components/food-info-diabetes/food-info-diabetes.component';
+import { SearchFoodDiabetesComponent } from './components/search-food-diabetes/search-food-diabetes.component';
+import {CardModule} from 'primeng/card';
+import {DialogModule} from 'primeng/dialog';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {InputTextModule} from 'primeng/inputtext';
+import {ProgressBarModule} from 'primeng/progressbar';
+import {TableModule} from 'primeng/table';
 
 
 @NgModule({
   declarations: [
     DiabetesPageComponent,
     GraphicComponent,
-    PolarGraphicComponent
+    PolarGraphicComponent,
+    FoodInfoDiabetesComponent,
+    SearchFoodDiabetesComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +35,14 @@ import { PolarGraphicComponent } from './components/polar-graphic/polar-graphic.
     ChartModule,
     Button,
     DropdownModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CardModule,
+    DialogModule,
+    FormsModule,
+    InputNumberModule,
+    InputTextModule,
+    ProgressBarModule,
+    TableModule
   ]
 })
 export class DiabetesModule { }

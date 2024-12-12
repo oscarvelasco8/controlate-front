@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, effect, Inject, OnInit, PLATFORM_ID, ViewC
 import {FoodHistoryService} from '../../../shared/services/food-history.service';
 import {LocalStorageService} from '../../../shared/services/local-storage.service';
 import {isPlatformBrowser} from '@angular/common';
+import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.service';
 
 @Component({
   selector: 'diabetes-graphic',
@@ -14,24 +15,24 @@ export class GraphicComponent implements OnInit{
 
   @ViewChild('chart') chart: any; // Referencia al gráfico
   days: string[] = [];
-  calories: number[] = [];
+  portions: number[] = [];
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private cd: ChangeDetectorRef,
-    private foodHistoryService: FoodHistoryService,
+    private diabetesHistoryService: DiabetesHistoryService,
     private localStorageService: LocalStorageService
   ) {
     // Uso del 'effect' para actualizar los datos cuando cambian
     effect(() => {
-      const updatedCaloriesWeek = this.foodHistoryService.caloriesGraphicWeek();
+      const updatedPortionsWeek = this.diabetesHistoryService.portionsGraphicWeek();
 
       // Asegurarse de que las arrays de días y calorías se actualicen correctamente
-      this.days = updatedCaloriesWeek.map(item => item.date);
-      this.calories = updatedCaloriesWeek.map(item => item.calories);
+      this.days = updatedPortionsWeek.map(item => item.date);
+      this.portions = updatedPortionsWeek.map(item => item.portions);
 
       // Actualizar el gráfico con los datos nuevos
-      this.updateChartData(this.calories, this.days);
+      this.updateChartData(this.portions, this.days);
     });
   }
 
@@ -45,11 +46,11 @@ export class GraphicComponent implements OnInit{
 
       // Inicializar los datos para el gráfico
       this.data = {
-        labels: this.foodHistoryService.caloriesGraphicWeek().map(item => item.date),
+        labels: this.diabetesHistoryService.portionsGraphicWeek().map(item => item.date),
         datasets: [
           {
             label: 'Raciones de insulina administradas en una semana',
-            data: this.foodHistoryService.caloriesGraphicWeek().map(item => item.calories),
+            data: this.diabetesHistoryService.portionsGraphicWeek().map(item => item.portions),
             fill: true,
             tension: 0.4
           }

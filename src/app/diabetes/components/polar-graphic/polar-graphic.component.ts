@@ -1,5 +1,6 @@
 import {ChangeDetectorRef, Component, effect, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
+import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.service';
 
 @Component({
   selector: 'diabetes-polar-graphic',
@@ -13,7 +14,7 @@ export class PolarGraphicComponent implements OnInit {
 
   platformId = inject(PLATFORM_ID);
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef, private diabetesHistoryService:DiabetesHistoryService) {}
 
   themeEffect = effect(() => {
     this.initChart();
@@ -32,7 +33,7 @@ export class PolarGraphicComponent implements OnInit {
       this.data = {
         datasets: [
           {
-            data: [11, 16, 7, 3],
+            data: [1,20,40,20],
             backgroundColor: [
               "pink",
               "orange",
