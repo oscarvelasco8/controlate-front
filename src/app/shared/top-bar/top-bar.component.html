@@ -1,7 +1,6 @@
 <header class="top-bar flex align-items-center justify-content-between  " [ngStyle]="isLightTheme ? { 'background-color': '#fff' } : { 'background-color': '#111827' }">
-  <p-megaMenu [model]="items" [style]="{ 'font-family': 'Poppins', 'border-radius': '3rem'}" styleClass="p-3 surface-0">
-
-  </p-megaMenu>
+  <p-menubar [model]="items" [style]="{ 'font-family': 'Poppins', 'border-radius': '3rem'}" class="flex-1">
+  </p-menubar>
   <span class="flex-1 flex justify-content-center">
         <a routerLink="home">
           <img src="top-bar/logo-test.png" alt="">
@@ -9,39 +8,70 @@
 
   </span>
   <div class="flex-1 flex justify-content-end align-items-center pr-5">
-    <i class="pi pi-cog mr-3 cursor-pointer" style="font-size: 1.5rem" routerLink="modify-profile"></i>
-    <i class="pi pi-moon mr-3 cursor-pointer" style="font-size: 1.5rem" (click)="changeTheme()" *ngIf="isLightTheme"></i>
-    <i class="pi pi-sun mr-3 cursor-pointer" style="font-size: 1.5rem" (click)="changeTheme()" *ngIf="!isLightTheme"></i>
+    <p-button
+      icon="pi pi-cog"
+      routerLink="/modify-profile"
+      [rounded]="true"
+      [text]="true"
+      size="large"
+      severity="secondary"
+      [styleClass]="isLightTheme ? 'dark' : 'light'"
+    >
+    </p-button>
+    <p-button
+      *ngIf="isLightTheme"
+      (click)="changeTheme()"
+      icon="pi pi-moon"
+      [rounded]="true"
+      [text]="true"
+      size="large"
+      severity="secondary"
+      [styleClass]="isLightTheme ? 'dark' : 'light'"
+    >
+    </p-button>
+    <p-button
+      *ngIf="!isLightTheme"
+      (click)="changeTheme()"
+      icon="pi pi-sun"
+      [rounded]="true"
+      [text]="true"
+      size="large"
+      severity="secondary"
+      [styleClass]="isLightTheme ? 'dark' : 'light'"
+    >
+    </p-button>
     <div *ngIf="!userLogged">
-
       <div class="home-page-links flex align-items-center text-black-alpha-90">
-
-        <i class="pi pi-user mr-2" style="font-size: 1.5rem" [ngStyle]="isLightTheme ? { 'color': '#000' } : { 'color': '#fff' }"></i>
         <p-button
+          icon="pi pi-user"
           routerLink="/login"
-          [styleClass]="'p-button-outlined p-button-rounded p-button-secondary p-button-text p-2 ' + (isLightTheme ? 'labelColor' : 'labelColorWhite')"
-          label="INICIAR SESION">
+          label="INICIAR SESIÓN"
+          size="small"
+          [rounded]="true"
+          [text]="true"
+          severity="secondary"
+          [styleClass]="isLightTheme ? 'dark' : 'light'"
+        >
         </p-button>
       </div>
     </div>
     <div *ngIf="userLogged">
-
       <div class="home-page-links flex align-items-center text-black-alpha-90">
-
-        <div class="no-underline text-black-alpha-90 flex align-items-center gap-2">
-          <p-avatar image="top-bar/memoji.jpg" shape="circle" size="xlarge" *ngIf="isLightTheme"></p-avatar>
-          <p-avatar image="top-bar/memoji-dark-mode.jpg" shape="circle" size="xlarge" *ngIf="!isLightTheme"></p-avatar>
+        <div class="no-underline text-black-alpha-90 flex align-items-center gap-2 pl-2">
+          <p-avatar image="top-bar/memoji.jpg" shape="circle" size="large" *ngIf="isLightTheme"></p-avatar>
+          <p-avatar image="top-bar/memoji-dark-mode.jpg" shape="circle" size="large" *ngIf="!isLightTheme"></p-avatar>
           <p-button
             (click)="logout()"
-            [styleClass]="'p-button-outlined p-button-rounded p-button-secondary p-button-text p-2 ' + (isLightTheme ? 'labelColor' : 'labelColorWhite')"
-            label="CERRAR SESION">
+            label="CERRAR SESIÓN"
+            severity="secondary"
+            size="small"
+            [rounded]="true"
+            [text]="true"
+            [styleClass]="isLightTheme ? 'dark' : 'light'"
+          >
           </p-button>
-
         </div>
-
       </div>
     </div>
   </div>
-
-
 </header>

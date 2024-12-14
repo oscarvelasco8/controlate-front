@@ -6,7 +6,6 @@
   width:98%;
   border-radius: 40px;
   border:solid lightgrey 1px;
-/*  background-color: white;*/
   padding: 0 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -14,13 +13,7 @@
 .p-avatar img {
   object-fit: cover;
 }
-.p-megamenu{
-  border:0;
 
-}
-p-megamenu{
-  flex: 1 1 0;
-}
 .p-button.p-button-secondary:enabled:focus{
   box-shadow: none;
 }
@@ -37,3 +30,19 @@ p-megamenu{
   flex-wrap:nowrap;
 }
 
+.p-menubar {
+  background-color: transparent;
+  border: none;
+}
+
+.p-menubar-root-list {
+  flex-wrap: nowrap;
+}
+
+.light {
+  color: white;
+}
+
+.dark {
+  color: black;
+}
