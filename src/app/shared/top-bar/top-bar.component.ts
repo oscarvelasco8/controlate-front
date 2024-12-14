@@ -43,11 +43,11 @@ export class TopBarComponent{
   changeTheme() {
     const link = document.getElementById("theme");
     if (this.isLightTheme) {
-      link?.setAttribute("href", "themes/lara-dark-blue.css");
+      link?.setAttribute("href", "themes/aura-dark-blue.css");
       this.isLightTheme = false;
       this.localStorageService.isDarkTheme();
     } else {
-      link?.setAttribute("href", "themes/lara-light-blue.css");
+      link?.setAttribute("href", "themes/aura-light-blue.css");
       this.isLightTheme = true;
       this.localStorageService.isLightTheme();
     }
