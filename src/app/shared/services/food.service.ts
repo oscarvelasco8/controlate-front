@@ -60,7 +60,6 @@ export class FoodService{
   }
 
   translateEnToEs(englishName: string): Promise<string> {
-    console.log(englishName)
     return firstValueFrom(
 
       this.httpClient.get<string>(`${this.BASE_URL}/translate?text=${englishName}&sourceLanguage=en&targetLanguage=es`, {responseType: 'text' as 'json'})

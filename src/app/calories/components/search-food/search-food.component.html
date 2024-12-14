@@ -2,16 +2,16 @@
   <div *ngIf="selectedMeal" class="p-fluid">
     <div class="field">
       <label for="search">Buscar alimentos</label>
-      <form class="flex gap-2 mb-4">
+      <form class="flex gap-2 mb-4" [formGroup]="searchForm">
         <input
-          #searchTerm
+          formControlName="searchTerm"
           id="search"
           type="text"
           pInputText
-          (keydown.enter)="searchFoods(searchTerm.value)"
+          (keydown.enter)="searchFoods()"
           placeholder="Escribe el nombre del alimento..."
         />
-        <p-button (click)="searchFoods(searchTerm.value)" icon="pi pi-search"></p-button>
+        <p-button (click)="searchFoods()" icon="pi pi-search"></p-button>
 
       </form>
 
