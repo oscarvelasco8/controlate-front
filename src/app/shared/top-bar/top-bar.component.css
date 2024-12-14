@@ -38,3 +38,11 @@
 .p-menubar-root-list {
   flex-wrap: nowrap;
 }
+
+.light {
+  color: white;
+}
+
+.dark {
+  color: black;
+}
