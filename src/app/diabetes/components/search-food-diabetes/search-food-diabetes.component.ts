@@ -38,6 +38,10 @@ export class SearchFoodDiabetesComponent implements OnInit{
     quantity: [100, [Validators.required, Validators.min(1)]]
   })
 
+  public searchForm: FormGroup = this.formBuilder.group({
+    searchTerm: ['']
+  })
+
   constructor(
     public foodService: FoodService,
     private diabetesHistoryService:DiabetesHistoryService,
@@ -55,7 +59,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
 
   }
 
-  calculatePortions(carbohydrates: number): void {
+  calculatePortions(carbohydrates: number): number {
     let basePortions = carbohydrates / this._userIcr!;
 
     // Ajustar por resistencia a la insulina (incremento proporcional del 20% por cada punto adicional)
@@ -89,12 +93,13 @@ export class SearchFoodDiabetesComponent implements OnInit{
 
     // Redondear a las unidades permitidas (0.5)
     this.portions = Math.round(basePortions * 2) / 2;
+    return Math.round(basePortions * 2) / 2;
   }
 
 
 
-  searchFoods(searchTerm:string):void {
-    this.foodService.getFoods(searchTerm);
+  searchFoods():void {
+    this.foodService.getFoods(this.searchForm.get('searchTerm')?.value);
     this.foodForm.patchValue(
       {
         quantity: 100
@@ -108,6 +113,11 @@ export class SearchFoodDiabetesComponent implements OnInit{
     this.foodForm.patchValue(
       {
         quantity: 100
+      }
+    );
+    this.searchForm.patchValue(
+      {
+        searchTerm: ''
       }
     );
     /*this.foodService.resetFoodsInfo();*/
@@ -178,7 +188,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
 
       // Obtén la cantidad que el usuario ha ingresado en el formulario
       const quantity = this.foodForm.controls['quantity'].value;
-
+      console.log(quantity)
       // Si la cantidad ingresada es válida
       if (!isNaN(quantity) && quantity > 0) {
         // Realiza los cálculos según la cantidad ingresada
@@ -202,8 +212,6 @@ export class SearchFoodDiabetesComponent implements OnInit{
   saveMeal() {
     this.diabetesHistoryService.insertIntoHistory(this._foodAdded, this.selectedDate);
     this.diabetesHistoryService.deleteFromHistory(this._foodDeleted, this.selectedDate);
-    /*this.foodHistoryService.getHistoryByDate(this.selectedDate);*/
-    /*this.foodHistoryService.getTotalCaloriesWeek(this.selectedDate);*/
     this._foodAdded = [];
     this._foodDeleted = [];
     this.closeModal();

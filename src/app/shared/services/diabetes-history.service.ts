@@ -14,6 +14,7 @@ export class DiabetesHistoryService {
   private selectedDate:string = '';
   public portionsGraphicWeek: WritableSignal<{ date: string, portions: number }[]> = signal([]);
   public foodByMeal:WritableSignal<{name:string, foods:string[]}[]> = signal([]);
+  public portionsByMeal:WritableSignal<number[]> = signal([]);
   private _totalPortions = signal(0);
 
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }
@@ -60,7 +61,6 @@ export class DiabetesHistoryService {
         this._history = data;
         this.totalCarbs.set(0);
         this.resetPortions();
-        // Recalcular calorías y macronutrientes
         this._history.forEach(item => {
           this.addPortions(item.portions);
           this.totalCarbs.set(this.totalCarbs() + item.carbohydrates);
@@ -72,8 +72,7 @@ export class DiabetesHistoryService {
             .filter(item => item.meal === meal)
             .map(item => item.foodName) // Asumimos que cada item tiene un campo `name` para el nombre de la comida
         })));
-
-
+        this.portionsByMeal.set(meals.map(meal => this._history.filter(item => item.meal === meal).reduce((total, item) => total + item.portions, 0)));
       }
     });
   }

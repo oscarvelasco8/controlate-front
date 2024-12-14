@@ -33,6 +33,10 @@ export class SearchFoodComponent{
     quantity: [100, [Validators.required, Validators.min(1)]]
   })
 
+  public searchForm: FormGroup = this.formBuilder.group({
+    searchTerm: ['']
+  })
+
   constructor(
     public foodService: FoodService,
     private formBuilder: FormBuilder,
@@ -40,8 +44,8 @@ export class SearchFoodComponent{
   ) {
   }
 
-  searchFoods(searchTerm:string):void {
-    this.foodService.getFoods(searchTerm);
+  searchFoods():void {
+    this.foodService.getFoods(this.searchForm.get('searchTerm')?.value);
     this.foodForm.patchValue(
       {
         quantity: 100
@@ -54,6 +58,11 @@ export class SearchFoodComponent{
     this.foodForm.patchValue(
       {
         quantity: 100
+      }
+    );
+    this.searchForm.patchValue(
+      {
+        searchTerm: ''
       }
     );
     /*this.foodService.resetFoodsInfo();*/
@@ -153,10 +162,5 @@ export class SearchFoodComponent{
     this._foodAdded = [];
     this._foodDeleted = [];
     this.closeModal();
-  }
-
-  isToday(): boolean {
-    const date = new Date();
-    return this.selectedDate === date.toLocaleDateString();
   }
 }

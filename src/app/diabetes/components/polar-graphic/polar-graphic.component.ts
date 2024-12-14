@@ -1,11 +1,11 @@
-import {ChangeDetectorRef, Component, effect, inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {ChangeDetectorRef, Component, effect, inject, OnInit, PLATFORM_ID, ViewEncapsulation} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
 import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.service';
 
 @Component({
   selector: 'diabetes-polar-graphic',
   templateUrl: './polar-graphic.component.html',
-  styleUrl: './polar-graphic.component.css'
+  styleUrl: './polar-graphic.component.css',
 })
 export class PolarGraphicComponent implements OnInit {
   data: any;
@@ -13,11 +13,13 @@ export class PolarGraphicComponent implements OnInit {
   options: any;
 
   platformId = inject(PLATFORM_ID);
+  portionsByMeal: number[] = [];
 
   constructor(private cd: ChangeDetectorRef, private diabetesHistoryService:DiabetesHistoryService) {}
 
   themeEffect = effect(() => {
     this.initChart();
+    this.diabetesHistoryService.portionsByMeal();
   });
 
   ngOnInit() {
@@ -33,7 +35,7 @@ export class PolarGraphicComponent implements OnInit {
       this.data = {
         datasets: [
           {
-            data: [1,20,40,20],
+            data: this.diabetesHistoryService.portionsByMeal(),
             backgroundColor: [
               "pink",
               "orange",
@@ -45,7 +47,7 @@ export class PolarGraphicComponent implements OnInit {
         ],
         labels: ['Desayuno', 'Almuerzo', 'Comida', 'Cena']
       };
-
+/*
       this.options = {
         plugins: {
           legend: {
@@ -61,7 +63,7 @@ export class PolarGraphicComponent implements OnInit {
             }
           }
         }
-      };
+      };*/
       this.cd.markForCheck()
     }
   }
