@@ -20,6 +20,7 @@ import {ChartModule} from 'primeng/chart';
 import {DialogModule} from 'primeng/dialog';
 import {TableModule} from 'primeng/table';
 import {ProgressBarModule} from 'primeng/progressbar';
+import {MenubarModule} from 'primeng/menubar';
 
 
 @NgModule({
@@ -49,8 +50,8 @@ import {ProgressBarModule} from 'primeng/progressbar';
     CardModule,
     DialogModule,
     TableModule,
-    ProgressBarModule
-
+    ProgressBarModule,
+    MenubarModule
   ]
 })
 export class CommonPrimengModule { }
