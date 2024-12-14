@@ -1,12 +1,11 @@
 <main class="flex max-h-screen">
-  <div class="lg:flex sm:hidden sm:p-0 lg:p-7 flex flex-1 justify-content-center align-items-center max-h-full w-6">
-    <div class="w-6 h-full ">
+  <div class="hidden md:flex flex-1 justify-content-center align-items-center p-7 max-h-full w-6">
+    <div class="w-6 h-full">
       <img src="login/login-image.jpg" alt="" class="decorator-img w-full h-full border-round-2xl">
     </div>
-
   </div>
   <div class="flex flex-column flex-1 justify-content-center">
-    <div class="card md:w-fit">
+    <div class="card">
       <p-steps [model]="items" [readonly]="true"/>
       <router-outlet></router-outlet>
     </div>
