@@ -1,7 +1,7 @@
 <main class="mr-8 ml-8">
 
-  <div class="flex align-items-center mb-5 gap-4">
-    <div>
+  <div class="flex align-items-center mb-5 gap-7">
+    <div >
       <calories-calendar (selectedDateChange)="onDateChange($event)"></calories-calendar>
     </div>
     <div class="flex-1">
@@ -12,7 +12,8 @@
     <div class="flex-1">
       <food-info-diabetes [history]="history" [selectedDate]="date"></food-info-diabetes>
     </div>
-    <div class="flex-1">
+    <div class="flex-1 text-center">
+
       <diabetes-polar-graphic></diabetes-polar-graphic>
     </div>
 

@@ -41,8 +41,11 @@ export class GraphicComponent implements OnInit{
   }
 
   initChart() {
-    if (isPlatformBrowser(this.platformId)) {
-      const documentStyle = getComputedStyle(document.documentElement);
+
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
       // Inicializar los datos para el gráfico
       this.data = {
@@ -57,12 +60,39 @@ export class GraphicComponent implements OnInit{
         ]
       };
 
-      this.options = {
-        maintainAspectRatio: false,
-        aspectRatio: 0.6,
+    this.options = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      plugins: {
+        legend: {
+          /*labels: {
+            color: textColor
+          }*/
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        }
       }
+    };
     }
-  }
+
 
   updateChartData(calories: number[], days: string[]) {
     // Actualizar los datos del gráfico

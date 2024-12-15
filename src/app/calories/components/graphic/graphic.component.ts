@@ -42,27 +42,55 @@ export class GraphicComponent implements OnInit {
   }
 
   initChart() {
-    if (isPlatformBrowser(this.platformId)) {
-      const documentStyle = getComputedStyle(document.documentElement);
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-      // Inicializar los datos para el gráfico
-      this.data = {
-        labels: this.foodHistoryService.caloriesGraphicWeek().map(item => item.date),
-        datasets: [
-          {
-            label: 'Calorías consumidas en una semana',
-            data: this.foodHistoryService.caloriesGraphicWeek().map(item => item.calories),
-            fill: true,
-            tension: 0.4
+    // Inicializar los datos para el gráfico
+    this.data = {
+      labels: this.foodHistoryService.caloriesGraphicWeek().map(item => item.date),
+      datasets: [
+        {
+          label: 'Calorías consumidas en una semana',
+          data: this.foodHistoryService.caloriesGraphicWeek().map(item => item.calories),
+          fill: true,
+          tension: 0.4
+        }
+      ]
+    };
+
+    this.options = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      plugins: {
+        legend: {
+          /*labels: {
+            color: textColor
+          }*/
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
           }
-        ]
-      };
-
-      this.options = {
-        maintainAspectRatio: false,
-        aspectRatio: 0.6,
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false
+          }
+        }
       }
-    }
+    };
   }
 
   updateChartData(calories: number[], days: string[]) {
@@ -77,9 +105,5 @@ export class GraphicComponent implements OnInit {
 
     // Forzar la detección de cambios
     this.cd.detectChanges();
-  }
-
-  get isLightTheme():boolean{
-    return this.localStorageService.darkTheme;
   }
 }
