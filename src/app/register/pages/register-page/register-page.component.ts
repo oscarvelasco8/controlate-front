@@ -30,7 +30,7 @@ export class RegisterPageComponent implements OnInit{
       },
       {
         label: 'Creación del usuario',
-        routerLink: "password"
+        routerLink: "user"
       }
     ];
   }

@@ -1,1 +1,34 @@
-<p>calories-page works!</p>
+<main class="px-4 md:mx-8">
+  <div class="flex flex-column gap-4 mb-4 md:flex-row">
+    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tus calorías de mantenimiento son de : <b>{{userTmb}} kcal</b>. Actualmente tu objetivo es:
+      <b>{{userObjectiveName}}</b></p>
+    <form class="flex gap-4" (submit)="saveUserObjective()" [formGroup]="userObjectiveForm" *ngIf="userWantsModifyObjective">
+
+        <p-dropdown
+          formControlName="objective"
+          id="userObjective"
+          [options]="userObjectiveOptions"
+          optionLabel="name"
+          placeholder="Elige tu objetivo" />
+        <p-button type="submit">Guardar preferencias</p-button>
+    </form>
+    <p-button *ngIf="!userWantsModifyObjective" (click) = "modifyObjective()">Modificar preferencias</p-button>
+  </div>
+  <div class="flex flex-wrap mb-5 md:flex-nowrap">
+    <div class="m-auto">
+      <calories-calendar (selectedDateChange)="onDateChange($event)"></calories-calendar>
+    </div>
+    <div class="w-full flex-none md:flex-1 md:w-auto">
+      <calories-dought class="flex md:flex-wrap md:justify-content-around"></calories-dought>
+    </div>
+  </div>
+  <div class="flex align-items-center justify-content-center gap-8 mb-5">
+    <div class=" flex-1 flex flex-wrap">
+      <calories-food-info [history]="history" [selectedDate]="date"></calories-food-info>
+    </div>
+    <div class="flex-1">
+      <calories-graphic></calories-graphic>
+    </div>
+
+  </div>
+</main>

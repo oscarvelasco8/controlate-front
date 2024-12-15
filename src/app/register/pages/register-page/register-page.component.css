@@ -1,7 +1,21 @@
 main{
-  margin-top:140px;
+  margin-top:180px;
 }
 
 .p-steps-title{
   padding: 0 10px;
+}
+
+.decorator-img{
+  object-fit: cover;
+}
+.p-error{
+  color:red;
+}
+
+@media screen and (max-width: 500px) {
+  .card .p-steps-title {
+    white-space: wrap;
+    text-align: center;
+  }
 }

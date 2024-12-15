@@ -1,14 +1,12 @@
 <main class="flex max-h-screen">
-  <div class="flex flex-1 justify-content-center align-items-center p-7 max-h-full w-6">
-    <div class="w-6">
+  <div class="hidden md:flex flex-1 justify-content-center align-items-center p-7 max-h-full w-6">
+    <div class="w-6 h-full">
       <img src="login/login-image.jpg" alt="" class="decorator-img w-full h-full border-round-2xl">
     </div>
-
   </div>
-  <div class="flex flex-column flex-1 p-2 justify-content-center">
-    <div class="card xl:w-6 lg:w-full md:w-full sm:w-full">
-      <p-toast />
-      <p-steps [model]="items" [readonly]="false"/>
+  <div class="flex flex-column flex-1 justify-content-center">
+    <div class="card">
+      <p-steps [model]="items" [readonly]="true"/>
       <router-outlet></router-outlet>
     </div>
 

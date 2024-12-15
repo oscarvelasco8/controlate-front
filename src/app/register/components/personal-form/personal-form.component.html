@@ -1,8 +1,9 @@
 <div class="flex flex-column p-6">
-  <form class="flex flex-column gap-4" (submit)="onSubmit()">
+  <form [formGroup]="personalForm" class="flex flex-column gap-4" (submit)="onSubmit()">
     <div class="flex flex-column gap-2">
       <label for="name">Nombre</label>
       <input
+        formControlName="name"
         pInputText
         id="name"
         aria-describedby="name-help"
@@ -10,10 +11,14 @@
       <small id="username-help">
         Introduce tu nombre personal.
       </small>
+      <span class="p-error" *ngIf="isValidField('name')">
+        {{getFieldError('name')}}
+      </span>
     </div>
     <div class="flex flex-column gap-2">
       <label for="lastname">Apellidos</label>
       <input
+        formControlName="lastname"
         pInputText
         id="lastname"
         aria-describedby="lastname-help"
@@ -21,10 +26,25 @@
       <small id="lastname-help">
         Introduce tus apellidos.
       </small>
+      <span class="p-error" *ngIf="isValidField('lastname')">
+        {{getFieldError('lastname')}}
+      </span>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label for="gender">Género</label>
+      <div class="card flex justify-content-center">
+        <p-dropdown
+          formControlName="gender"
+          id="gender"
+          [options]="genderOptions"
+          optionLabel="name"
+          placeholder="Introduce tu género" />
+      </div>
     </div>
     <div class="flex flex-column gap-2">
       <label for="email">Email</label>
       <input
+        formControlName="email"
         pInputText
         id="email"
         aria-describedby="email-help"
@@ -32,6 +52,9 @@
       <small id="email-help">
         Introduce tu email personal.
       </small>
+      <span class="p-error" *ngIf="isValidField('email')">
+        {{getFieldError('email')}}
+      </span>
     </div>
     <p-button type="submit" label="Siguiente" [rounded]="true" class="align-self-end"/>
   </form>

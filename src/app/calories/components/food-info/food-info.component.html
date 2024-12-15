@@ -1,0 +1,40 @@
+<div class="flex flex-column flex-wrap gap-3 justify-content-start">
+  <div class="flex flex-column gap-5 flex-1">
+    <!--<p-button (click)="addMeal()" class="w-full"><i class="pi pi-plus"></i></p-button>-->
+    <calories-progress-bar class="w-auto"></calories-progress-bar>
+  </div>
+  <div class="flex flex-1 flex-wrap gap-4 justify-content-between">
+    <p-card
+      *ngFor="let meal of meals"
+      header="{{ meal.name }} "
+      styleClass="cursor-pointer hover:scale-105 transition-all"
+      (click)="openModal(meal)"
+      class="w-5"
+    >
+    <div *ngIf="meal.foods && meal.foods.length > 0" class="flex gap-2 flex-column">
+      <div class="flex flex-column gap-2">
+        <p-button
+          *ngFor="let mealName of meal.foods"
+          [label]="mealName.length > 15 ? mealName.slice(0, 15) + '...' : mealName"
+          icon="pi pi-check"
+          iconPos="right"
+          [rounded]="true"
+          class="flex-1"
+        />
+      </div>
+
+      <p><strong>Total de alimentos:</strong> {{ meal.foods.length}}</p>
+    </div>
+    <div *ngIf="meal.foods && meal.foods.length == 0">
+      <strong>Sin alimentos que mostrar</strong>
+    </div>
+    </p-card>
+  </div>
+  <search-food
+    [visible]="displayModal"
+    (visibleChange)="displayModal=$event"
+    [selectedMeal]="selectedMeal"
+    [history]="history"
+    [selectedDate]="selectedDate"
+  ></search-food>
+</div>
