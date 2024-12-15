@@ -86,9 +86,9 @@ export class DoughtComponent implements OnInit{
       cutout: '60%',
       plugins: {
         legend: {
-          labels: {
+          /*labels: {
             color: textColor
-          }
+          }*/
         }
       }
     };
