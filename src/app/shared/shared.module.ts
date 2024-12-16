@@ -4,8 +4,10 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import {RouterLink} from '@angular/router';
 
 import { FooterComponent } from './footer/footer.component';
-import {CommonPrimengModule} from '../common-primeng/common-primeng.module';
 import {PrimeTemplate} from 'primeng/api';
+import {ButtonModule} from 'primeng/button';
+import {MenubarModule} from 'primeng/menubar';
+import {AvatarModule} from 'primeng/avatar';
 
 
 
@@ -17,8 +19,10 @@ import {PrimeTemplate} from 'primeng/api';
   imports: [
     CommonModule,
     RouterLink,
-    CommonPrimengModule,
-    PrimeTemplate
+    PrimeTemplate,
+    ButtonModule,
+    MenubarModule,
+    AvatarModule
   ],
   exports: [
     TopBarComponent,
