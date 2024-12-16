@@ -1,9 +1,9 @@
-<main class="flex-1 mb-4 pl-2 pr-2">
-  <div class="field-container">
+<main class="flex-1 mb-4 pl-2 pr-2 h-full ">
+  <div class="field-container justify-content-center flex flex-column h-full">
     <div class="field flex align-items-center justify-content-center">
       <h2 class="font-light mr-3">Modifica tus datos</h2> <i class="pi pi-user" style="font-size: 1.5rem"></i>
     </div>
-    <form [formGroup]="modifyUserForm" (submit)="modifyProperties()" class="flex flex-wrap gap-4 align-items-center justify-content-center">
+    <form [formGroup]="modifyUserForm" (submit)="modifyProperties()" class="flex flex-wrap gap-4 justify-content-center">
       <div>
         <div class="field">
           <div class="mb-3">
@@ -98,6 +98,9 @@
           </div>
           <input formControlName="icr" pInputText id="ICR" type="number" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
         </div>
+
+      </div>
+      <div>
         <div class="field">
           <div class="mb-3">
             <label for="objective">Objetivo</label>
@@ -110,9 +113,10 @@
             placeholder="Elige tu objetivo" />
         </div>
       </div>
-      <div class="w-full text-center">
+      <div class="field w-full text-center">
         <p-button type="submit" label="Modificar" [rounded]="true"></p-button>
       </div>
+
 
     </form>
   </div>
