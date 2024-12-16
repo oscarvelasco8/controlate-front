@@ -77,7 +77,7 @@ export class SearchFoodComponent{
       {
         logId:uuid(),
         username:localStorage.getItem('userLogged')!,
-        logDate: this.selectedDate,
+        logDate: this.foodHistoryService.date,
         foodId:parseInt(food.id),
         meal:meal,
         foodName:food.name,
@@ -155,8 +155,8 @@ export class SearchFoodComponent{
   }
 
   saveMeal() {
-    this.foodHistoryService.insertIntoHistory(this._foodAdded, this.selectedDate);
-    this.foodHistoryService.deleteFromHistory(this._foodDeleted, this.selectedDate);
+    this.foodHistoryService.insertIntoHistory(this._foodAdded);
+    this.foodHistoryService.deleteFromHistory(this._foodDeleted);
     /*this.foodHistoryService.getHistoryByDate(this.selectedDate);*/
     /*this.foodHistoryService.getTotalCaloriesWeek(this.selectedDate);*/
     this._foodAdded = [];

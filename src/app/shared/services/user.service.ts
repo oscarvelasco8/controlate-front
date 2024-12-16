@@ -9,6 +9,7 @@ import {FormGroup} from '@angular/forms';
 })
 export class UserService {
   private baseUrl: string = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app';
+  //private baseUrl: string = 'http://localhost:8080';
   public userObjective:WritableSignal<string> = signal('');
   public proteinesObjective:WritableSignal<number> = signal(0);
   public carbohydratesObjective:WritableSignal<number> = signal(0);

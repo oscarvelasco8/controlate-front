@@ -13,7 +13,6 @@ import {LocalStorageService} from '../../../shared/services/local-storage.servic
   styleUrl: './calories-page.component.css'
 })
 export class CaloriesPageComponent implements OnInit{
-  date:string = '';
   userTmb:number = 0;
   userWantsModifyObjective:boolean = false;
   userObjectiveName:string = '';
@@ -37,17 +36,18 @@ export class CaloriesPageComponent implements OnInit{
   ) {
   }
 
-  onDateChange($event: string) {
-    /*console.log("llamada 2")*/
-    this.date = $event;
-    this.foodHistoryService.getHistoryByDate(this.date);
-    this.foodHistoryService.getTotalCaloriesWeek(this.date);
+  transformDate(inputDate: Date): Date {
+    // Extraer los componentes de la fecha
+    const year = inputDate.getFullYear();
+    const month = inputDate.getMonth(); // Los meses van de 0 (enero) a 11 (diciembre)
+    const day = inputDate.getDate();
 
+    // Crear un nuevo objeto Date con los componentes extraídos (hora 00:00:00)
+    return new Date(year, month, day);
   }
 
   ngOnInit(): void {
-    this.date = new Date().toLocaleDateString();
-    this.foodHistoryService.getHistoryByDate(this.date);
+    /*this.foodHistoryService.getHistoryByDate();*/
 
     this.userService.getUserObjective().subscribe({
       next: (response) => {
@@ -146,6 +146,16 @@ export class CaloriesPageComponent implements OnInit{
     this.userService.proteinesObjective.set((this.userService.tmbAdjusted()*proteinPercentage)/4);
     this.userService.fatsObjective.set((this.userService.tmbAdjusted()*fatPercentage)/9);
     this.userService.carbohydratesObjective.set((this.userService.tmbAdjusted()*carbPercentage)/4);
+  }
+
+  private formatDate(date:Date):string {
+    const year = date.getFullYear().toString(); // Obtener los dos últimos dígitos del año
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Meses de 0-11
+    const day = date.getDate().toString().padStart(2, '0'); // Día con dos dígitos
+
+
+    // Formato yy/mm/dd
+    return `${year}/${month}/${day}`;
   }
 
 }

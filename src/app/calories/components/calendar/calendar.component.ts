@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
+import {FoodHistoryService} from '../../../shared/services/food-history.service';
 
 @Component({
   selector: 'calories-calendar',
@@ -8,14 +9,16 @@ import {PrimeNGConfig} from 'primeng/api';
 })
 export class CalendarComponent implements OnInit{
   @Output() selectedDateChange = new EventEmitter<string>();
-  selectedDate: Date | null = null;
+  selectedDate!: Date;
 
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(private primengConfig: PrimeNGConfig, private foodHistoryService: FoodHistoryService) {}
 
   ngOnInit() {
-    if (this.selectedDate === null) {
-      const date = new Date().toLocaleDateString();
-      this.selectedDateChange.emit(date);
+    if (!this.selectedDate) {
+      this.selectedDateChange.emit(new Date().toISOString().split('T')[0]);
+      this.foodHistoryService.date = new Date().toISOString().split('T')[0];
+      this.foodHistoryService.getHistoryByDate();
+      this.foodHistoryService.getTotalCaloriesWeek();
     }
     this.primengConfig.setTranslation({
       dayNames: [
@@ -40,7 +43,11 @@ export class CalendarComponent implements OnInit{
     });
   }
 
-  onDateSelect( ) {
-    this.selectedDateChange.emit(this.selectedDate?.toLocaleDateString());
+  onDateSelect() {
+
+    this.foodHistoryService.date = this.selectedDate.toISOString().split('T')[0];
+    this.foodHistoryService.getHistoryByDate();
+    this.foodHistoryService.getTotalCaloriesWeek();
   }
+
 }

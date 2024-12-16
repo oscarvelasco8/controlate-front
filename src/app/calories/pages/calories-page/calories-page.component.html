@@ -16,7 +16,7 @@
   </div>
   <div class="flex flex-wrap mb-5 md:flex-nowrap">
     <div class="m-auto">
-      <calories-calendar (selectedDateChange)="onDateChange($event)"></calories-calendar>
+      <calories-calendar></calories-calendar>
     </div>
     <div class="w-full flex-none md:flex-1 md:w-auto">
       <calories-dought class="flex md:flex-wrap md:justify-content-around"></calories-dought>
@@ -24,7 +24,7 @@
   </div>
   <div class="flex align-items-center justify-content-center gap-8 mb-5">
     <div class=" flex-1 flex flex-wrap">
-      <calories-food-info [history]="history" [selectedDate]="date"></calories-food-info>
+      <calories-food-info [history]="history"></calories-food-info>
     </div>
     <div class="flex-1">
       <calories-graphic></calories-graphic>

@@ -10,7 +10,7 @@ import {FoodHistoryService} from '../../../shared/services/food-history.service'
 })
 export class FoodInfoComponent{
   @Input() history: FoodHistory[] = [];
-  @Input() selectedDate: string = '';
+/*  @Input() selectedDate!: Date;*/
   meals: {name:string, foods: string[]}[] = []
   constructor(private foodHistoryService: FoodHistoryService) {
     effect(() => {
