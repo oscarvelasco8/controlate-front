@@ -18,6 +18,7 @@ import {DialogModule} from 'primeng/dialog';
 import {TableModule} from 'primeng/table';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {DropdownModule} from 'primeng/dropdown';
+import {InputTextModule} from 'primeng/inputtext';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {DropdownModule} from 'primeng/dropdown';
     DialogModule,
     TableModule,
     InputNumberModule,
-    DropdownModule
+    DropdownModule,
+    InputTextModule
   ],
   exports:[
     CalendarComponent
