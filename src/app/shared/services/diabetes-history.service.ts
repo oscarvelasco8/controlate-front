@@ -8,8 +8,8 @@ import {DiabetesHistory} from '../interfaces/DiabetesHistory';
 })
 export class DiabetesHistoryService {
 
-  private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-diabetes-history';
-  //private BASE_URL = 'http://localhost:8080/api/user-diabetes-history';
+  //private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-diabetes-history';
+  private BASE_URL = 'http://localhost:8080/api/user-diabetes-history';
   public totalCarbs = signal(0);
   private _history:DiabetesHistory[] = [];
   private selectedDate:string = '';
@@ -18,18 +18,25 @@ export class DiabetesHistoryService {
   public portionsByMeal:WritableSignal<number[]> = signal([]);
   private _totalPortions = signal(0);
 
+  public set date(date:string){
+    this.selectedDate = date;
+  }
+
+  public get date():string{
+    return this.selectedDate;
+  }
+
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }
 
-  insertIntoHistory(foodAddedFromUser:DiabetesHistory[], date:string) {
-    this.selectedDate = date;
+  insertIntoHistory(foodAddedFromUser:DiabetesHistory[]) {
     foodAddedFromUser.forEach(foodAddedFromUser =>{
 
       this.httpClient.post(this.BASE_URL, foodAddedFromUser)
         .subscribe({
           next: () => {
             this.messageService.add({ severity: 'success', summary: 'Datos guardados', detail: '¡Registro añadido con éxito!' });
-            this.getHistoryByDate(this.selectedDate);
-            this.getTotalPortionsWeek(this.selectedDate);
+            this.getHistoryByDate();
+            this.getTotalPortionsWeek();
           },
           error: (err) => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar el registro' });
@@ -38,14 +45,13 @@ export class DiabetesHistoryService {
     });
   }
 
-  deleteFromHistory(foodDeletedFromUser:DiabetesHistory[], date:string) {
+  deleteFromHistory(foodDeletedFromUser:DiabetesHistory[]) {
     foodDeletedFromUser.forEach(food => {
-      this.selectedDate = date;
       this.httpClient.delete(`${this.BASE_URL}/${food.logId}`).subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Datos borrados', detail: '¡Registro borrado con éxito!' });
-          this.getHistoryByDate(this.selectedDate);
-          this.getTotalPortionsWeek(this.selectedDate);
+          this.getHistoryByDate();
+          this.getTotalPortionsWeek();
         },
         error: (err) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al borrar el registro' });
@@ -54,10 +60,10 @@ export class DiabetesHistoryService {
     });
   }
 
-  getHistoryByDate(date: string): void {
+  getHistoryByDate(): void {
     const username = localStorage.getItem('userLogged');
     const meals = ['Desayuno', 'Almuerzo', 'Comida', 'Cena'];
-    this.httpClient.get<DiabetesHistory[]>(`${this.BASE_URL}/by-date?username=${username}&logDate=${date}`).subscribe({
+    this.httpClient.get<DiabetesHistory[]>(`${this.BASE_URL}/by-date?username=${username}&logDate=${this.selectedDate}`).subscribe({
       next: (data) => {
         this._history = data;
         this.totalCarbs.set(0);
@@ -79,9 +85,9 @@ export class DiabetesHistoryService {
   }
 
 
-  getTotalPortionsWeek(date: string): void {
+  getTotalPortionsWeek(): void {
 
-    this.portionsGraphicWeek.set([]);
+    /*this.portionsGraphicWeek.set([]);
 
     const initialDate = new Date(date.split("/")[1] + "/" + date.split("/")[0] + "/" + date.split("/")[2]);
     const username = localStorage.getItem('userLogged');
@@ -100,12 +106,12 @@ export class DiabetesHistoryService {
 
       this.httpClient.get<DiabetesHistory[]>(`${this.BASE_URL}/by-date?username=${username}&logDate=${date}`).subscribe({
         next: (data) => {
-          /*this.daysGraphic().push(date); // Agregar la fecha*/
+          /!*this.daysGraphic().push(date); // Agregar la fecha*!/
           data.forEach(item => {
             portions = portions + item.portions; // Sumar las calorías del día
           });
 
-          /*this.caloriesGraphic().push(calories); // Agregar las calorías al gráfico*/
+          /!*this.caloriesGraphic().push(calories); // Agregar las calorías al gráfico*!/
           if (!this.portionsGraphicWeek().find(item => item.date === date)) {
             this.portionsGraphicWeek.set([...this.portionsGraphicWeek(), { date: date, portions: portions }]);
           }
@@ -120,7 +126,27 @@ export class DiabetesHistoryService {
           console.error('Error fetching data', err);
         }
       });
-    }
+    }*/
+    this.portionsGraphicWeek.set([]); // Limpiar los datos anteriores
+
+    const username = localStorage.getItem('userLogged');
+
+    this.httpClient.get<{ [key: string]: number }>(`${this.BASE_URL}/last-7days?username=${username}&startDate=${this.selectedDate}`).subscribe({
+      next: (data) => {
+        // Convertir el objeto recibido en un array con el formato adecuado
+        const transformedData = Object.entries(data).map(([date, portions]) => ({
+          date: date,
+          portions: portions // Asegúrate de que `calories` es un número, no un objeto
+        }));
+
+        // Asignar los datos transformados
+        this.portionsGraphicWeek.set(transformedData);
+
+      },
+      error: (err) => {
+        console.error('Error al obtener las calorías:', err);
+      }
+    });
   }
 
   sortData() {

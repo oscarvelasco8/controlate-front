@@ -36,7 +36,7 @@ export class CaloriesPageComponent implements OnInit{
   ) {
   }
 
-  transformDate(inputDate: Date): Date {
+/*  transformDate(inputDate: Date): Date {
     // Extraer los componentes de la fecha
     const year = inputDate.getFullYear();
     const month = inputDate.getMonth(); // Los meses van de 0 (enero) a 11 (diciembre)
@@ -44,7 +44,7 @@ export class CaloriesPageComponent implements OnInit{
 
     // Crear un nuevo objeto Date con los componentes extraídos (hora 00:00:00)
     return new Date(year, month, day);
-  }
+  }*/
 
   ngOnInit(): void {
     /*this.foodHistoryService.getHistoryByDate();*/

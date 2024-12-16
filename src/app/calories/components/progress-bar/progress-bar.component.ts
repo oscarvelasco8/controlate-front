@@ -1,4 +1,4 @@
-import {Component, effect, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, effect, ViewEncapsulation} from '@angular/core';
 import {FoodHistoryService} from '../../../shared/services/food-history.service';
 import {UserService} from '../../../shared/services/user.service';
 
@@ -8,7 +8,7 @@ import {UserService} from '../../../shared/services/user.service';
   styleUrl: './progress-bar.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class ProgressBarComponent implements OnInit{
+export class ProgressBarComponent{
   //color = "rgb(34, 197, 94)";
   color = "";
   totalCaloriesDiary: number = 0;
@@ -23,9 +23,6 @@ export class ProgressBarComponent implements OnInit{
     return this.foodHistoryService.totalCalories;
   }
 
-  ngOnInit(): void {
-    console.log(this.totalCaloriesDiary, this.userService.tmbAdjusted());
-  }
 
 
 }

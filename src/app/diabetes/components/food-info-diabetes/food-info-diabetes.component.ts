@@ -10,7 +10,7 @@ import {DiabetesHistory} from '../../../shared/interfaces/DiabetesHistory';
 })
 export class FoodInfoDiabetesComponent {
   @Input() history: DiabetesHistory[] = [];
-  @Input() selectedDate: string = '';
+/*  @Input() selectedDate: string = '';*/
   meals: {name:string, foods: string[]}[] = []
   constructor(private diabetesHistoryService: DiabetesHistoryService) {
     effect(() => {

@@ -2,7 +2,7 @@
 
   <div class="flex align-items-center mb-5 gap-7">
     <div >
-      <calories-calendar (selectedDateChange)="onDateChange($event)"></calories-calendar>
+      <calories-calendar></calories-calendar>
     </div>
     <div class="flex-1">
       <diabetes-graphic></diabetes-graphic>
@@ -10,7 +10,7 @@
   </div>
   <div class="flex align-items-center justify-content-center gap-8 mb-5">
     <div class="flex-1">
-      <food-info-diabetes [history]="history" [selectedDate]="date"></food-info-diabetes>
+      <food-info-diabetes [history]="history"></food-info-diabetes>
     </div>
     <div class="flex-1 text-center">
 

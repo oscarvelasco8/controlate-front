@@ -60,12 +60,7 @@ export class ModifyProfileComponent implements OnInit{
     }
 
     const {activityFactor, gender, objective} = this.modifyUserForm.value
-    console.log({
-      ...this.modifyUserForm.value,
-      activityFactor: activityFactor.value,
-      gender: gender.value,
-      objective: objective.value,
-    })
+
     this.userService.modifyUserInfo({
       ...this.modifyUserForm.value,
       activityFactor: activityFactor.value,
