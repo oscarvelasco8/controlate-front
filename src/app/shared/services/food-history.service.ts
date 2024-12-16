@@ -8,28 +8,37 @@ import {FoodHistory} from '../interfaces/foodHistory';
 })
 export class FoodHistoryService {
 
-  private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-calories-history';
+  //private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-calories-history';
+  private BASE_URL = 'http://localhost:8080/api/user-calories-history';
+
   private _totalCalories = signal(0);
   public totalProtein = signal(0);
   public totalCarbs = signal(0);
   public totalFat = signal(0);
   private _history:FoodHistory[] = [];
-  private selectedDate:string = '';
+  private selectedDate!:string;
   public caloriesGraphicWeek: WritableSignal<{ date: string, calories: number }[]> = signal([]);
   public foodByMeal:WritableSignal<{name:string, foods:string[]}[]> = signal([]);
 
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }
 
-  insertIntoHistory(foodAddedFromUser:FoodHistory[], date:string) {
+  public set date(date:string){
     this.selectedDate = date;
+  }
+
+  public get date(){
+    return this.selectedDate;
+  }
+
+  insertIntoHistory(foodAddedFromUser:FoodHistory[]) {
     foodAddedFromUser.forEach(foodAddedFromUser =>{
 
       this.httpClient.post(this.BASE_URL, foodAddedFromUser)
         .subscribe({
           next: () => {
             this.messageService.add({ severity: 'success', summary: 'Datos guardados', detail: '¡Registro añadido con éxito!' });
-              this.getHistoryByDate(this.selectedDate);
-              this.getTotalCaloriesWeek(this.selectedDate);
+              this.getHistoryByDate();
+              this.getTotalCaloriesWeek();
             },
           error: (err) => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar el registro' });
@@ -38,14 +47,13 @@ export class FoodHistoryService {
     });
   }
 
-  deleteFromHistory(foodDeletedFromUser:FoodHistory[], date:string) {
+  deleteFromHistory(foodDeletedFromUser:FoodHistory[]) {
     foodDeletedFromUser.forEach(food => {
-      this.selectedDate = date;
       this.httpClient.delete(`${this.BASE_URL}/${food.logId}`).subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Datos borrados', detail: '¡Registro borrado con éxito!' });
-          this.getHistoryByDate(this.selectedDate);
-          this.getTotalCaloriesWeek(this.selectedDate);
+          this.getHistoryByDate();
+          this.getTotalCaloriesWeek();
         },
         error: (err) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al borrar el registro' });
@@ -54,10 +62,10 @@ export class FoodHistoryService {
     });
   }
 
-  getHistoryByDate(date: string): void {
+  getHistoryByDate(): void {
     const username = localStorage.getItem('userLogged');
     const meals = ['Desayuno', 'Almuerzo', 'Comida', 'Cena'];
-    this.httpClient.get<FoodHistory[]>(`${this.BASE_URL}/by-date?username=${username}&logDate=${date}`).subscribe({
+    this.httpClient.get<FoodHistory[]>(`${this.BASE_URL}/by-date?username=${username}&logDate=${this.selectedDate}`).subscribe({
       next: (data) => {
         this._history = data;
         this.resetCalories();
@@ -86,59 +94,32 @@ export class FoodHistoryService {
   }
 
 
-  getTotalCaloriesWeek(date: string): void {
+  getTotalCaloriesWeek(): void {
+    this.caloriesGraphicWeek.set([]); // Limpiar los datos anteriores
 
-    this.caloriesGraphicWeek.set([]);
-
-    const initialDate = new Date(date.split("/")[1] + "/" + date.split("/")[0] + "/" + date.split("/")[2]);
     const username = localStorage.getItem('userLogged');
 
-    let completedRequests = 0; // Contador para verificar si hemos recibido todas las respuestas
+    this.httpClient.get<{ [key: string]: number }>(`${this.BASE_URL}/last-7days?username=${username}&startDate=${this.selectedDate}`).subscribe({
+      next: (data) => {
+        console.log(data)
+        // Convertir el objeto recibido en un array con el formato adecuado
+        const transformedData = Object.entries(data).map(([date, calories]) => ({
+          date: date,
+          calories: calories // Asegúrate de que `calories` es un número, no un objeto
+        }));
 
-    for (let i = 0; i < 7; i++) {
-      let calories = 0;
-      let date;
-
-      if (i === 0) {
-        date = initialDate.toLocaleDateString();
-      } else {
-        date = new Date(initialDate.setDate(initialDate.getDate() - 1)).toLocaleDateString();
+        // Asignar los datos transformados
+        this.caloriesGraphicWeek.set(transformedData);
+        console.log(transformedData);
+      },
+      error: (err) => {
+        console.error('Error al obtener las calorías:', err);
       }
-
-      this.httpClient.get<FoodHistory[]>(`${this.BASE_URL}/by-date?username=${username}&logDate=${date}`).subscribe({
-        next: (data) => {
-          /*this.daysGraphic().push(date); // Agregar la fecha*/
-          data.forEach(item => {
-            calories = calories + item.calories; // Sumar las calorías del día
-          });
-
-          /*this.caloriesGraphic().push(calories); // Agregar las calorías al gráfico*/
-          if (!this.caloriesGraphicWeek().find(item => item.date === date)) {
-            this.caloriesGraphicWeek.set([...this.caloriesGraphicWeek(), { date: date, calories: calories }]);
-          }
-          completedRequests++; // Incrementar el contador de solicitudes completadas
-
-          // Si todas las solicitudes han finalizado, ordenamos los datos
-          if (completedRequests === 7) {
-            this.sortData(); // Llamar a la función de ordenación
-          }
-        },
-        error: (err) => {
-          console.error('Error fetching data', err);
-        }
-      });
-    }
-  }
-
-  sortData() {
-    // Ordenar los datos de caloriesGraphicWeek por la fecha
-    this.caloriesGraphicWeek().sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-
-      return dateA.getTime() - dateB.getTime(); // Orden ascendente
     });
   }
+
+
+
 
 
   addCalories(calories:number) {

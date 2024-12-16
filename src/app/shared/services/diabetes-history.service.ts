@@ -8,7 +8,8 @@ import {DiabetesHistory} from '../interfaces/DiabetesHistory';
 })
 export class DiabetesHistoryService {
 
-  private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-diabetes-history';
+  //private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-diabetes-history';
+  private BASE_URL = 'http://localhost:8080/api/user-diabetes-history';
   public totalCarbs = signal(0);
   private _history:DiabetesHistory[] = [];
   private selectedDate:string = '';
