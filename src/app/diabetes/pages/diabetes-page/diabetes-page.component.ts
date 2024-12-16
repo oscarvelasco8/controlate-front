@@ -14,24 +14,24 @@ import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.
 })
 export class DiabetesPageComponent implements OnInit{
 
-  date:string = '';
+  /*date:string = '';*/
 
   constructor(
     private diabetesHistoryService:DiabetesHistoryService
   ) {
   }
-
+/*
   onDateChange($event: string) {
-    /*console.log("llamada 2")*/
+    /!*console.log("llamada 2")*!/
     this.date = $event;
     this.diabetesHistoryService.getHistoryByDate(this.date);
-    this.diabetesHistoryService.getTotalPortionsWeek(this.date);/*  --> cambiar por total de raciones de insulina diarias*/
+    this.diabetesHistoryService.getTotalPortionsWeek(this.date);/!*  --> cambiar por total de raciones de insulina diarias*!/
 
-  }
+  }*/
 
   ngOnInit(): void {
-    this.date = new Date().toLocaleDateString();
-    this.diabetesHistoryService.getHistoryByDate(this.date);
+    /*this.date = new Date().toLocaleDateString();*/
+    /*this.diabetesHistoryService.getHistoryByDate(this.date);*/
   }
 
   get history():DiabetesHistory[]{

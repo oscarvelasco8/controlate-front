@@ -38,7 +38,7 @@ export class PersonalFormComponent implements OnInit{
     this.formValidatorService.lastName = this.personalForm.get('lastname')?.value;
     this.formValidatorService.email = this.personalForm.get('email')?.value;
     this.formValidatorService.gender = this.personalForm.get('gender')?.value.value.toUpperCase();
-    console.log(this.formValidatorService.userInfo);
+
     this.router.navigate(['/register/activity']);
 
   }

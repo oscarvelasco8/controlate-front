@@ -48,7 +48,7 @@ export class ActividadFormComponent implements OnInit{
     this.formValidatorService.activityFactor = this.activityForm.get('activity')?.value.value;
     this.formValidatorService.insulinaFactor = this.activityForm.get('diabetesFactor')?.value;
     this.formValidatorService.icr = this.activityForm.get('icr')?.value;
-    console.log(this.formValidatorService.userInfo);
+
     this.router.navigate(['/register/user']);
 
   }

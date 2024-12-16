@@ -39,7 +39,7 @@ export class UserFormComponent implements OnInit{
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.' });
       return;
     }
-    console.log(this.formValidatorService.userInfo);
+
     this.userService.registerUser(this.formValidatorService.userInfo).subscribe(
       {
         next: (response) => {
@@ -50,7 +50,7 @@ export class UserFormComponent implements OnInit{
           }, 2000);
         },
         error: (err) => {
-          console.log(err)
+
           this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
         }
       }

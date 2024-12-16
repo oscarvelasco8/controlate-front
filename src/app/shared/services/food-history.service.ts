@@ -8,8 +8,8 @@ import {FoodHistory} from '../interfaces/foodHistory';
 })
 export class FoodHistoryService {
 
-  private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-calories-history';
-  //private BASE_URL = 'http://localhost:8080/api/user-calories-history';
+  //private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-calories-history';
+  private BASE_URL = 'http://localhost:8080/api/user-calories-history';
 
   private _totalCalories = signal(0);
   public totalProtein = signal(0);
@@ -101,7 +101,7 @@ export class FoodHistoryService {
 
     this.httpClient.get<{ [key: string]: number }>(`${this.BASE_URL}/last-7days?username=${username}&startDate=${this.selectedDate}`).subscribe({
       next: (data) => {
-        console.log(data)
+
         // Convertir el objeto recibido en un array con el formato adecuado
         const transformedData = Object.entries(data).map(([date, calories]) => ({
           date: date,
@@ -110,7 +110,7 @@ export class FoodHistoryService {
 
         // Asignar los datos transformados
         this.caloriesGraphicWeek.set(transformedData);
-        console.log(transformedData);
+
       },
       error: (err) => {
         console.error('Error al obtener las calorías:', err);

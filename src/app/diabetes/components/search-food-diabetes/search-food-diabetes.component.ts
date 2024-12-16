@@ -18,7 +18,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
   @Input() visible: boolean = false; // Vincula displayModal
   @Input() selectedMeal: any; // Vincula selectedMeal
   @Input() history: DiabetesHistory[] = [];
-  @Input() selectedDate:string = '';
+/*  @Input() selectedDate:string = '';*/
   @Output() visibleChange = new EventEmitter<boolean>();
 
   proteinColor:string = 'rgb(60,50,140)';
@@ -132,7 +132,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
       {
         logId:uuid(),
         username:localStorage.getItem('userLogged')!,
-        logDate: this.selectedDate,
+        logDate: this.diabetesHistoryService.date,
         foodId:parseInt(food.id),
         meal:meal,
         foodName:food.name,
@@ -188,7 +188,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
 
       // Obtén la cantidad que el usuario ha ingresado en el formulario
       const quantity = this.foodForm.controls['quantity'].value;
-      console.log(quantity)
+
       // Si la cantidad ingresada es válida
       if (!isNaN(quantity) && quantity > 0) {
         // Realiza los cálculos según la cantidad ingresada
@@ -210,8 +210,8 @@ export class SearchFoodDiabetesComponent implements OnInit{
   }
 
   saveMeal() {
-    this.diabetesHistoryService.insertIntoHistory(this._foodAdded, this.selectedDate);
-    this.diabetesHistoryService.deleteFromHistory(this._foodDeleted, this.selectedDate);
+    this.diabetesHistoryService.insertIntoHistory(this._foodAdded);
+    this.diabetesHistoryService.deleteFromHistory(this._foodDeleted);
     this._foodAdded = [];
     this._foodDeleted = [];
     this.closeModal();
