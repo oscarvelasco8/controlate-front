@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {FoodHistoryService} from '../../../shared/services/food-history.service';
 import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.service';
-import {ActivatedRoute} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'calories-calendar',
@@ -12,21 +12,26 @@ import {ActivatedRoute} from '@angular/router';
 export class CalendarComponent implements OnInit{
   /*@Output() selectedDateChange = new EventEmitter<string>();*/
   selectedDate!: Date;
-
-  constructor(private primengConfig: PrimeNGConfig, private foodHistoryService: FoodHistoryService, private diabetesHistoryService: DiabetesHistoryService, private activatedRoute: ActivatedRoute) {}
+  currentRoute = '';
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private foodHistoryService: FoodHistoryService,
+    private diabetesHistoryService: DiabetesHistoryService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-
+    this.currentRoute = this.router.url;
     if (!this.selectedDate) {
-
-      this.foodHistoryService.date = new Date().toISOString().split('T')[0];
-      this.foodHistoryService.getHistoryByDate();
-      this.foodHistoryService.getTotalCaloriesWeek();
-
-      this.diabetesHistoryService.date = new Date().toISOString().split('T')[0];
-      this.diabetesHistoryService.getHistoryByDate();
-      this.diabetesHistoryService.getTotalPortionsWeek();
-
+      if (this.currentRoute === '/calories'){
+        this.foodHistoryService.date = new Date().toISOString().split('T')[0];
+        this.foodHistoryService.getHistoryByDate();
+        this.foodHistoryService.getTotalCaloriesWeek();
+      }else{
+        this.diabetesHistoryService.date = new Date().toISOString().split('T')[0];
+        this.diabetesHistoryService.getHistoryByDate();
+        this.diabetesHistoryService.getTotalPortionsWeek();
+      }
     }
     this.primengConfig.setTranslation({
       dayNames: [
@@ -52,13 +57,16 @@ export class CalendarComponent implements OnInit{
   }
 
   onDateSelect() {
-    this.foodHistoryService.date = `${this.selectedDate.getFullYear()}-${this.selectedDate.getMonth() + 1}-${this.selectedDate.getDate()}`;
-    this.foodHistoryService.getHistoryByDate();
-    this.foodHistoryService.getTotalCaloriesWeek();
-
-    this.diabetesHistoryService.date = `${this.selectedDate.getFullYear()}-${this.selectedDate.getMonth() + 1}-${this.selectedDate.getDate()}`;
-    this.diabetesHistoryService.getHistoryByDate();
-    this.diabetesHistoryService.getTotalPortionsWeek();
+    this.currentRoute = this.router.url;
+    if (this.currentRoute === '/calories'){
+      this.foodHistoryService.date = `${this.selectedDate.getFullYear()}-${this.selectedDate.getMonth() + 1}-${this.selectedDate.getDate()}`;
+      this.foodHistoryService.getHistoryByDate();
+      this.foodHistoryService.getTotalCaloriesWeek();
+    }else{
+      this.diabetesHistoryService.date = `${this.selectedDate.getFullYear()}-${this.selectedDate.getMonth() + 1}-${this.selectedDate.getDate()}`;
+      this.diabetesHistoryService.getHistoryByDate();
+      this.diabetesHistoryService.getTotalPortionsWeek();
+    }
   }
 
 }

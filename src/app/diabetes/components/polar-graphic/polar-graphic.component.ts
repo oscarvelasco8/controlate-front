@@ -31,7 +31,7 @@ export class PolarGraphicComponent implements OnInit {
       this.data = {
         datasets: [
           {
-            data: this.diabetesHistoryService.portionsByMeal(),
+            data: this.diabetesHistoryService.portionsByMeal().reduce((total, item) => total + item, 0) != 0 ? this.diabetesHistoryService.portionsByMeal() : [100,100,100,100],
             backgroundColor: [
               "pink",
               "orange",

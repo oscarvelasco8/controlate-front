@@ -8,8 +8,8 @@ import {FoodHistory} from '../interfaces/foodHistory';
 })
 export class FoodHistoryService {
 
-  private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-calories-history';
-  //private BASE_URL = 'http://localhost:8080/api/user-calories-history';
+  //private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-calories-history';
+  private BASE_URL = 'http://localhost:8080/api/user-calories-history';
 
   private _totalCalories = signal(0);
   public totalProtein = signal(0);
@@ -31,34 +31,31 @@ export class FoodHistoryService {
   }
 
   insertIntoHistory(foodAddedFromUser:FoodHistory[]) {
-    foodAddedFromUser.forEach(foodAddedFromUser =>{
-
-      this.httpClient.post(this.BASE_URL, foodAddedFromUser)
-        .subscribe({
-          next: () => {
-            this.messageService.add({ severity: 'success', summary: 'Datos guardados', detail: '¡Registro añadido con éxito!' });
-              this.getHistoryByDate();
-              this.getTotalCaloriesWeek();
-            },
-          error: (err) => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar el registro' });
-          }
-        });
-    });
-  }
-
-  deleteFromHistory(foodDeletedFromUser:FoodHistory[]) {
-    foodDeletedFromUser.forEach(food => {
-      this.httpClient.delete(`${this.BASE_URL}/${food.logId}`).subscribe({
+    this.httpClient.post(this.BASE_URL, foodAddedFromUser)
+      .subscribe({
         next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Datos borrados', detail: '¡Registro borrado con éxito!' });
+          this.messageService.add({ severity: 'success', summary: 'Datos guardados', detail: '¡Alimentos guardados con éxito!' });
           this.getHistoryByDate();
           this.getTotalCaloriesWeek();
         },
         error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al borrar el registro' });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar los nuevos alimentos' });
         }
-      })
+      });
+  }
+
+  deleteFromHistory(foodDeletedFromUser:FoodHistory[]) {
+    const ids = foodDeletedFromUser.map(food => food.logId).join(',');
+    this.httpClient.delete(`${this.BASE_URL}?ids=${ids}`).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'success', summary: 'Datos borrados', detail: '¡Registros borrados con éxito!' });
+        this.getHistoryByDate();
+        this.getTotalCaloriesWeek();
+      },
+      error: (err) => {
+        console.log(err)
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al borrar los registros' });
+      }
     });
   }
 

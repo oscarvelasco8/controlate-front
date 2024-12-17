@@ -210,10 +210,16 @@ export class SearchFoodDiabetesComponent implements OnInit{
   }
 
   saveMeal() {
-    this.diabetesHistoryService.insertIntoHistory(this._foodAdded);
-    this.diabetesHistoryService.deleteFromHistory(this._foodDeleted);
-    this._foodAdded = [];
-    this._foodDeleted = [];
+    if(this._foodAdded.length > 0 ){
+      this.diabetesHistoryService.insertIntoHistory(this._foodAdded);
+      this._foodAdded = [];
+    }
+
+    if (this._foodDeleted.length > 0){
+      this.diabetesHistoryService.deleteFromHistory(this._foodDeleted);
+      this._foodDeleted = [];
+    }
+
     this.closeModal();
   }
 

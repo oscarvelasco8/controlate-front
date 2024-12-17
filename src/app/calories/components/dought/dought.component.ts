@@ -37,10 +37,10 @@ export class DoughtComponent implements OnInit{
           ]
         },
         {
-          labels: ['PROTEÍNAS DIARIAS CONSUMIDAS', 'TOTAL DE PROTEÍNAS A CONSUMIR'],
+          labels: ['PROTEÍNAS DIARIAS CONSUMIDAS', 'PROTEÍNAS RESTANTES'],
           datasets: [
             {
-              data: [totalProtein, this.userService.proteinesObjective()],
+              data: [totalProtein | 100, this.userService.proteinesObjective()-totalProtein <= 0 ? 0 : this.userService.proteinesObjective()-totalProtein ],
               backgroundColor: [
                 'rgb(60,50,140)',
                 'rgb(54, 162, 235)'
@@ -50,10 +50,10 @@ export class DoughtComponent implements OnInit{
           ]
         },
         {
-          labels: ['CARBOHIDRATOS DIARIOS CONSUMIDOS', 'TOTAL DE CARBOHIDRATOS A CONSUMIR'],
+          labels: ['CARBOHIDRATOS DIARIOS CONSUMIDOS', 'CARBOHIDRATOS RESTANTES'],
           datasets: [
             {
-              data: [totalCarbs, this.userService.carbohydratesObjective()],
+              data: [totalCarbs | 100, this.userService.carbohydratesObjective()-totalCarbs <= 0 ? 0 : this.userService.carbohydratesObjective()-totalCarbs],
               backgroundColor: [
                 'rgb(114,234,142)',
                 'rgb(54, 162, 235)'
@@ -63,10 +63,10 @@ export class DoughtComponent implements OnInit{
           ]
         },
         {
-          labels: ['GRASAS DIARIAS CONSUMIDAS', 'TOTAL DE GRASAS A CONSUMIR'],
+          labels: ['GRASAS DIARIAS CONSUMIDAS', 'GRASAS RESTANTES'],
           datasets: [
             {
-              data: [totalFat, this.userService.fatsObjective()],
+              data: [totalFat| 100, this.userService.fatsObjective() - totalFat <= 0 ? 0 : this.userService.fatsObjective()-totalFat],
               backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)'

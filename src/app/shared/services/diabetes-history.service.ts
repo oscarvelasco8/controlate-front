@@ -8,8 +8,8 @@ import {DiabetesHistory} from '../interfaces/DiabetesHistory';
 })
 export class DiabetesHistoryService {
 
-  private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-diabetes-history';
-  //private BASE_URL = 'http://localhost:8080/api/user-diabetes-history';
+  //private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-diabetes-history';
+  private BASE_URL = 'http://localhost:8080/api/user-diabetes-history';
   public totalCarbs = signal(0);
   private _history:DiabetesHistory[] = [];
   private selectedDate:string = '';
@@ -29,34 +29,32 @@ export class DiabetesHistoryService {
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }
 
   insertIntoHistory(foodAddedFromUser:DiabetesHistory[]) {
-    foodAddedFromUser.forEach(foodAddedFromUser =>{
 
-      this.httpClient.post(this.BASE_URL, foodAddedFromUser)
-        .subscribe({
-          next: () => {
-            this.messageService.add({ severity: 'success', summary: 'Datos guardados', detail: '¡Registro añadido con éxito!' });
-            this.getHistoryByDate();
-            this.getTotalPortionsWeek();
-          },
-          error: (err) => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar el registro' });
-          }
-        });
-    });
-  }
-
-  deleteFromHistory(foodDeletedFromUser:DiabetesHistory[]) {
-    foodDeletedFromUser.forEach(food => {
-      this.httpClient.delete(`${this.BASE_URL}/${food.logId}`).subscribe({
+    this.httpClient.post(this.BASE_URL, foodAddedFromUser)
+      .subscribe({
         next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Datos borrados', detail: '¡Registro borrado con éxito!' });
+          this.messageService.add({ severity: 'success', summary: 'Datos guardados', detail: '¡Registro añadido con éxito!' });
           this.getHistoryByDate();
           this.getTotalPortionsWeek();
         },
         error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al borrar el registro' });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar el registro' });
         }
-      })
+      });
+  }
+
+  deleteFromHistory(foodDeletedFromUser:DiabetesHistory[]) {
+    const ids = foodDeletedFromUser.map(food => food.logId).join(',');
+    this.httpClient.delete(`${this.BASE_URL}?ids=${ids}`).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'success', summary: 'Datos borrados', detail: '¡Registros borrados con éxito!' });
+        this.getHistoryByDate();
+        this.getTotalPortionsWeek();
+      },
+      error: (err) => {
+        console.log(err)
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al borrar los registros' });
+      }
     });
   }
 
