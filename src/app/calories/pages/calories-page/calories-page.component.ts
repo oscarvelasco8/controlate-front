@@ -6,6 +6,7 @@ import {UserService} from '../../../shared/services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import {LocalStorageService} from '../../../shared/services/local-storage.service';
+import {forkJoin} from 'rxjs';
 
 @Component({
   selector: 'app-calories-page',
@@ -47,16 +48,25 @@ export class CaloriesPageComponent implements OnInit{
   }*/
 
   ngOnInit(): void {
-    /*this.foodHistoryService.getHistoryByDate();*/
+    forkJoin({
+      userObjective: this.userService.getUserObjective(),
+      tmb: this.userService.tmb
+    }).subscribe({
+      next: ({ userObjective, tmb }) => {
+        // Configurar el objetivo del usuario
+        this.userService.userObjective.set(userObjective);
+        this.userObjectiveName = this.userObjectiveOptions.find(
+          item => item.value === userObjective
+        )?.name || 'Desconocido';
 
-    this.userService.getUserObjective().subscribe({
-      next: (response) => {
-        this.userService.userObjective.set(response);
-        this.getUserData();
-        this.userObjectiveName = this.userObjectiveOptions.find(item => item.value === this.userService.userObjective()).name;
+        // Configurar TMB y objetivos
+        this.userTmb = Math.round(tmb);
+        this.userService.tmbObjective.set(this.userTmb);
+
+        this.getObjectivesInBaseOfTmb();
       },
       error: (err) => {
-        console.error('Error fetching user objective:', err);
+        console.error('Error fetching data:', err);
       }
     });
   }
@@ -101,61 +111,34 @@ export class CaloriesPageComponent implements OnInit{
   }
 
   private getObjectivesInBaseOfTmb() {
-    // Obtén la TMB ajustada al factor de actividad
-    const tmbAdjusted:number = this.userService.tmbObjective();
+    const tmbAdjusted: number = this.userService.tmbObjective();
 
-    switch (this.userService.userObjective()) {
-      case 'BAJAR_LIGERO':
-        // Reducir un 10% de las calorías de mantenimiento
-        this.userService.tmbAdjusted.set(tmbAdjusted * 0.9);
-        break;
+    // Calcular TMB ajustada según el objetivo
+    const adjustmentFactors: { [key: string]: number } = {
+      BAJAR_LIGERO: 0.9,
+      BAJAR_MODERADO: 0.8,
+      MANTENIMIENTO: 1,
+      SUBIR_LIGERO: 1.1,
+      SUBIR_MODERADO: 1.2
+    };
 
-      case 'BAJAR_MODERADO':
-        // Reducir un 20% de las calorías de mantenimiento
-        this.userService.tmbAdjusted.set(tmbAdjusted * 0.8);
-        break;
+    const objective = this.userService.userObjective();
+    const factor = adjustmentFactors[objective] || 1; // Default 1 si no coincide ningún objetivo
 
-      case 'MANTENIMIENTO':
-        // Mantener las calorías de mantenimiento
-        this.userService.tmbAdjusted.set(tmbAdjusted);
-        break;
+    const tmbFinal = tmbAdjusted * factor;
+    this.userService.tmbAdjusted.set(tmbFinal);
 
-      case 'SUBIR_LIGERO':
-        // Aumentar un 10% de las calorías de mantenimiento
-        this.userService.tmbAdjusted.set(tmbAdjusted * 1.1);
-        break;
+    // Distribución de macronutrientes
+    const macronutrientRatios = {
+      protein: 0.3 / 4,
+      fat: 0.25 / 9,
+      carb: 0.45 / 4
+    };
 
-      case 'SUBIR_MODERADO':
-        // Aumentar un 20% de las calorías de mantenimiento
-        this.userService.tmbAdjusted.set(tmbAdjusted * 1.2);
-        break;
-
-      default:
-        throw new Error('Objetivo no definido');
-    }
-
-    // Distribución de macronutrientes (% de las calorías totales)
-    // 1g de proteína = 4 cal, 1g de carbohidrato = 4 cal, 1g de grasa = 9 cal
-
-    // Proporciones estándar (puedes ajustarlas según el caso)
-    const proteinPercentage = 0.3; // 30% proteínas
-    const fatPercentage = 0.25; // 25% grasas
-    const carbPercentage = 0.45; // 45% carbohidratos
-
-    // Cálculo en gramos
-    this.userService.proteinesObjective.set((this.userService.tmbAdjusted()*proteinPercentage)/4);
-    this.userService.fatsObjective.set((this.userService.tmbAdjusted()*fatPercentage)/9);
-    this.userService.carbohydratesObjective.set((this.userService.tmbAdjusted()*carbPercentage)/4);
+    this.userService.proteinesObjective.set(tmbFinal * macronutrientRatios.protein);
+    this.userService.fatsObjective.set(tmbFinal * macronutrientRatios.fat);
+    this.userService.carbohydratesObjective.set(tmbFinal * macronutrientRatios.carb);
   }
 
-  private formatDate(date:Date):string {
-    const year = date.getFullYear().toString(); // Obtener los dos últimos dígitos del año
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Meses de 0-11
-    const day = date.getDate().toString().padStart(2, '0'); // Día con dos dígitos
-
-
-    // Formato yy/mm/dd
-    return `${year}/${month}/${day}`;
-  }
 
 }
