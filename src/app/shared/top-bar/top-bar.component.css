@@ -46,3 +46,7 @@
 .dark {
   color: black;
 }
+
+.logo div {
+  width: 120px;
+}

@@ -52,4 +52,7 @@ export class TopBarComponent{
       this.localStorageService.isLightTheme();
     }
   }
+  get isDarkTheme():boolean{
+    return this.localStorageService.darkTheme;
+  }
 }
