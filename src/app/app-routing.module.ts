@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {isAuthenticatedGuard} from './shared/guards/is-authenticated.guard';
 
 const routes: Routes = [
   {
@@ -13,11 +14,13 @@ const routes: Routes = [
   },
   {
     path: 'calories',
-    loadChildren: () => import('./calories/calories.module').then(m => m.CaloriesModule)
+    loadChildren: () => import('./calories/calories.module').then(m => m.CaloriesModule),
+    canActivate: [isAuthenticatedGuard]
   },
   {
     path: 'diabetes',
-    loadChildren: () => import('./diabetes/diabetes.module').then(m => m.DiabetesModule)
+    loadChildren: () => import('./diabetes/diabetes.module').then(m => m.DiabetesModule),
+    canActivate: [isAuthenticatedGuard]
   },
   {
     path: 'register',
@@ -29,7 +32,8 @@ const routes: Routes = [
   },
   {
     path: 'modify-profile',
-    loadChildren: () => import('./modify-profile/modify-profile.module').then(m => m.ModifyProfileModule)
+    loadChildren: () => import('./modify-profile/modify-profile.module').then(m => m.ModifyProfileModule),
+    canActivate: [isAuthenticatedGuard]
   },
   {
     path: '**',
