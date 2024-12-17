@@ -1,4 +1,4 @@
-import {Component,  ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MegaMenuItem} from 'primeng/api';
 
 import {LocalStorageService} from '../services/local-storage.service';
@@ -9,7 +9,7 @@ import {LocalStorageService} from '../services/local-storage.service';
   styleUrl: './top-bar.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class TopBarComponent{
+export class TopBarComponent implements OnInit{
   isLightTheme: boolean = true;
   public items: MegaMenuItem[] = [
     {
@@ -33,6 +33,10 @@ export class TopBarComponent{
     private localStorageService: LocalStorageService
   ) {
   }
+
+  ngOnInit(): void {
+    this.isLightTheme = !this.localStorageService.darkTheme;
+  }
   get userLogged(): boolean{
     return this.localStorageService.getLoginStatus();
   }
@@ -55,4 +59,6 @@ export class TopBarComponent{
   get isDarkTheme():boolean{
     return this.localStorageService.darkTheme;
   }
+
+
 }

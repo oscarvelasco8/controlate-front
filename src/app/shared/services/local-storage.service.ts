@@ -34,8 +34,4 @@ export class LocalStorageService {
   saveUserObjective(value:string):void{
     localStorage.setItem('userObjective', value);
   }
-
-  get localStorageUserObjective():string{
-    return localStorage.getItem('userObjective')!;
-  }
 }
