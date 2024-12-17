@@ -155,12 +155,16 @@ export class SearchFoodComponent{
   }
 
   saveMeal() {
-    this.foodHistoryService.insertIntoHistory(this._foodAdded);
-    this.foodHistoryService.deleteFromHistory(this._foodDeleted);
-    /*this.foodHistoryService.getHistoryByDate(this.selectedDate);*/
-    /*this.foodHistoryService.getTotalCaloriesWeek(this.selectedDate);*/
-    this._foodAdded = [];
-    this._foodDeleted = [];
+    if(this._foodAdded.length > 0 ){
+      this.foodHistoryService.insertIntoHistory(this._foodAdded);
+      this._foodAdded = [];
+    }
+    if (this._foodDeleted.length > 0){
+      this.foodHistoryService.deleteFromHistory(this._foodDeleted);
+      this._foodDeleted = [];
+    }
+
+
     this.closeModal();
   }
 }
