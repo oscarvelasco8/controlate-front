@@ -1,12 +1,7 @@
 <header class="top-bar flex align-items-center justify-content-between  " [ngStyle]="isLightTheme ? { 'background-color': '#fff' } : { 'background-color': '#111827' }">
   <p-menubar [model]="items" [style]="{ 'font-family': 'Poppins', 'border-radius': '3rem'}" class="flex-1">
   </p-menubar>
-  <span class="flex-1 flex justify-content-center">
-        <a routerLink="home">
-          <img src="top-bar/logo-test.png" alt="">
-        </a>
-
-  </span>
+  <p-avatar image="top-bar/logo-controlate.webp" class="flex align-items-center justify-content-center mt-2 mb-2" size="xlarge"></p-avatar>
   <div class="flex-1 flex justify-content-end align-items-center pr-5">
     <p-button
       icon="pi pi-cog"
@@ -16,6 +11,7 @@
       size="large"
       severity="secondary"
       [styleClass]="isLightTheme ? 'dark' : 'light'"
+      *ngIf="userLogged"
     >
     </p-button>
     <p-button
