@@ -19,3 +19,7 @@ main{
     text-align: center;
   }
 }
+
+.p-menuitem-link{
+  background:none;
+}
