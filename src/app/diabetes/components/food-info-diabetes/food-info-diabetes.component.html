@@ -9,7 +9,7 @@
       header="{{ meal.name }} "
       styleClass="cursor-pointer hover:scale-105 transition-all"
       (click)="openModal(meal)"
-      class="w-5"
+      class="w-5 flex h-15rem"
     >
       <div *ngIf="meal.foods && meal.foods.length > 0" class="flex gap-2 flex-column">
         <div class="flex flex-column gap-2">

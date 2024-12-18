@@ -1,4 +1,4 @@
-import {Component, effect, Input} from '@angular/core';
+import {Component, effect, Input, ViewEncapsulation} from '@angular/core';
 import {FoodHistory} from '../../../shared/interfaces/foodHistory';
 import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.service';
 import {DiabetesHistory} from '../../../shared/interfaces/DiabetesHistory';
@@ -6,7 +6,8 @@ import {DiabetesHistory} from '../../../shared/interfaces/DiabetesHistory';
 @Component({
   selector: 'food-info-diabetes',
   templateUrl: './food-info-diabetes.component.html',
-  styleUrl: './food-info-diabetes.component.css'
+  styleUrl: './food-info-diabetes.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class FoodInfoDiabetesComponent {
   @Input() history: DiabetesHistory[] = [];

@@ -1,3 +1,6 @@
 /*.food-info{
   width:calc(50% - 1rem);
 }*/
+.p-card {
+  overflow: auto;
+}
