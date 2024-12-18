@@ -8,8 +8,8 @@ import {FoodHistory} from '../interfaces/foodHistory';
 })
 export class FoodHistoryService {
 
-  //private BASE_URL = 'https://controlate-back.koyeb.app/api/user-calories-history';
-  private BASE_URL = 'http://localhost:8080/api/user-calories-history';
+  private BASE_URL = 'https://controlate-back.koyeb.app/api/user-calories-history';
+  //private BASE_URL = 'http://localhost:8080/api/user-calories-history';
 
   private _totalCalories = signal(0);
   public totalProtein = signal(0);
