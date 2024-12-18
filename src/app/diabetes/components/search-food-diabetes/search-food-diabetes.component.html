@@ -21,7 +21,7 @@
 
     </div>
     <div class="flex gap-8 flex-wrap">
-      <p-table [value]="foodsSearched" *ngIf="foodsSearched.length > 0">
+      <p-table class="flex-1" [value]="foodsSearched" *ngIf="foodsSearched.length > 0">
         <ng-template pTemplate="header">
           <tr>
             <th>Alimentos</th>
@@ -49,7 +49,8 @@
                   <div class="flex flex-column gap-2 flex-1" >
                     <span class="text-center">Raciones</span>
                     <div [style]="{'background-color': fatColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{ calculatePortions(food.carbohydrate) }}</span>
+                      <!--<span class="text-white">{{ calculatePortions(food.carbohydrate) }}</span>-->
+                      <span class="text-white">{{calculatePortions(food.carbohydrate)}}</span>
                     </div>
                   </div>
                 </td>
@@ -58,7 +59,7 @@
           </tr>
         </ng-template>
       </p-table>
-      <p-table [value]="getuserHistoryByMeal(selectedMeal.name)" [ngClass]="foodsSearched.length > 0 ? 'w-1/2' : 'w-full'" *ngIf="getuserHistoryByMeal(selectedMeal.name).length > 0" >
+      <p-table class="flex-1" [value]="getuserHistoryByMeal(selectedMeal.name)" [ngClass]="foodsSearched.length > 0 ? 'w-1/2' : 'w-full'" *ngIf="getuserHistoryByMeal(selectedMeal.name).length > 0" >
         <ng-template pTemplate="header">
           <tr>
             <th>Alimentos Añadidos</th>
@@ -83,7 +84,8 @@
                 <div class="flex flex-column gap-2 flex-1" >
                   <span class="text-center">Raciones</span>
                   <div [style]="{'background-color': fatColor}" class="border-round flex justify-content-center">
-                    <span class="text-white">{{ foodAdded.portions }}</span>
+                    <!--<span class="text-white">{{ foodAdded.portions }}</span>-->
+                    <span class="text-white">{{foodAdded.portions}}</span>
                   </div>
                 </div>
               </div>

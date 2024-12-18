@@ -18,7 +18,7 @@ export class PersonalFormComponent implements OnInit{
     email: ['',[Validators.required, Validators.email]],
     gender: ['',[Validators.required]]
   })
-  genderOptions: any[] = [{ name: 'Hombre', code: '1', value:'male' }, { name: 'Mujer', code: '2', value: 'female' }];
+  genderOptions: any[] = [{ name: 'Hombre', code: '1', value:'MALE' }, { name: 'Mujer', code: '2', value: 'FEMALE' }];
 
   constructor(
     private router:Router,
@@ -55,7 +55,7 @@ export class PersonalFormComponent implements OnInit{
       name: this.formValidatorService.userInfo.name,
       lastname: this.formValidatorService.userInfo.lastname,
       email: this.formValidatorService.userInfo.email,
-      gender: this.genderOptions.find(option => option.value === this.formValidatorService.userInfo.gender)
+      gender: this.genderOptions.find(option => option.value === this.formValidatorService.userInfo.gender) || this.formValidatorService.userInfo.gender
     });
   }
 }

@@ -5,5 +5,6 @@ export interface FoodInfo {
   protein:string,
   carbohydrate:string,
   fat:string
-  serving_description:string
+  serving_description:string,
+  portions?: number
 }

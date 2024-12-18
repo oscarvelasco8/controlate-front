@@ -62,7 +62,7 @@
       </div>
     </div>
     <div class="card flex">
-      <label for="diabetes" class="mr-4">¿Eres diabetico?</label><p-inputSwitch name="isDiabetic" id="diabetes" [(ngModel)]="isDiabetic" [ngModelOptions]="{standalone: true}"/>
+      <label for="diabetes" class="mr-4">¿Eres diabetico?</label><p-inputSwitch formControlName="isDiabetic" name="isDiabetic" id="diabetes"/>
 
     </div>
     <div class="flex flex-column gap-2" *ngIf="isDiabetic">
@@ -75,6 +75,10 @@
         mode="decimal"
         [maxFractionDigits]="2"
       />
+      <small id="factor-diabetes-help">
+        Es una medida que indica cuánta insulina requiere el cuerpo para disminuir los niveles de glucosa en sangre.
+        Un valor alto puede reflejar resistencia a la insulina, lo que significa que las células tienen dificultad para responder adecuadamente a esta hormona.
+      </small>
     </div>
     <span class="p-error" *ngIf="isValidField('diabetesFactor')">
         {{getFieldError('diabetesFactor')}}
@@ -90,6 +94,10 @@
         mode="decimal"
         [maxFractionDigits]="2"
       />
+      <small id="icr-help">
+        Es la relación que determina cuántos gramos de carbohidratos puede procesar una unidad de insulina.
+        Se utiliza para calcular la dosis de insulina necesaria según la cantidad de carbohidratos consumidos en una comida.
+      </small>
     </div>
     <span class="p-error" *ngIf="isValidField('icr')">
         {{getFieldError('icr')}}

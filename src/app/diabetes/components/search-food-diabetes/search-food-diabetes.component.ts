@@ -32,7 +32,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
   private _userIcr: number | undefined = 0;
   private _userActivityFactor: string = '';
   private _userInsulineResistence: number | undefined = 0;
-  portions:number = 0;
+  /*portions:number = 0;*/
 
   public foodForm: FormGroup = this.formBuilder.group({
     quantity: [100, [Validators.required, Validators.min(1)]]
@@ -92,7 +92,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
     }
 
     // Redondear a las unidades permitidas (0.5)
-    this.portions = Math.round(basePortions * 2) / 2;
+    /*this.portions = Math.round(basePortions * 2) / 2;*/
     return Math.round(basePortions * 2) / 2;
   }
 
@@ -139,7 +139,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
         quantity: this.foodForm.controls['quantity'].value,
         carbohydrates:parseFloat(food.carbohydrate),
         units:food.serving_description,
-        portions: this.portions
+        portions: food.portions ? food.portions : this.calculatePortions(parseFloat(food.carbohydrate))
       });
   }
 
@@ -173,35 +173,26 @@ export class SearchFoodDiabetesComponent implements OnInit{
         // Creamos una copia de los valores originales de las macros
         this.originalValues[element.id] = {
           ...element, // Hacemos una copia completa de element
-          protein: element.protein,
           carbohydrate: element.carbohydrate,
-          fat: element.fat,
-          calories: element.calories,
+
         };
       }
 
       // Usamos los valores originales para hacer los cálculos
-      const originalProtein = parseFloat(this.originalValues[element.id].protein);
-      const originalCarbs = parseFloat(this.originalValues[element.id].carbohydrate);
-      const originalFat = parseFloat(this.originalValues[element.id].fat);
-      const originalCalories = parseFloat(this.originalValues[element.id].calories);
 
+      const originalCarbs = parseFloat(this.originalValues[element.id].carbohydrate);
       // Obtén la cantidad que el usuario ha ingresado en el formulario
       const quantity = this.foodForm.controls['quantity'].value;
-
       // Si la cantidad ingresada es válida
       if (!isNaN(quantity) && quantity > 0) {
         // Realiza los cálculos según la cantidad ingresada
-        const newProtein = (originalProtein / 100) * quantity;
+
         const newCarbs = (originalCarbs / 100) * quantity;
-        const newFat = (originalFat / 100) * quantity;
-        const newCalories = (originalCalories / 100) * quantity;
 
         // Actualiza solo las macros calculadas en el objeto `element`
-        element.protein = newProtein.toFixed(2);  // Guardamos como string
+
         element.carbohydrate = newCarbs.toFixed(2);  // Guardamos como string
-        element.fat = newFat.toFixed(2);  // Guardamos como string
-        element.calories = newCalories.toFixed(2);  // Guardamos como string
+
         this.calculatePortions(newCarbs);
       } else {
         console.error('Cantidad no válida');
