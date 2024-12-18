@@ -52,7 +52,7 @@ export class GraphicComponent implements OnInit{
         labels: this.diabetesHistoryService.portionsGraphicWeek().map(item => item.date),
         datasets: [
           {
-            label: 'Raciones de insulina administradas en una semana',
+            label: 'Raciones de insulina administradas',
             data: this.diabetesHistoryService.portionsGraphicWeek().map(item => item.portions),
             fill: true,
             tension: 0.4

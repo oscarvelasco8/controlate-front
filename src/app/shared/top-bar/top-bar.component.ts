@@ -18,7 +18,7 @@ export class TopBarComponent implements OnInit{
       routerLinkActive: 'active'
     },
     {
-      label: 'Macronutrientes',
+      label: 'Macros',
       routerLink: 'calories',
       routerLinkActive: 'active'
     },
