@@ -9,8 +9,8 @@ import {FoodInfo} from '../interfaces/FoodInfo';
   providedIn: 'root'
 })
 export class FoodService{
-  //private BASE_URL = 'https://controlate-back.koyeb.app/api';
-  private BASE_URL = 'http://localhost:8080/api';
+  private BASE_URL = 'https://controlate-back.koyeb.app/api';
+  //private BASE_URL = 'http://localhost:8080/api';
   private _foodsInfo:WritableSignal<FoodInfo[]>= signal([
     {
       name:'pollo',
