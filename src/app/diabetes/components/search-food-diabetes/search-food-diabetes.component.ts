@@ -141,6 +141,10 @@ export class SearchFoodDiabetesComponent implements OnInit{
         units:food.serving_description,
         portions: food.portions ? food.portions : this.calculatePortions(parseFloat(food.carbohydrate))
       });
+    setTimeout(() => {
+      const element = document.getElementsByClassName('scroll')[0];
+      element.scrollIntoView({ behavior: 'smooth',block: 'center' });
+    },0)
   }
 
   getuserHistoryByMeal(meal:string):DiabetesHistory[]{

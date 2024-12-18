@@ -1,4 +1,8 @@
 .p-progressbar-value{
-  max-width:100%
+  max-width:100%;
+  width: auto !important;
 }
 
+.p-progressbar-value span {
+  margin: 0 4px;
+}

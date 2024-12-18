@@ -73,12 +73,6 @@ export class SearchFoodComponent{
   }
 
   addFoodToMeal(meal:string, food:FoodInfo): void {
-    if (this._foodAdded.length == 0) {
-      const scrollContainer = document.querySelector('.scroll');
-      if (scrollContainer) {
-        scrollContainer.scrollTop = 1000; // Desplazamiento directo
-      }
-    }
     this._foodAdded.push(
       {
         logId:uuid(),
@@ -94,6 +88,10 @@ export class SearchFoodComponent{
         fats:parseFloat(food.fat),
         units:food.serving_description
       });
+    setTimeout(() => {
+      const element = document.getElementsByClassName('scroll')[0];
+      element.scrollIntoView({ behavior: 'smooth',block: 'center' });
+    },0)
   }
 
   getuserHistoryByMeal(meal:string):FoodHistory[]{

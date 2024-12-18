@@ -1,5 +1,5 @@
 <p-dialog [(visible)]="visible" [modal]="true" header="{{ selectedMeal?.name }}" (onHide)="closeModal()">
-  <div *ngIf="selectedMeal" class="p-fluid scroll">
+  <div *ngIf="selectedMeal" class="p-fluid">
     <div class="field">
       <label for="search">Buscar alimentos</label>
       <form class="flex gap-2 mb-4" [formGroup]="searchForm">
@@ -118,7 +118,7 @@
       </p-table>
     </div>
   </div>
-  <div class="flex justify-content-end mt-3">
+  <div class="flex justify-content-end mt-3 scroll">
     <!--<p-button (click)="saveMeal()" label="Guardar" *ngIf="isToday()"></p-button>-->
     <p-button (click)="saveMeal()" label="Guardar"></p-button>
   </div>
