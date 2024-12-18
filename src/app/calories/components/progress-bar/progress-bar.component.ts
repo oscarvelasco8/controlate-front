@@ -11,11 +11,11 @@ import {UserService} from '../../../shared/services/user.service';
 export class ProgressBarComponent{
   //color = "rgb(34, 197, 94)";
   color = "";
-  totalCaloriesDiary: number = 0;
+  dailyCalories: number = 0;
 
   constructor(private foodHistoryService: FoodHistoryService, private userService:UserService) {
     effect(() => {
-      this.totalCaloriesDiary = this.userService.tmbAdjusted();
+      this.dailyCalories = this.userService.caloriesObjective();
     });
   }
 

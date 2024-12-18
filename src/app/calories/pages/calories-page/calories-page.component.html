@@ -1,7 +1,7 @@
 <main class="px-4 md:mx-8">
   <div class="flex flex-column gap-4 mb-4 md:flex-row">
-    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tus calorías de mantenimiento son de : <b>{{userTmb}} kcal</b>. Actualmente tu objetivo es:
-      <b>{{userObjectiveName}}</b></p>
+    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tu Tasa Metabolica Basal es de : <b>{{userTmb}} kcal</b>. Actualmente tu objetivo es:
+      <b>{{userObjectiveName}}</b>, por lo tanto, las calorias que has de consumir son: <b>{{dailyCalories}}</b> kcal.</p>
     <form class="flex gap-4" (submit)="saveUserObjective()" [formGroup]="userObjectiveForm" *ngIf="userWantsModifyObjective">
 
         <p-dropdown

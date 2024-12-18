@@ -12,6 +12,7 @@ import {UserService} from '../../../shared/services/user.service';
 export class DoughtComponent implements OnInit{
   doughtsData: any[] = [];
   options: any;
+  data: number = 0;
 
   constructor(private foodHistoryService: FoodHistoryService, private userService:UserService) {
     // Aquí se coloca el effect dentro del constructor
@@ -19,6 +20,7 @@ export class DoughtComponent implements OnInit{
       const totalProtein = this.foodHistoryService.totalProtein();
       const totalCarbs = this.foodHistoryService.totalCarbs();
       const totalFat = this.foodHistoryService.totalFat();
+      this.data = this.userService.proteinesObjective() | this.userService.caloriesObjective() | this.userService.fatsObjective();
 
       // Actualizar los datos cuando las signals cambien
       this.doughtsData = [
@@ -80,6 +82,7 @@ export class DoughtComponent implements OnInit{
   }
 
   ngOnInit() {
+
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     this.options = {

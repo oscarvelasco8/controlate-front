@@ -40,16 +40,10 @@
               </div>
               <div>
                 <td class="flex flex-nowrap gap-2 justify-content-around pb-4">
-<!--                  <div class="flex flex-column gap-2 flex-1">
-                    <span class="text-center">Proteínas</span>
-                    <div [style]="{'background-color': proteinColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{food.protein}}</span>
-                    </div>
-                  </div>-->
                   <div class="flex flex-column gap-2 flex-1">
                     <span class="text-center">Carbohidratos</span>
                     <div [style]="{'background-color': carbsColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{food.carbohydrate}}</span>
+                      <span class="text-white">{{food.carbohydrate}} g</span>
                     </div>
                   </div>
                   <div class="flex flex-column gap-2 flex-1" >
@@ -58,12 +52,6 @@
                       <span class="text-white">{{ calculatePortions(food.carbohydrate) }}</span>
                     </div>
                   </div>
-<!--                  <div class="flex flex-column gap-2 flex-1" >
-                    <span class="text-center">Calorias</span>
-                    <div [style]="{'background-color': caloriesColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{food.calories}}</span>
-                    </div>
-                  </div>-->
                 </td>
               </div>
             </td>
@@ -86,16 +74,10 @@
               </div>
 
               <div class="flex flex-nowrap gap-2 justify-content-around pb-4">
-<!--                <div class="flex flex-column gap-2 flex-1">
-                  <span class="text-center">Proteínas</span>
-                  <div [style]="{'background-color': proteinColor}" class="border-round flex justify-content-center">
-                    <span class="text-white">{{foodAdded.proteins}}</span>
-                  </div>
-                </div>-->
                 <div class="flex flex-column gap-2 flex-1">
                   <span class="text-center">Carbohidratos</span>
                   <div [style]="{'background-color': carbsColor}" class="border-round flex justify-content-center">
-                    <span class="text-white">{{foodAdded.carbohydrates}}</span>
+                    <span class="text-white">{{foodAdded.carbohydrates}} g</span>
                   </div>
                 </div>
                 <div class="flex flex-column gap-2 flex-1" >
@@ -104,12 +86,6 @@
                     <span class="text-white">{{ foodAdded.portions }}</span>
                   </div>
                 </div>
-<!--                <div class="flex flex-column gap-2 flex-1" >
-                  <span class="text-center">Calorias</span>
-                  <div [style]="{'background-color': caloriesColor}" class="border-round flex justify-content-center">
-                    <span class="text-white">{{foodAdded.calories}}</span>
-                  </div>
-                </div>-->
               </div>
             </td>
 

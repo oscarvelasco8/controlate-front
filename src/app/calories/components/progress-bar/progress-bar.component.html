@@ -1,8 +1,8 @@
 <p-progressBar
-  [value]="totalCaloriesHistory * 100 / totalCaloriesDiary"
-  [color]="color" class="max-w-full">
+  [value]="totalCaloriesHistory * 100 / dailyCalories"
+  [color]="color">
   <ng-template pTemplate="content">
-    <span class="centered-text">{{ totalCaloriesHistory }}/{{ totalCaloriesDiary }} KCAL</span>
+    <span class="centered-text">{{ totalCaloriesHistory }}/{{ dailyCalories }}</span>
   </ng-template>
 </p-progressBar>
 

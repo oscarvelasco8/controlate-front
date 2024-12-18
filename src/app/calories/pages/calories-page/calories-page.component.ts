@@ -17,6 +17,7 @@ export class CaloriesPageComponent implements OnInit{
   userTmb:number = 0;
   userWantsModifyObjective:boolean = false;
   userObjectiveName:string = '';
+  dailyCalories:number = 0;
   userObjectiveOptions: any[] = [
     { name: 'Bajar de peso ligeramente', code: '1' , value:'BAJAR_LIGERO' },
     { name: 'Bajar de peso moderadamente', code: '2', value: 'BAJAR_MODERADO' },
@@ -33,50 +34,38 @@ export class CaloriesPageComponent implements OnInit{
     private userService:UserService,
     private formBuilder:FormBuilder,
     private messageService:MessageService,
-    private localStorageService:LocalStorageService
+    /*private localStorageService:LocalStorageService*/
   ) {
   }
 
-/*  transformDate(inputDate: Date): Date {
-    // Extraer los componentes de la fecha
-    const year = inputDate.getFullYear();
-    const month = inputDate.getMonth(); // Los meses van de 0 (enero) a 11 (diciembre)
-    const day = inputDate.getDate();
-
-    // Crear un nuevo objeto Date con los componentes extraídos (hora 00:00:00)
-    return new Date(year, month, day);
-  }*/
-
   ngOnInit(): void {
+    this.getUserData();
+  }
+
+  getUserData():void{
     forkJoin({
+      dailyCalories: this.userService.getDailyCalories(),
+      tmb: this.userService.getTmb(),
       userObjective: this.userService.getUserObjective(),
-      tmb: this.userService.tmb
     }).subscribe({
-      next: ({ userObjective, tmb }) => {
+      next: ({ dailyCalories, tmb, userObjective }) => {
         // Configurar el objetivo del usuario
-        this.userService.userObjective.set(userObjective);
+
         this.userObjectiveName = this.userObjectiveOptions.find(
           item => item.value === userObjective
         )?.name || 'Desconocido';
+        this.userService.userObjective.set(this.userObjectiveName);
 
-        // Configurar TMB y objetivos
-        this.userTmb = Math.round(tmb);
-        this.userService.tmbObjective.set(this.userTmb);
+        this.userService.caloriesObjective.set(Math.round(dailyCalories));
+        this.dailyCalories = Math.round(this.userService.caloriesObjective());
+
+        this.userService.tmbObjective.set(Math.round(tmb));
+        this.userTmb = Math.round(this.userService.tmbObjective());
 
         this.getObjectivesInBaseOfTmb();
       },
       error: (err) => {
         console.error('Error fetching data:', err);
-      }
-    });
-  }
-
-  getUserData():void{
-    this.userService.tmb.subscribe({
-      next: (data) => {
-        this.userTmb = Math.round(data);
-        this.userService.tmbObjective.set(Math.round(data));
-        this.getObjectivesInBaseOfTmb()
       }
     });
   }
@@ -92,8 +81,6 @@ export class CaloriesPageComponent implements OnInit{
     this.userService.saveUserObjective(objective).subscribe({
       next:() => {
         this.messageService.add({ severity: 'success', summary: 'Busqueda exitosa', detail: '¡Preferencias guardadas!' });
-        this.localStorageService.saveUserObjective(objective);
-        this.userService.userObjective.set(objective);
         this.getUserData();
       },
       error:() =>{
@@ -112,32 +99,15 @@ export class CaloriesPageComponent implements OnInit{
 
   private getObjectivesInBaseOfTmb() {
     const tmbAdjusted: number = this.userService.tmbObjective();
-
-    // Calcular TMB ajustada según el objetivo
-    const adjustmentFactors: { [key: string]: number } = {
-      BAJAR_LIGERO: 0.9,
-      BAJAR_MODERADO: 0.8,
-      MANTENIMIENTO: 1,
-      SUBIR_LIGERO: 1.1,
-      SUBIR_MODERADO: 1.2
-    };
-
-    const objective = this.userService.userObjective();
-    const factor = adjustmentFactors[objective] || 1; // Default 1 si no coincide ningún objetivo
-
-    const tmbFinal = tmbAdjusted * factor;
-    this.userService.tmbAdjusted.set(tmbFinal);
-
     // Distribución de macronutrientes
     const macronutrientRatios = {
       protein: 0.3 / 4,
       fat: 0.25 / 9,
       carb: 0.45 / 4
     };
-
-    this.userService.proteinesObjective.set(tmbFinal * macronutrientRatios.protein);
-    this.userService.fatsObjective.set(tmbFinal * macronutrientRatios.fat);
-    this.userService.carbohydratesObjective.set(tmbFinal * macronutrientRatios.carb);
+    this.userService.proteinesObjective.set(tmbAdjusted * macronutrientRatios.protein);
+    this.userService.fatsObjective.set(tmbAdjusted * macronutrientRatios.fat);
+    this.userService.carbohydratesObjective.set(tmbAdjusted * macronutrientRatios.carb);
   }
 
 
