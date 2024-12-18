@@ -19,12 +19,17 @@ export class FormValidatorService {
     username: '',
     password: '',
     gender: '',
-    icr: 0
+    icr: 0,
+    isDiabetic: false
   };
 
   constructor(
 
   ) { }
+
+  set isDiabetic(isDiabetic:boolean){
+    this._userInfo.isDiabetic = isDiabetic;
+  }
 
   get userInfo():userInfo{
     return this._userInfo;
@@ -101,7 +106,8 @@ export class FormValidatorService {
       username: '',
       password: '',
       gender: '',
-      icr:0
+      icr:0,
+      isDiabetic: false
     };
   }
 

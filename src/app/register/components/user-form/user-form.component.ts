@@ -42,12 +42,12 @@ export class UserFormComponent implements OnInit{
 
     this.userService.registerUser(this.formValidatorService.userInfo).subscribe(
       {
-        next: (response) => {
+        next: () => {
           this.messageService.add({ severity: 'success', summary: 'Datos guardados', detail: '¡Registro completado con éxito!' })
           this.formValidatorService.resetForm();
           setTimeout(() => {
             this.router.navigate(['/home']);
-          }, 2000);
+          }, 1500);
         },
         error: (err) => {
 

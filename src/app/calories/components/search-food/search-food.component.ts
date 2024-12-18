@@ -73,6 +73,12 @@ export class SearchFoodComponent{
   }
 
   addFoodToMeal(meal:string, food:FoodInfo): void {
+    if (this._foodAdded.length == 0) {
+      const scrollContainer = document.querySelector('.scroll');
+      if (scrollContainer) {
+        scrollContainer.scrollTop = 1000; // Desplazamiento directo
+      }
+    }
     this._foodAdded.push(
       {
         logId:uuid(),

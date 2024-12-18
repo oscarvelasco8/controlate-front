@@ -12,7 +12,7 @@ import {FormValidatorService} from '../../../shared/services/form-validator.serv
   encapsulation: ViewEncapsulation.None
 })
 export class ActividadFormComponent implements OnInit{
-  isDiabetic: boolean = false;
+  /*isDiabetic: boolean = false;*/
   activityOptions: any[] = [
     { name: 'Poco Sedentario', code: '1' , value:'POCO_SEDENTARIO' },
     { name: 'Sedentario', code: '2', value: 'SEDENTARIO' },
@@ -24,6 +24,7 @@ export class ActividadFormComponent implements OnInit{
     weight: [null, [Validators.required , Validators.min(1)]],
     height: [null, [Validators.required, Validators.min(1)]],
     activity: [null, [Validators.required]],
+    isDiabetic: [false],
     diabetesFactor: [null],
     icr:[null],
   });
@@ -48,8 +49,10 @@ export class ActividadFormComponent implements OnInit{
     this.formValidatorService.activityFactor = this.activityForm.get('activity')?.value.value;
     this.formValidatorService.insulinaFactor = this.activityForm.get('diabetesFactor')?.value;
     this.formValidatorService.icr = this.activityForm.get('icr')?.value;
+    this.formValidatorService.isDiabetic = this.activityForm.get('isDiabetic')?.value;
 
     this.router.navigate(['/register/user']);
+    console.log(this.activityForm.controls['isDiabetic'].value)
 
   }
 
@@ -66,7 +69,12 @@ export class ActividadFormComponent implements OnInit{
       height: this.formValidatorService.userInfo.height,
       activity: this.activityOptions.find(option => option.value === this.formValidatorService.userInfo.activityFactor) || this.formValidatorService.userInfo.activityFactor,
       diabetesFactor: this.formValidatorService.userInfo.insulinaFactor,
-      icr: this.formValidatorService.userInfo.icr
+      icr: this.formValidatorService.userInfo.icr,
+      isDiabetic: this.formValidatorService.isDiabetic
     });
+  }
+
+  get isDiabetic(): boolean {
+    return this.activityForm.controls['isDiabetic'].value;
   }
 }

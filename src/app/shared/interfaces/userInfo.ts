@@ -11,5 +11,6 @@ export interface userInfo{
   password:string,
   gender:string,
   objective?:string,
-  icr?:number
+  icr?:number,
+  isDiabetic?:boolean
 }
