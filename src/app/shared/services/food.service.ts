@@ -1,4 +1,4 @@
-import {computed, Injectable, OnInit, signal, WritableSignal} from '@angular/core';
+import {computed, Injectable, signal, WritableSignal} from '@angular/core';
 import {firstValueFrom, map} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Food, FoodElement} from '../interfaces/food';
@@ -9,7 +9,7 @@ import {FoodInfo} from '../interfaces/FoodInfo';
   providedIn: 'root'
 })
 export class FoodService{
-  private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api';
+  private BASE_URL = 'https://controlate-back.koyeb.app/api';
   //private BASE_URL = 'http://localhost:8080/api';
   private _foodsInfo:WritableSignal<FoodInfo[]>= signal([
     {
@@ -50,7 +50,7 @@ export class FoodService{
         this.messageService.add({ severity: 'success', summary: 'Busqueda exitosa', detail: '¡Resultados encontrados!' });
         this._searching = false;
       },
-      error: (error) => {
+      error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La busqueda no arrojo ningun resultado' });
         this._searching = false;
       }
@@ -94,7 +94,7 @@ export class FoodService{
     const scalingFactor = servingUnit === 'g' ? 100 / servingSize : 1; // Escala solo si la unidad es 'g'
     const foodName = await this.translateEnToEs(data.food_name);
 
-    const element = {
+    return {
       name: foodName,
       id: data.food_id,
       calories: (calories * scalingFactor).toFixed(2),
@@ -103,7 +103,6 @@ export class FoodService{
       fat: (fat * scalingFactor).toFixed(2),
       serving_description: servingUnit, // Solo contiene la unidad
     };
-    return element;
   }
 
 

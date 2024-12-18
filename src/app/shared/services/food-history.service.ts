@@ -8,7 +8,7 @@ import {FoodHistory} from '../interfaces/foodHistory';
 })
 export class FoodHistoryService {
 
-  private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-calories-history';
+  private BASE_URL = 'https://controlate-back.koyeb.app/api/user-calories-history';
   //private BASE_URL = 'http://localhost:8080/api/user-calories-history';
 
   private _totalCalories = signal(0);
@@ -38,7 +38,7 @@ export class FoodHistoryService {
           this.getHistoryByDate();
           this.getTotalCaloriesWeek();
         },
-        error: (err) => {
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar los nuevos alimentos' });
         }
       });
