@@ -8,8 +8,8 @@ import {DiabetesHistory} from '../interfaces/DiabetesHistory';
 })
 export class DiabetesHistoryService {
 
-  private BASE_URL = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app/api/user-diabetes-history';
-  //private BASE_URL = 'http://localhost:8080/api/user-diabetes-history';
+  //private BASE_URL = 'https://controlate-back.koyeb.app/api/user-diabetes-history';
+  private BASE_URL = 'http://localhost:8080/api/user-diabetes-history';
   public totalCarbs = signal(0);
   private _history:DiabetesHistory[] = [];
   private selectedDate:string = '';
@@ -37,7 +37,7 @@ export class DiabetesHistoryService {
           this.getHistoryByDate();
           this.getTotalPortionsWeek();
         },
-        error: (err) => {
+        error: () => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al guardar el registro' });
         }
       });

@@ -1,10 +1,10 @@
 <main class="flex-1 mb-4 pl-2 pr-2 h-full ">
-  <div class="field-container justify-content-center flex flex-column h-full">
+  <div class="field-container flex flex-column h-full">
     <div class="field flex align-items-center justify-content-center">
       <h2 class="font-light mr-3">Modifica tus datos</h2> <i class="pi pi-user" style="font-size: 1.5rem"></i>
     </div>
-    <form [formGroup]="modifyUserForm" (submit)="modifyProperties()" class="flex flex-wrap gap-4 justify-content-center">
-      <div>
+    <form [formGroup]="modifyUserForm" (submit)="modifyProperties()" class="flex flex-wrap justify-content-between gap-4 w-8 m-auto ">
+      <div class="sm:w-full md:w-auto">
         <div class="field">
           <div class="mb-3">
             <label for="username">Usuario</label>
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="sm:w-full md:w-auto">
         <div class="field">
           <div class="mb-3">
             <label for="name">Nombre</label>
@@ -33,7 +33,7 @@
           <input formControlName="lastname" pInputText id="lastname" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
         </div>
       </div>
-      <div>
+      <div class="sm:w-full md:w-auto">
         <div class="field">
           <div class="mb-3">
             <label for="email">Correo Electrónico</label>
@@ -52,7 +52,7 @@
             placeholder="Introduce tu género" />
         </div>
       </div>
-      <div>
+      <div class="sm:w-full md:w-auto">
         <div class="field">
           <div class="mb-3">
             <label for="age">Edad</label>
@@ -66,7 +66,7 @@
           <input formControlName="height" pInputText id="height" type="number" step="0.01" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
         </div>
       </div>
-      <div>
+      <div class="sm:w-full md:w-auto">
         <div class="field">
           <div class="mb-3">
             <label for="weight">Peso</label>
@@ -85,7 +85,7 @@
             placeholder="Selecciona un factor de actividad" />
         </div>
       </div>
-      <div>
+      <div class="sm:w-full md:w-auto">
         <div class="field">
           <div class="mb-3">
             <label for="insulinaFactor">Factor de Insulina</label>
@@ -100,7 +100,7 @@
         </div>
 
       </div>
-      <div>
+      <div class="sm:w-full md:w-auto">
         <div class="field">
           <div class="mb-3">
             <label for="objective">Objetivo</label>

@@ -2,21 +2,20 @@ import {Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {userInfo} from '../interfaces/userInfo';
 import {Observable} from 'rxjs';
-import {FoodAddedFromUser} from '../../calories/interfaces/foodAddedFromUser';
-import {FormGroup} from '@angular/forms';
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl: string = 'https://wet-chelsy-controlat-2005cbe5.koyeb.app';
-  //private baseUrl: string = 'http://localhost:8080';
+  //private baseUrl: string = 'https://controlate-back.koyeb.app';
+  private baseUrl: string = 'http://localhost:8080';
   public userObjective:WritableSignal<string> = signal('');
   public proteinesObjective:WritableSignal<number> = signal(0);
   public carbohydratesObjective:WritableSignal<number> = signal(0);
   public fatsObjective:WritableSignal<number> = signal(0);
   public caloriesObjective:WritableSignal<number> = signal(0);
   public tmbObjective:WritableSignal<number> = signal(0);
-  public tmbAdjusted:WritableSignal<number> = signal(0);
+  /*public tmbAdjusted:WritableSignal<number> = signal(0);*/
   constructor(
     private httpClient: HttpClient
   ) { }
@@ -28,8 +27,12 @@ export class UserService {
     return this.httpClient.get(this.baseUrl + `/api/users/login?username=${username}&password=${password}`);
   }
 
-  get tmb(): Observable<any> {
+  getTmb(): Observable<any> {
     return this.httpClient.get(this.baseUrl + `/api/users/tmb/${localStorage.getItem('userLogged')}`);
+  }
+
+  getDailyCalories(): Observable<any> {
+    return this.httpClient.get(this.baseUrl + `/api/users/daily-calories/${localStorage.getItem('userLogged')}`);
   }
 
   saveUserObjective(value:string): Observable<any> {

@@ -20,7 +20,7 @@
       </div>
 
     </div>
-    <div class="flex gap-8">
+    <div class="flex gap-8 flex-wrap">
       <p-table [value]="foodsSearched" *ngIf="foodsSearched.length > 0">
         <ng-template pTemplate="header">
           <tr>
@@ -43,19 +43,19 @@
                   <div class="flex flex-column gap-2 flex-1">
                     <span class="text-center">Proteínas</span>
                     <div [style]="{'background-color': proteinColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{food.protein}}</span>
+                      <span class="text-white">{{food.protein}} g</span>
                     </div>
                   </div>
                   <div class="flex flex-column gap-2 flex-1">
                     <span class="text-center">Carbohidratos</span>
                     <div [style]="{'background-color': carbsColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{food.carbohydrate}}</span>
+                      <span class="text-white">{{food.carbohydrate}} g</span>
                     </div>
                   </div>
                   <div class="flex flex-column gap-2 flex-1" >
                     <span class="text-center">Grasas</span>
                     <div [style]="{'background-color': fatColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{food.fat}}</span>
+                      <span class="text-white">{{food.fat}} g</span>
                     </div>
                   </div>
                   <div class="flex flex-column gap-2 flex-1" >
@@ -89,19 +89,19 @@
                   <div class="flex flex-column gap-2 flex-1">
                     <span class="text-center">Proteínas</span>
                     <div [style]="{'background-color': proteinColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{foodAdded.proteins}}</span>
+                      <span class="text-white">{{foodAdded.proteins}} g</span>
                     </div>
                   </div>
                   <div class="flex flex-column gap-2 flex-1">
                     <span class="text-center">Carbohidratos</span>
                     <div [style]="{'background-color': carbsColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{foodAdded.carbohydrates}}</span>
+                      <span class="text-white">{{foodAdded.carbohydrates}} g</span>
                     </div>
                   </div>
                   <div class="flex flex-column gap-2 flex-1" >
                     <span class="text-center">Grasas</span>
                     <div [style]="{'background-color': fatColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{foodAdded.fats}}</span>
+                      <span class="text-white">{{foodAdded.fats}} g</span>
                     </div>
                   </div>
                   <div class="flex flex-column gap-2 flex-1" >

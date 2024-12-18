@@ -49,22 +49,6 @@
   color-scheme: light;
 }
 
-@font-face {
-  font-family: "Inter var";
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: normal;
-  font-named-instance: "Regular";
-  src: url("./fonts/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-@font-face {
-  font-family: "Inter var";
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: italic;
-  font-named-instance: "Italic";
-  src: url("./fonts/Inter-italic.var.woff2?v=3.19") format("woff2");
-}
 :root {
   --blue-50:#f5f9ff;
   --blue-100:#d0e1fd;
@@ -293,7 +277,7 @@
   }
 
   .p-component {
-    font-family: var(--font-family);
+    font-family: var(--font-family), serif;
     font-feature-settings: var(--font-feature-settings, normal);
     font-size: 1rem;
     font-weight: normal;
@@ -326,7 +310,7 @@
   }
 
   .p-link {
-    font-family: var(--font-family);
+    font-family: var(--font-family), serif;
     font-feature-settings: var(--font-feature-settings, normal);
     font-size: 1rem;
     border-radius: 6px;
@@ -385,7 +369,7 @@
     padding: 0.375rem 0;
   }
   .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-input-token input {
-    font-family: var(--font-family);
+    font-family: var(--font-family), serif;
     font-feature-settings: var(--font-feature-settings, normal);
     font-size: 1rem;
     color: #4b5563;
@@ -944,7 +928,7 @@
     padding: 0.375rem 0;
   }
   .p-chips .p-chips-multiple-container .p-chips-input-token input {
-    font-family: var(--font-family);
+    font-family: var(--font-family), serif;
     font-feature-settings: var(--font-feature-settings, normal);
     font-size: 1rem;
     color: #4b5563;
@@ -1312,7 +1296,7 @@
   }
 
   .p-inputtext {
-    font-family: var(--font-family);
+    font-family: var(--font-family), serif;
     font-feature-settings: var(--font-feature-settings, normal);
     font-size: 1rem;
     color: #4b5563;

@@ -1,7 +1,7 @@
 <main class="px-4 md:mx-8">
   <div class="flex flex-column gap-4 mb-4 md:flex-row">
-    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tus calorías de mantenimiento son de : <b>{{userTmb}} kcal</b>. Actualmente tu objetivo es:
-      <b>{{userObjectiveName}}</b></p>
+    <p>¡Hola, {{localStorage.getItem("userLogged")}}! segun los datos de tu perfil, tu Tasa Metabolica Basal es de : <b>{{userTmb}} kcal</b>. Actualmente tu objetivo es:
+      <b>{{userObjectiveName}}</b>, por lo tanto, las calorias que has de consumir son: <b>{{dailyCalories}}</b> kcal.</p>
     <form class="flex gap-4" (submit)="saveUserObjective()" [formGroup]="userObjectiveForm" *ngIf="userWantsModifyObjective">
 
         <p-dropdown
@@ -12,17 +12,17 @@
           placeholder="Elige tu objetivo" />
         <p-button type="submit">Guardar preferencias</p-button>
     </form>
-    <p-button *ngIf="!userWantsModifyObjective" (click) = "modifyObjective()">Modificar preferencias</p-button>
+    <p-button class="text-center md:text-left" *ngIf="!userWantsModifyObjective" (click) = "modifyObjective()">Modificar preferencias</p-button>
   </div>
   <div class="flex flex-wrap mb-5 md:flex-nowrap">
-    <div class="m-auto">
+    <div class="m-auto mb-5">
       <calories-calendar></calories-calendar>
     </div>
     <div class="w-full flex-none md:flex-1 md:w-auto">
       <calories-dought class="flex md:flex-wrap md:justify-content-around"></calories-dought>
     </div>
   </div>
-  <div class="flex align-items-center justify-content-center gap-8 mb-5">
+  <div class="flex align-items-center justify-content-center gap-8 mb-5 flex-wrap">
     <div class=" flex-1 flex flex-wrap">
       <calories-food-info [history]="history"></calories-food-info>
     </div>

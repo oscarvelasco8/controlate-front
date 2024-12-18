@@ -1,8 +1,8 @@
 <header class="top-bar flex align-items-center justify-content-between  " [ngStyle]="isLightTheme ? { 'background-color': '#fff' } : { 'background-color': '#111827' }">
   <p-menubar [model]="items" [style]="{ 'font-family': 'Poppins', 'border-radius': '3rem'}" class="flex-1">
   </p-menubar>
-  <p-avatar [image]="isDarkTheme ? 'top-bar/logo-controlate.png' : 'top-bar/logo-controlate-dark.png'" class="logo flex align-items-center justify-content-center mt-2 mb-2" size="xlarge"></p-avatar>
-  <div class="flex-1 flex justify-content-end align-items-center pr-5">
+  <p-avatar routerLink="/home" [image]="isDarkTheme ? 'top-bar/logo-controlate.png' : 'top-bar/logo-controlate-dark.png'" class="logo flex align-items-center justify-content-center mt-2 mb-2 cursor-pointer" size="xlarge"></p-avatar>
+  <div class="flex-1 flex justify-content-end align-items-center">
     <p-button
       icon="pi pi-cog"
       routerLink="/modify-profile"
@@ -37,12 +37,22 @@
     >
     </p-button>
     <div *ngIf="!userLogged">
-      <div class="home-page-links flex align-items-center text-black-alpha-90">
+      <div class="hidden md:block">
         <p-button
           icon="pi pi-user"
           routerLink="/login"
-          label="INICIAR SESIÓN"
-          size="small"
+          label="INICIAR SESION"
+          [rounded]="true"
+          [text]="true"
+          severity="secondary"
+          [styleClass]="isLightTheme ? 'dark' : 'light'"
+        >
+        </p-button>
+      </div>
+      <div class="block md:hidden">
+        <p-button
+          icon="pi pi-user"
+          routerLink="/login"
           [rounded]="true"
           [text]="true"
           severity="secondary"
@@ -54,8 +64,8 @@
     <div *ngIf="userLogged">
       <div class="home-page-links flex align-items-center text-black-alpha-90">
         <div class="no-underline text-black-alpha-90 flex align-items-center gap-2 pl-2">
-          <p-avatar image="top-bar/memoji.jpg" shape="circle" size="large" *ngIf="isLightTheme"></p-avatar>
-          <p-avatar image="top-bar/memoji-dark-mode.jpg" shape="circle" size="large" *ngIf="!isLightTheme"></p-avatar>
+          <p-avatar (click)="logout()" image="top-bar/memoji.jpg" shape="circle" size="large" *ngIf="isLightTheme"></p-avatar>
+          <p-avatar (click)="logout()" image="top-bar/memoji-dark-mode.jpg" shape="circle" size="large" *ngIf="!isLightTheme"></p-avatar>
           <p-button
             (click)="logout()"
             label="CERRAR SESIÓN"
@@ -64,6 +74,7 @@
             [rounded]="true"
             [text]="true"
             [styleClass]="isLightTheme ? 'dark' : 'light'"
+            class="hidden md:block"
           >
           </p-button>
         </div>

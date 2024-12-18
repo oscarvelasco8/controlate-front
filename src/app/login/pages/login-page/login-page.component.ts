@@ -30,15 +30,15 @@ export class LoginPageComponent {
     const password:string =  this.loginUserForm.get('password')?.value
     this.userService.logUser(username, password).subscribe(
       {
-        next: (response) => {
+        next: () => {
           this.messageService.add({ severity: 'success', summary: 'Usuario logado', detail: "¡Bienvenido, " + username + "!" })
           this.localStorageService.login(username);
           setTimeout(() => {
             this.router.navigate(['/home']);
           }, 2000);
         },
-        error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
+        error: () => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se ha encontrado el usuario' });
         }
       }
     );
