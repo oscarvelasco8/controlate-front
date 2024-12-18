@@ -39,7 +39,7 @@ export class FoodService{
   getFoods(searchTerm:string):void {
     this.resetFoodsInfo();
     this._searching = true;
-    this.httpClient.get<Food>(this.BASE_URL + '/search-food-by-name?searchTerm=' + searchTerm).pipe(
+    this.httpClient.get<Food>(this.BASE_URL + '/search-food-by-name?searchTerm=' + searchTerm + '&maxResults=5').pipe(
       map(response => response.foods.food)
     ).subscribe({
       next: (response) => {
