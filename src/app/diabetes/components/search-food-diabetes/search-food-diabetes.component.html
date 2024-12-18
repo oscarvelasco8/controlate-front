@@ -1,104 +1,111 @@
 <p-dialog [(visible)]="visible" [modal]="true" header="{{ selectedMeal?.name }}" (onHide)="closeModal()">
-  <div *ngIf="selectedMeal" class="p-fluid">
-    <div class="field">
-      <label for="search">Buscar alimentos</label>
-      <form class="flex gap-2 mb-4" [formGroup]="searchForm">
-        <input
-          formControlName="searchTerm"
-          id="search"
-          type="text"
-          pInputText
-          (keydown.enter)="searchFoods()"
-          placeholder="Escribe el nombre del alimento..."
-        />
-        <p-button (click)="searchFoods()" icon="pi pi-search"></p-button>
+  <div *ngIf="icr; else noIcr">
+    <div *ngIf="selectedMeal" class="p-fluid">
+      <div class="field">
+        <label for="search">Buscar alimentos</label>
+        <form class="flex gap-2 mb-4" [formGroup]="searchForm">
+          <input
+            formControlName="searchTerm"
+            id="search"
+            type="text"
+            pInputText
+            (keydown.enter)="searchFoods()"
+            placeholder="Escribe el nombre del alimento..."
+          />
+          <p-button (click)="searchFoods()" icon="pi pi-search"></p-button>
 
-      </form>
+        </form>
 
-      <div class="card" *ngIf="isSearching">
-        <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+        <div class="card" *ngIf="isSearching">
+          <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+        </div>
+
       </div>
+      <div class="flex gap-8 flex-wrap">
+        <p-table class="flex-1" [value]="foodsSearched" *ngIf="foodsSearched.length > 0">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Alimentos</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-food>
+            <tr class="tr-space">
+              <td class="flex flex-column align-items-center justify-content-between gap-4">
+                <div>
+                  <form [formGroup]="foodForm" (submit)="addFoodToMeal(selectedMeal.name, food)" class="flex align-items-center justify-content-center gap-2">
+                    <label>{{food.name}}</label>
+                    <p-inputNumber formControlName="quantity" (keyup)="calculate(food.id)"/>
+                    <span>{{food.serving_description}}</span>
+                    <p-button type="submit" icon="pi pi-plus"></p-button>
+                  </form>
+                </div>
+                <div>
+                  <td class="flex flex-nowrap gap-2 justify-content-around pb-4">
+                    <div class="flex flex-column gap-2 flex-1">
+                      <span class="text-center">Carbohidratos</span>
+                      <div [style]="{'background-color': carbsColor}" class="border-round flex justify-content-center">
+                        <span class="text-white">{{food.carbohydrate}} g</span>
+                      </div>
+                    </div>
+                    <div class="flex flex-column gap-2 flex-1" >
+                      <span class="text-center">Raciones</span>
+                      <div [style]="{'background-color': fatColor}" class="border-round flex justify-content-center">
+                        <!--<span class="text-white">{{ calculatePortions(food.carbohydrate) }}</span>-->
+                        <span class="text-white">{{calculatePortions(food.carbohydrate)}}</span>
+                      </div>
+                    </div>
+                  </td>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <p-table class="flex-1" [value]="getuserHistoryByMeal(selectedMeal.name)" [ngClass]="foodsSearched.length > 0 ? 'w-1/2' : 'w-full'" *ngIf="getuserHistoryByMeal(selectedMeal.name).length > 0" >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Alimentos Añadidos</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-foodAdded>
+            <tr>
+              <td class="flex flex-column align-items-center justify-content-between gap-4">
+                <div class="flex align-items-center justify-content-between w-full">
+                  {{ foodAdded.foodName }} {{ foodAdded.quantity }} {{ foodAdded.units }}
 
-    </div>
-    <div class="flex gap-8 flex-wrap">
-      <p-table class="flex-1" [value]="foodsSearched" *ngIf="foodsSearched.length > 0">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Alimentos</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-food>
-          <tr class="tr-space">
-            <td class="flex flex-column align-items-center justify-content-between gap-4">
-              <div>
-                <form [formGroup]="foodForm" (submit)="addFoodToMeal(selectedMeal.name, food)" class="flex align-items-center justify-content-center gap-2">
-                  <label>{{food.name}}</label>
-                  <p-inputNumber formControlName="quantity" (keyup)="calculate(food.id)"/>
-                  <span>{{food.serving_description}}</span>
-                  <p-button type="submit" icon="pi pi-plus"></p-button>
-                </form>
-              </div>
-              <div>
-                <td class="flex flex-nowrap gap-2 justify-content-around pb-4">
+                  <p-button (click)="deleteFoodFromMeal(foodAdded)" icon="pi pi-minus"></p-button>
+                </div>
+
+                <div class="flex flex-nowrap gap-2 justify-content-around pb-4">
                   <div class="flex flex-column gap-2 flex-1">
                     <span class="text-center">Carbohidratos</span>
                     <div [style]="{'background-color': carbsColor}" class="border-round flex justify-content-center">
-                      <span class="text-white">{{food.carbohydrate}} g</span>
+                      <span class="text-white">{{foodAdded.carbohydrates}} g</span>
                     </div>
                   </div>
                   <div class="flex flex-column gap-2 flex-1" >
                     <span class="text-center">Raciones</span>
                     <div [style]="{'background-color': fatColor}" class="border-round flex justify-content-center">
-                      <!--<span class="text-white">{{ calculatePortions(food.carbohydrate) }}</span>-->
-                      <span class="text-white">{{calculatePortions(food.carbohydrate)}}</span>
+                      <!--<span class="text-white">{{ foodAdded.portions }}</span>-->
+                      <span class="text-white">{{foodAdded.portions}}</span>
                     </div>
                   </div>
-                </td>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-      <p-table class="flex-1" [value]="getuserHistoryByMeal(selectedMeal.name)" [ngClass]="foodsSearched.length > 0 ? 'w-1/2' : 'w-full'" *ngIf="getuserHistoryByMeal(selectedMeal.name).length > 0" >
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Alimentos Añadidos</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-foodAdded>
-          <tr>
-            <td class="flex flex-column align-items-center justify-content-between gap-4">
-              <div class="flex align-items-center justify-content-between w-full">
-                {{ foodAdded.foodName }} {{ foodAdded.quantity }} {{ foodAdded.units }}
-
-                <p-button (click)="deleteFoodFromMeal(foodAdded)" icon="pi pi-minus"></p-button>
-              </div>
-
-              <div class="flex flex-nowrap gap-2 justify-content-around pb-4">
-                <div class="flex flex-column gap-2 flex-1">
-                  <span class="text-center">Carbohidratos</span>
-                  <div [style]="{'background-color': carbsColor}" class="border-round flex justify-content-center">
-                    <span class="text-white">{{foodAdded.carbohydrates}} g</span>
-                  </div>
                 </div>
-                <div class="flex flex-column gap-2 flex-1" >
-                  <span class="text-center">Raciones</span>
-                  <div [style]="{'background-color': fatColor}" class="border-round flex justify-content-center">
-                    <!--<span class="text-white">{{ foodAdded.portions }}</span>-->
-                    <span class="text-white">{{foodAdded.portions}}</span>
-                  </div>
-                </div>
-              </div>
-            </td>
+              </td>
 
-          </tr>
-        </ng-template>
-      </p-table>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+    <div class="flex justify-content-end mt-3 scroll">
+      <!--<p-button (click)="saveMeal()" label="Guardar" *ngIf="isToday()"></p-button>-->
+      <p-button (click)="saveMeal()" label="Guardar"></p-button>
     </div>
   </div>
-  <div class="flex justify-content-end mt-3 scroll">
-    <!--<p-button (click)="saveMeal()" label="Guardar" *ngIf="isToday()"></p-button>-->
-    <p-button (click)="saveMeal()" label="Guardar"></p-button>
-  </div>
+
+  <ng-template #noIcr>
+    <p>No tienes un ICR asignado. Por favor, modifica tus datos para poder disfrutar de la funcionalidad completa.</p>
+    <p-button rounded routerLink="/modify-profile" label="Modificar mis datos" icon="pi pi-user" class="p-button-help"></p-button>
+  </ng-template>
 
 </p-dialog>

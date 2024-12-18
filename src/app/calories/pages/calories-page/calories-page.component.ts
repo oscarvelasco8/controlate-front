@@ -65,7 +65,7 @@ export class CaloriesPageComponent implements OnInit{
         this.getObjectivesInBaseOfTmb();
       },
       error: (err) => {
-        console.error('Error fetching data:', err);
+
       }
     });
   }

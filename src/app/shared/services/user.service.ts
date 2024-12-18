@@ -1,14 +1,15 @@
 import {Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {userInfo} from '../interfaces/userInfo';
-import {Observable} from 'rxjs';
+import {catchError, Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl: string = 'https://controlate-back.koyeb.app';
-  //private baseUrl: string = 'http://localhost:8080';
+  //private baseUrl: string = 'https://controlate-back.koyeb.app';
+  private baseUrl: string = 'http://localhost:8080';
+
   public userObjective:WritableSignal<string> = signal('');
   public proteinesObjective:WritableSignal<number> = signal(0);
   public carbohydratesObjective:WritableSignal<number> = signal(0);
@@ -40,7 +41,7 @@ export class UserService {
   }
 
   getUserObjective(): Observable<any> {
-    return this.httpClient.get(this.baseUrl + `/api/users/objective/${localStorage.getItem('userLogged')}`, { responseType: 'text' });
+    return this.httpClient.get(this.baseUrl + `/api/users/objective/${localStorage.getItem('userLogged')}`, { responseType: 'text' })
   }
 
   get userInfo(): Observable<userInfo> {

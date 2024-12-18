@@ -29,7 +29,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
   private _foodAdded:DiabetesHistory[] = [];
   private originalValues: { [key: string]: FoodInfo } = {};
   private _foodDeleted:DiabetesHistory[] = [];
-  private _userIcr: number | undefined = 0;
+  private _userIcr: number = 0;
   private _userActivityFactor: string = '';
   private _userInsulineResistence: number | undefined = 0;
   /*portions:number = 0;*/
@@ -52,15 +52,20 @@ export class SearchFoodDiabetesComponent implements OnInit{
 
   ngOnInit(): void {
     this.userService.userInfo.subscribe(user =>{
-      this._userIcr = user.icr
+      this._userIcr = user.icr || 0
       this._userActivityFactor = user.activityFactor
       this._userInsulineResistence = user.insulinaFactor
     } );
 
   }
 
+
+  get icr(): number | undefined {
+    return this._userIcr;
+  }
+
   calculatePortions(carbohydrates: number): number {
-    let basePortions = carbohydrates / this._userIcr!;
+    let basePortions = carbohydrates / this._userIcr;
 
     // Ajustar por resistencia a la insulina (incremento proporcional del 20% por cada punto adicional)
     const insulinaResistence = this._userInsulineResistence!;

@@ -6,6 +6,7 @@ import {FoodInfo} from '../../../shared/interfaces/FoodInfo';
 import {FoodHistoryService} from '../../../shared/services/food-history.service';
 import {FoodHistory} from '../../../shared/interfaces/foodHistory';
 import {v4 as uuid} from 'uuid';
+import {UserService} from '../../../shared/services/user.service';
 
 @Component({
   selector: 'search-food',
@@ -40,8 +41,12 @@ export class SearchFoodComponent{
   constructor(
     public foodService: FoodService,
     private formBuilder: FormBuilder,
-    private foodHistoryService:FoodHistoryService
+    private foodHistoryService:FoodHistoryService,
+    private userService:UserService
   ) {
+  }
+  get userObjective():string{
+    return this.userService.userObjective();
   }
 
   searchFoods():void {
