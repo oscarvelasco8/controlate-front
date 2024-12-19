@@ -5,6 +5,7 @@ import {MessageService} from 'primeng/api';
 import {UserService} from '../../../shared/services/user.service';
 import {LocalStorageService} from '../../../shared/services/local-storage.service';
 import {userInfo} from '../../../shared/interfaces/userInfo';
+import {RegisterValidatorService} from '../../../register/services/register-validator.service';
 
 @Component({
   selector: 'app-modify-profile',
@@ -16,15 +17,15 @@ export class ModifyProfileComponent implements OnInit{
   public modifyUserForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required]],
     lastname: ['', [Validators.required]],
-    email: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
     gender: ['', [Validators.required]],
-    age: ['', [Validators.required]],
-    height: ['', [Validators.required]],
-    weight: ['', [Validators.required]],
+    age: ['', [Validators.required, Validators.min(1)]],
+    height: ['', [Validators.required, Validators.min(1)]],
+    weight: ['', [Validators.required, Validators.min(1)]],
     activityFactor: ['', [Validators.required]],
     insulinaFactor: ['', [Validators.required]],
-    username: ['', [Validators.required]],
-    password: ['',[Validators.required]],
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['',[Validators.required, this.registerValidatorService.passwordValidator]],
     objective: ['', [Validators.required]],
     icr: ['', [Validators.required]],
   })
@@ -49,6 +50,7 @@ export class ModifyProfileComponent implements OnInit{
     private messageService: MessageService,
     private formBuilder:FormBuilder,
     private userService:UserService,
+    private registerValidatorService: RegisterValidatorService
   ) {
   }
 
@@ -92,7 +94,7 @@ export class ModifyProfileComponent implements OnInit{
           activityFactor: this.activityOptions.find(option => option.value === response.activityFactor) || response.activityFactor,
           insulinaFactor: response.insulinaFactor,
           username: response.username,
-          password: response.password,
+          password: '',
           objective: this.userObjectiveOptions.find(option => option.value === response.objective) || response.objective,
           icr: response.icr
         });
