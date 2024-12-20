@@ -95,8 +95,9 @@
         [maxFractionDigits]="2"
       />
       <small id="icr-help">
-        Es la relación que determina cuántos gramos de carbohidratos puede procesar una unidad de insulina.
-        Se utiliza para calcular la dosis de insulina necesaria según la cantidad de carbohidratos consumidos en una comida.
+        El ICR es la cantidad de carbohidratos (en gramos) que una unidad de insulina cubre.
+        Por ejemplo: Si consumes 60 g de pan, y te administras 1.5 unidades de insulina, entonces tu ICR sería: 60 ÷ 1.5 = 40 g/u.
+        Puedes cambiar este valor si es necesario en tu perfil de usuario.
       </small>
     </div>
     <span class="p-error" *ngIf="isValidField('icr')">
