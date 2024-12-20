@@ -60,6 +60,10 @@ export class ModifyProfileComponent implements OnInit{
       this.router.navigate(['home']);
       return;
     }
+    if (this.modifyUserForm.invalid) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.' })
+      return
+    }
 
     const {activityFactor, gender, objective} = this.modifyUserForm.value
 
@@ -78,6 +82,13 @@ export class ModifyProfileComponent implements OnInit{
         this.messageService.add({severity:'error', summary: 'Error', detail: 'Error al modificar el perfil'});
       }
     })
+  }
+
+  isValidField( field: string ): boolean | null {
+    return this.registerValidatorService.isValidField(this.modifyUserForm, field);
+  }
+  getFieldError( field: string ): string | null {
+    return this.registerValidatorService.getFieldError(this.modifyUserForm, field);
   }
 
   ngOnInit(): void {
