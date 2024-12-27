@@ -20,7 +20,7 @@ export class DoughtComponent implements OnInit{
       const totalProtein = this.foodHistoryService.totalProtein();
       const totalCarbs = this.foodHistoryService.totalCarbs();
       const totalFat = this.foodHistoryService.totalFat();
-      this.data = this.userService.proteinesObjective() | this.userService.caloriesObjective() | this.userService.fatsObjective();
+      this.data = this.userService.caloriesObjective();
 
       // Actualizar los datos cuando las signals cambien
       this.doughtsData = [
@@ -82,7 +82,7 @@ export class DoughtComponent implements OnInit{
   }
 
   ngOnInit() {
-
+    console.log(this.data)
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     this.options = {
