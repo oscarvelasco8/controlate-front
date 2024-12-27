@@ -52,6 +52,6 @@ export const faqData: FaqItem[] = [
   },
   {
     header: '¿Se pueden agregar alimentos personalizados?',
-    content: 'Sí, puedes añadir alimentos que no estén en nuestra base de datos, incluyendo sus valores nutricionales y etiquetas personalizadas.'
+    content: 'No, lamentablemente no tenemos implementada esa funcionalidad. Sin embargo, estamos trabajando en ello para mejorar la experiencia de nuestros usuarios.'
   }
 ];
