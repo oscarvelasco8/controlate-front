@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {UserService} from '../../../shared/services/user.service';
 import {RegisterValidatorService} from '../../../register/services/register-validator.service';
+import {distinctUntilChanged} from 'rxjs';
 
 @Component({
   selector: 'app-modify-profile',
@@ -43,6 +44,7 @@ export class ModifyProfileComponent implements OnInit{
     { name: 'Muy Activo', code: '5', value: 'MUY_ACTIVO' }];
 
   genderOptions: any[] = [{ name: 'Hombre', code: '1', value:'MALE' }, { name: 'Mujer', code: '2', value: 'FEMALE' }];
+  private initialFormValue: any;
   constructor(
     private router:Router,
     private messageService: MessageService,
@@ -55,21 +57,23 @@ export class ModifyProfileComponent implements OnInit{
 
   configureValidationPassword() {
     const passwordControl = this.modifyUserForm.get('password');
+
     if (passwordControl) {
-      passwordControl.valueChanges.subscribe((value) => {
+      passwordControl.valueChanges.pipe(
+        distinctUntilChanged() // Evita manejar valores repetidos
+      ).subscribe((value) => {
         if (value) {
           passwordControl.setValidators([this.registerValidatorService.passwordValidator2()]);
-        }else{
+        } else {
           passwordControl.clearValidators();
         }
-        this.modifyUserForm.get('password')?.updateValueAndValidity();
+        passwordControl.updateValueAndValidity({ emitEvent: false }); // Evita disparar valueChanges de nuevo
       });
-
     }
   }
 
   modifyProperties() {
-    if (!this.modifyUserForm.dirty) {
+    if (JSON.stringify(this.modifyUserForm.value) === JSON.stringify(this.initialFormValue)) {
       this.messageService.add({severity: 'info', summary: 'Sin cambios', detail: 'No se realizaron cambios en el perfil'});
       this.router.navigate(['home']);
       return;
@@ -124,6 +128,7 @@ export class ModifyProfileComponent implements OnInit{
           objective: this.userObjectiveOptions.find(option => option.value === response.objective) || response.objective,
           icr: response.icr
         });
+        this.initialFormValue = this.modifyUserForm.value; // Guardar el estado inicial
       }
     })
   }
