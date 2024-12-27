@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -42,12 +42,23 @@ export class RegisterValidatorService {
     return null;
   }
 
-  passwordValidator(control: FormControl) {
+  passwordValidator(control: FormControl):ValidationErrors | null {
     const value = control.value;
 
     if ( value.length < 8  || !/[A-Z]/.test(value) || !/[0-9]/.test(value) ) {
       return { password: true };
     }
     return null;
+  }
+
+  passwordValidator2():ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+
+      if ( value.length < 8  || !/[A-Z]/.test(value) || !/[0-9]/.test(value) ) {
+        return { password: true };
+      }
+      return null;
+    }
   }
 }
