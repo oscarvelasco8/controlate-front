@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {UserService} from '../../../shared/services/user.service';
@@ -13,19 +13,19 @@ import {RegisterValidatorService} from '../../../register/services/register-vali
 export class ModifyProfileComponent implements OnInit{
 
   public modifyUserForm: FormGroup = this.formBuilder.group({
-    name: ['', [Validators.required]],
-    lastname: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    gender: ['', [Validators.required]],
-    age: ['', [Validators.required, Validators.min(1)]],
-    height: ['', [Validators.required, Validators.min(1)]],
-    weight: ['', [Validators.required, Validators.min(1)]],
-    activityFactor: ['', [Validators.required]],
-    insulinaFactor: ['', [Validators.required]],
-    username: ['', [Validators.required, Validators.minLength(3)]],
-    password: ['',[Validators.required, this.registerValidatorService.passwordValidator]],
-    objective: ['', [Validators.required]],
-    icr: ['', [Validators.required]],
+    name: ['', [Validators.minLength(2), Validators.required]],
+    lastname: ['', [Validators.minLength(2), Validators.required]],
+    email: ['',[Validators.email, Validators.required]],
+    gender: [''],
+    age: ['', [Validators.min(1), Validators.required]],
+    height: ['', [Validators.min(1), Validators.required]],
+    weight: ['', [Validators.min(1), Validators.required]],
+    activityFactor: [''],
+    insulinaFactor: [''],
+    username: ['', [Validators.minLength(3), Validators.required]],
+    password: [''],
+    objective: [''],
+    icr: [''],
   })
 
   userObjectiveOptions: any[] = [
@@ -50,6 +50,22 @@ export class ModifyProfileComponent implements OnInit{
     private userService:UserService,
     private registerValidatorService: RegisterValidatorService
   ) {
+    this.configureValidationPassword();
+  }
+
+  configureValidationPassword() {
+    const passwordControl = this.modifyUserForm.get('password');
+    if (passwordControl) {
+      passwordControl.valueChanges.subscribe((value) => {
+        if (value) {
+          passwordControl.setValidators([this.registerValidatorService.passwordValidator2()]);
+        }else{
+          passwordControl.clearValidators();
+        }
+        this.modifyUserForm.get('password')?.updateValueAndValidity();
+      });
+
+    }
   }
 
   modifyProperties() {
@@ -59,14 +75,14 @@ export class ModifyProfileComponent implements OnInit{
       return;
     }
     if (this.modifyUserForm.invalid) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.' })
-      return
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.'});
+      return;
     }
 
     const {activityFactor, gender, objective} = this.modifyUserForm.value
-
+    const noEmptyFields = Object.fromEntries(Object.entries(this.modifyUserForm.value).filter(([key, value]) => value !== ''));
     this.userService.modifyUserInfo({
-      ...this.modifyUserForm.value,
+      ...noEmptyFields,
       activityFactor: activityFactor.value,
       gender: gender.value,
       objective: objective.value,
@@ -77,6 +93,7 @@ export class ModifyProfileComponent implements OnInit{
         this.router.navigate(['home']);
       },
       error: (error) => {
+        console.log(error)
         this.messageService.add({severity:'error', summary: 'Error', detail: 'Error al modificar el perfil'});
       }
     })
