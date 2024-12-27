@@ -6,8 +6,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from './shared/shared.module';
 import {MessageService} from 'primeng/api';
-import {provideHttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors} from '@angular/common/http';
 import {ToastModule} from "primeng/toast";
+import {authInterceptor} from './shared/interceptors/auth.interceptor';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import {ToastModule} from "primeng/toast";
         SharedModule,
         ToastModule
     ],
-  providers: [MessageService, provideHttpClient()],
+  providers: [MessageService, provideHttpClient(withInterceptors([authInterceptor]))],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -30,9 +30,9 @@ export class LoginPageComponent {
     const password:string =  this.loginUserForm.get('password')?.value
     this.userService.logUser(username, password).subscribe(
       {
-        next: () => {
+        next: (response) => {
           this.messageService.add({ severity: 'success', summary: 'Usuario logado', detail: "¡Bienvenido, " + username + "!" })
-          this.localStorageService.login(username);
+          this.localStorageService.login(username, response.token);
           setTimeout(() => {
             this.router.navigate(['/home']);
           }, 2000);
