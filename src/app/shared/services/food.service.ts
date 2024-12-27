@@ -11,7 +11,7 @@ import {FoodInfo} from '../interfaces/FoodInfo';
 export class FoodService{
   private BASE_URL = 'https://controlate-back.koyeb.app/api';
   //private BASE_URL = 'http://localhost:8080/api';
-  private _foodsInfo:WritableSignal<FoodInfo[]>= signal([
+  /*private _foodsInfo:WritableSignal<FoodInfo[]>= signal([
     {
       name:'pollo',
       id:'1',
@@ -30,7 +30,8 @@ export class FoodService{
       fat:'20',
       serving_description:'g'
     }
-  ]);
+  ]);*/
+  private _foodsInfo:WritableSignal<FoodInfo[]>= signal([]);
   public readonly foodsInfo = computed(() => this._foodsInfo());
   private _searching: boolean = false;
 

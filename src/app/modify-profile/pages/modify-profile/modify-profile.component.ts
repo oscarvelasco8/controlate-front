@@ -3,8 +3,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {UserService} from '../../../shared/services/user.service';
-import {LocalStorageService} from '../../../shared/services/local-storage.service';
-import {userInfo} from '../../../shared/interfaces/userInfo';
 import {RegisterValidatorService} from '../../../register/services/register-validator.service';
 
 @Component({
