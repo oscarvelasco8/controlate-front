@@ -7,6 +7,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 import {ReactiveFormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
+import {InputNumberModule} from "primeng/inputnumber";
 
 const routes : Routes = [
   {
@@ -26,15 +27,16 @@ const routes : Routes = [
   declarations: [
     ModifyProfileComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    Button,
-    InputTextModule,
-    PasswordModule,
-    ReactiveFormsModule,
-    DropdownModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        Button,
+        InputTextModule,
+        PasswordModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        InputNumberModule
+    ],
   exports: [RouterModule]
 })
 export class ModifyProfileModule { }
