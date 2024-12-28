@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {MessageService} from 'primeng/api';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService, private router: Router) { }
 
   login(user:string, token:string): void {
     localStorage.setItem('userLogged', user);
@@ -34,6 +35,7 @@ export class LocalStorageService {
   logout(): void {
     localStorage.removeItem('userLogged');
     localStorage.removeItem('token');
+    this.router.navigate(['/home']);
     if (localStorage.getItem("showMessage") === "false" && localStorage.getItem("isExpired") === "true") {
       this.messageService.add({ severity: 'error', summary: 'Sesion expirada', detail: 'La sesion ha expirado. Por favor, lógate de nuevo.' });
       this.setShowMessage("true");
