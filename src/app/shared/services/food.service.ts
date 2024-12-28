@@ -44,6 +44,11 @@ export class FoodService{
       map(response => response.foods.food)
     ).subscribe({
       next: (response) => {
+        if (!response) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La busqueda no arrojo ningun resultado' });
+          this._searching = false;
+          return;
+        }
         response.forEach(async (food)=>{
           const element = await this.mapToFoodInfo(food);
           this._foodsInfo.update(arr => [...arr, element]);

@@ -3,7 +3,7 @@
     <div class="field flex align-items-center justify-content-center">
       <h1 class="font-light mr-3">Modifica tus datos</h1> <i class="pi pi-user" style="font-size: 1.5rem"></i>
     </div>
-    <form [formGroup]="modifyUserForm" (submit)="modifyProperties()" class="flex flex-wrap justify-content-between gap-0 md:gap-4 w-8 m-auto ">
+    <form [formGroup]="modifyUserForm" (submit)="modifyProperties()" class="flex flex-wrap gap-0 md:gap-4 w-8 m-auto ">
       <div class="w-full md:w-auto">
         <div class="field">
           <div class="mb-3">
@@ -194,10 +194,10 @@
             placeholder="Elige tu objetivo" />
         </div>
       </div>
-      <div class="field w-full text-center">
-        <p-button type="submit" label="Modificar" [rounded]="true"></p-button>
+      <div class="field w-full flex gap-6 justify-content-center">
+        <p-button type="submit" label="Modificar Cuenta" [rounded]="true"></p-button>
+        <p-button type="button" severity="danger" (click)="deleteUser()" label="Eliminar Cuenta" [rounded]="true"></p-button>
       </div>
-
 
     </form>
   </div>

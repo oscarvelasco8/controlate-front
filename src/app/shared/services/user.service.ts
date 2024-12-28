@@ -8,8 +8,8 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl: string = 'https://controlate-back.koyeb.app';
-  //private baseUrl: string = 'http://localhost:8080';
+  //private baseUrl: string = 'https://controlate-back.koyeb.app';
+  private baseUrl: string = 'http://localhost:8080';
 
   public userObjective:WritableSignal<string> = signal('');
   public proteinesObjective:WritableSignal<number> = signal(0);
@@ -38,7 +38,7 @@ export class UserService {
   }
 
   saveUserObjective(value:string): Observable<any> {
-    return this.httpClient.patch(this.baseUrl + `/api/users/objective/${localStorage.getItem('userLogged')}`, value);
+    return this.httpClient.patch(this.baseUrl + `/api/users/objective/${localStorage.getItem('userLogged')}`, value, { responseType: 'text' });
   }
 
   getUserObjective(): Observable<any> {
@@ -51,5 +51,9 @@ export class UserService {
   modifyUserInfo(userInfo:modifyUserInfo): Observable<any> {
     return this.httpClient.patch(this.baseUrl + `/api/users/${localStorage.getItem('userLogged')}`, userInfo);
   }
+
+  deleteUser(): Observable<any> {
+    return this.httpClient.delete(this.baseUrl + `/api/users/${localStorage.getItem('userLogged')}`, { responseType: 'text' });
+  } //borra el user
 
 }

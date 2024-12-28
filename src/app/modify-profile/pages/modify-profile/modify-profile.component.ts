@@ -5,6 +5,7 @@ import {MessageService} from 'primeng/api';
 import {UserService} from '../../../shared/services/user.service';
 import {RegisterValidatorService} from '../../../register/services/register-validator.service';
 import {distinctUntilChanged} from 'rxjs';
+import {LocalStorageService} from '../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-modify-profile',
@@ -50,7 +51,8 @@ export class ModifyProfileComponent implements OnInit{
     private messageService: MessageService,
     private formBuilder:FormBuilder,
     private userService:UserService,
-    private registerValidatorService: RegisterValidatorService
+    private registerValidatorService: RegisterValidatorService,
+    private localStorageService:LocalStorageService
   ) {
     this.configureValidationPassword();
   }
@@ -129,6 +131,20 @@ export class ModifyProfileComponent implements OnInit{
           icr: response.icr
         });
         this.initialFormValue = this.modifyUserForm.value; // Guardar el estado inicial
+      }
+    })
+  }
+
+  deleteUser() {
+    this.userService.deleteUser().subscribe({
+      next: (response) => {
+        this.localStorageService.logout();
+        this.messageService.add({severity:'success', summary: 'Eliminado', detail: 'Perfil eliminado con exito'});
+        this.router.navigate(['home']);
+      },
+      error: (error) => {
+        console.log(error)
+        this.messageService.add({severity:'error', summary: 'Error', detail: 'Error al eliminar el perfil'});
       }
     })
   }
