@@ -51,6 +51,9 @@ export class FoodService{
         }
         response.forEach(async (food)=>{
           const element = await this.mapToFoodInfo(food);
+          if (!element) {
+            return;
+          }
           this._foodsInfo.update(arr => [...arr, element]);
         })
         this.messageService.add({ severity: 'success', summary: 'Busqueda exitosa', detail: '¡Resultados encontrados!' });
@@ -79,16 +82,55 @@ export class FoodService{
     return this._searching;
   }
 
-  private async mapToFoodInfo(data: FoodElement): Promise<FoodInfo> {
+  private async mapToFoodInfo(data: FoodElement): Promise<FoodInfo | null> {
     // Divide la cadena de "food_description" para obtener los valores nutricionales
     const descriptionParts = data.food_description.split('|').map(part => part.trim());
 
     // Expresión regular para extraer el tamaño de la porción con unidad
     const servingSizeMatch = descriptionParts[0].match(/Per (\d+(?:\.\d+)?)\s*([a-zA-Z]+)/);
 
-    // Extrae el tamaño de la porción y su unidad, con un valor por defecto de 100g si no se encuentra
+    // Extrae el tamaño de la porción y su unidad
     const servingSize = servingSizeMatch ? parseFloat(servingSizeMatch[1]) : 100;
-    const servingUnit = servingSizeMatch ? servingSizeMatch[2] : 'g'; // Por defecto 'g'
+    const servingUnit = servingSizeMatch ? servingSizeMatch[2].toLowerCase() : 'g'; // Normaliza la unidad a minúsculas
+
+    // Mapa de conversión de unidades a gramos o mililitros
+    const unitConversionToBase: { [key: string]: { base: 'g' | 'ml'; factor: number } } = {
+      // Sólidos (base en gramos)
+      g: { base: 'g', factor: 1 },
+      oz: { base: 'g', factor: 28.3495 },
+      lb: { base: 'g', factor: 453.592 },
+      kg: { base: 'g', factor: 1000 },
+      mg: { base: 'g', factor: 0.001 },
+      // Líquidos (base en mililitros)
+      ml: { base: 'ml', factor: 1 },
+      l: { base: 'ml', factor: 1000 },
+      'fl oz': { base: 'ml', factor: 29.5735 },
+      'pt': { base: 'ml', factor: 473.176 },
+      'qt': { base: 'ml', factor: 946.353 },
+      'gal': { base: 'ml', factor: 3785.41 },
+    };
+
+    // Si la unidad no está en el mapa, excluye el alimento devolviendo null
+    if (!(servingUnit in unitConversionToBase)) {
+      console.warn(`Unidad desconocida: ${servingUnit}. Excluyendo el alimento: ${data.food_name}`);
+      return null;
+    }
+
+    // Determina la unidad base a partir del mapa
+    const { base, factor } = unitConversionToBase[servingUnit];
+
+    // Validación: si un alimento se describe en gramos pero tiene un valor líquido, fuerza base a 'g'
+    const isSolid = ['g', 'oz', 'lb', 'kg', 'mg'].includes(servingUnit);
+    const isLiquid = ['ml', 'l', 'fl oz', 'pt', 'qt', 'gal'].includes(servingUnit);
+
+    // Si la unidad es inconsistente (como un sólido con `ml`), ajusta la base
+    const adjustedBase = isSolid ? 'g' : isLiquid ? 'ml' : base;
+
+    // Convierte el tamaño de la porción a la unidad base correspondiente
+    const servingSizeInBase = servingSize * factor;
+
+    // Escala los valores nutricionales a 100 gramos o 100 mililitros
+    const scalingFactor = 100 / servingSizeInBase;
 
     // Extrae los valores nutricionales
     const calories = parseFloat(descriptionParts[0].split(':')[1].replace('kcal', '').trim());
@@ -96,10 +138,17 @@ export class FoodService{
     const carbs = parseFloat(descriptionParts[2].split(':')[1].replace('g', '').trim());
     const protein = parseFloat(descriptionParts[3].split(':')[1].replace('g', '').trim());
 
-    // Ajusta los valores para 100 gramos
-    const scalingFactor = servingUnit === 'g' ? 100 / servingSize : 1; // Escala solo si la unidad es 'g'
     const foodName = await this.translateEnToEs(data.food_name);
 
+    /*return {
+      name: foodName,
+      id: data.food_id,
+      calories: (calories * scalingFactor).toFixed(2),
+      protein: (protein * scalingFactor).toFixed(2),
+      carbohydrate: (carbs * scalingFactor).toFixed(2),
+      fat: (fat * scalingFactor).toFixed(2),
+      serving_description: `${servingSizeInBase.toFixed(2)} ${adjustedBase}`, // Muestra la unidad convertida
+    };*/
     return {
       name: foodName,
       id: data.food_id,
@@ -107,9 +156,12 @@ export class FoodService{
       protein: (protein * scalingFactor).toFixed(2),
       carbohydrate: (carbs * scalingFactor).toFixed(2),
       fat: (fat * scalingFactor).toFixed(2),
-      serving_description: servingUnit, // Solo contiene la unidad
+      serving_description: `${adjustedBase}`, // Muestra la unidad convertida
     };
   }
+
+
+
 
 
 

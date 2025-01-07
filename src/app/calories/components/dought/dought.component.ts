@@ -31,8 +31,8 @@ export class DoughtComponent implements OnInit{
               data: totalProtein > 0 || totalCarbs > 0 || totalFat > 0 ? [totalProtein, totalCarbs, totalFat] : [100, 100, 100],
               backgroundColor: [
                 'rgb(60,50,140)',
-                'rgb(114,234,142)',
-                'rgb(255, 99, 132)'
+                'rgb(60,152,80)',
+                'rgb(169,54,79)'
               ],
               hoverOffset: 4
             }
@@ -57,7 +57,7 @@ export class DoughtComponent implements OnInit{
             {
               data: [totalCarbs, this.userService.carbohydratesObjective()-totalCarbs <= 0 ? 0 : this.userService.carbohydratesObjective()-totalCarbs],
               backgroundColor: [
-                'rgb(114,234,142)',
+                'rgb(60,152,80)',
                 'rgb(54, 162, 235)'
               ],
               hoverOffset: 4
@@ -70,7 +70,7 @@ export class DoughtComponent implements OnInit{
             {
               data: [totalFat, this.userService.fatsObjective() - totalFat <= 0 ? 0 : this.userService.fatsObjective()-totalFat],
               backgroundColor: [
-                'rgb(255, 99, 132)',
+                'rgb(169,54,79)',
                 'rgb(54, 162, 235)'
               ],
               hoverOffset: 4
