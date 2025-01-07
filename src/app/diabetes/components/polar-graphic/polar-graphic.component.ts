@@ -38,7 +38,7 @@ export class PolarGraphicComponent implements OnInit {
               "purple",
               "cyan"
             ],
-            label: 'Raciones de insulina'
+            label: 'Unidades de insulina'
           }
         ],
         labels: ['Desayuno', 'Almuerzo', 'Comida', 'Cena']
