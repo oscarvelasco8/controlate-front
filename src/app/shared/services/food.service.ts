@@ -40,7 +40,7 @@ export class FoodService{
   getFoods(searchTerm:string):void {
     this.resetFoodsInfo();
     this._searching = true;
-    this.httpClient.get<Food>(this.BASE_URL + '/search-food-by-name?searchTerm=' + searchTerm + '&maxResults=5').pipe(
+    this.httpClient.get<Food>(this.BASE_URL + '/search-food-by-name?searchTerm=' + searchTerm + '&maxResults=10').pipe(
       map(response => response.foods.food)
     ).subscribe({
       next: (response) => {
@@ -88,10 +88,14 @@ export class FoodService{
 
     // Expresión regular para extraer el tamaño de la porción con unidad
     const servingSizeMatch = descriptionParts[0].match(/Per (\d+(?:\.\d+)?)\s*([a-zA-Z]+)/);
-
+    if (!servingSizeMatch) {
+      return null;
+    }
     // Extrae el tamaño de la porción y su unidad
-    const servingSize = servingSizeMatch ? parseFloat(servingSizeMatch[1]) : 100;
-    const servingUnit = servingSizeMatch ? servingSizeMatch[2].toLowerCase() : 'g'; // Normaliza la unidad a minúsculas
+    //const servingSize = servingSizeMatch ? parseFloat(servingSizeMatch[1]) : 100;
+    //const servingUnit = servingSizeMatch ? servingSizeMatch[2].toLowerCase() : 'g'; // Normaliza la unidad a minúsculas
+    const servingSize = parseFloat(servingSizeMatch[1]);
+    const servingUnit = servingSizeMatch[2].toLowerCase();
 
     // Mapa de conversión de unidades a gramos o mililitros
     const unitConversionToBase: { [key: string]: { base: 'g' | 'ml'; factor: number } } = {
@@ -104,7 +108,7 @@ export class FoodService{
       // Líquidos (base en mililitros)
       ml: { base: 'ml', factor: 1 },
       l: { base: 'ml', factor: 1000 },
-      'fl oz': { base: 'ml', factor: 29.5735 },
+      'fl': { base: 'ml', factor: 29.5735 },
       'pt': { base: 'ml', factor: 473.176 },
       'qt': { base: 'ml', factor: 946.353 },
       'gal': { base: 'ml', factor: 3785.41 },
