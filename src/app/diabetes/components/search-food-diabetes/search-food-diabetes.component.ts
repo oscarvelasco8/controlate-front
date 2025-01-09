@@ -22,8 +22,8 @@ export class SearchFoodDiabetesComponent implements OnInit{
   @Output() visibleChange = new EventEmitter<boolean>();
 
   proteinColor:string = 'rgb(60,50,140)';
-  carbsColor:string = 'rgb(114,234,142)';
-  fatColor:string = 'rgb(255, 99, 132)';
+  carbsColor:string = 'rgb(51,133,71)';
+  fatColor:string = 'rgb(189,73,98)';
   caloriesColor:string = 'rgb(228,234,60)';
   private _foodsSearched:FoodInfo[] = [];
   private _foodAdded:DiabetesHistory[] = [];
