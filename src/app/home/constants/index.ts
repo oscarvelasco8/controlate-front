@@ -1,6 +1,7 @@
 import { SectionData } from '../interfaces/section-data.interface';
 import { FaqItem } from '../interfaces/faq-item.interface';
 
+// Constante con los datos de las secciones de la HOME
 export const SECTIONS: SectionData[] = [
   {
     id: 'insulina',
@@ -33,6 +34,7 @@ export const SECTIONS: SectionData[] = [
   }
 ];
 
+// Constante con los datos de las preguntas frecuentes
 export const faqData: FaqItem[] = [
   {
     header: '¿Cómo puedo registrar mis alimentos diarios?',

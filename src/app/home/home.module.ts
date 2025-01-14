@@ -7,7 +7,7 @@ import { InformativeSectionComponent } from './components/informative-section/in
 import { FaqAccordionComponent } from './components/faq-accordion/faq-accordion.component';
 import { AccordionModule } from 'primeng/accordion';
 
-
+// Se declaran los componentes que forman parte del módulo y se importan los módulos necesarios
 @NgModule({
   declarations: [
     HomePageComponent,

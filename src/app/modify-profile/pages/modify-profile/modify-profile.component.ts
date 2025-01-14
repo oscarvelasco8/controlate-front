@@ -14,6 +14,7 @@ import {LocalStorageService} from '../../../shared/services/local-storage.servic
 })
 export class ModifyProfileComponent implements OnInit{
 
+  // Formulario para modificar el perfil de usuario
   public modifyUserForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.minLength(2), Validators.required]],
     lastname: ['', [Validators.minLength(2), Validators.required]],
@@ -29,7 +30,7 @@ export class ModifyProfileComponent implements OnInit{
     objective: [''],
     icr: [''],
   })
-
+  // Atributos para el formulario
   userObjectiveOptions: any[] = [
     { name: 'Bajar de peso ligeramente', code: '1' , value:'BAJAR_LIGERO' },
     { name: 'Bajar de peso moderadamente', code: '2', value: 'BAJAR_MODERADO' },
@@ -46,6 +47,8 @@ export class ModifyProfileComponent implements OnInit{
 
   genderOptions: any[] = [{ name: 'Hombre', code: '1', value:'MALE' }, { name: 'Mujer', code: '2', value: 'FEMALE' }];
   private initialFormValue: any;
+
+  // Constructor de la clase donde se inyectan los servicios
   constructor(
     private router:Router,
     private messageService: MessageService,
@@ -57,61 +60,7 @@ export class ModifyProfileComponent implements OnInit{
     this.configureValidationPassword();
   }
 
-  configureValidationPassword() {
-    const passwordControl = this.modifyUserForm.get('password');
-
-    if (passwordControl) {
-      passwordControl.valueChanges.pipe(
-        distinctUntilChanged() // Evita manejar valores repetidos
-      ).subscribe((value) => {
-        if (value) {
-          passwordControl.setValidators([this.registerValidatorService.passwordValidator2()]);
-        } else {
-          passwordControl.clearValidators();
-        }
-        passwordControl.updateValueAndValidity({ emitEvent: false }); // Evita disparar valueChanges de nuevo
-      });
-    }
-  }
-
-  modifyProperties() {
-    if (JSON.stringify(this.modifyUserForm.value) === JSON.stringify(this.initialFormValue)) {
-      this.messageService.add({severity: 'info', summary: 'Sin cambios', detail: 'No se realizaron cambios en el perfil'});
-      this.router.navigate(['home']);
-      return;
-    }
-    if (this.modifyUserForm.invalid) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.'});
-      return;
-    }
-
-    const {activityFactor, gender, objective} = this.modifyUserForm.value
-    const noEmptyFields = Object.fromEntries(Object.entries(this.modifyUserForm.value).filter(([key, value]) => value !== ''));
-    this.userService.modifyUserInfo({
-      ...noEmptyFields,
-      activityFactor: activityFactor.value,
-      gender: gender.value,
-      objective: objective.value,
-
-    }).subscribe({
-      next: (response) => {
-        this.messageService.add({severity:'success', summary: 'Modificado', detail: 'Perfil modificado con exito'});
-        this.router.navigate(['home']);
-      },
-      error: (error) => {
-        console.log(error)
-        this.messageService.add({severity:'error', summary: 'Error', detail: 'Error al modificar el perfil'});
-      }
-    })
-  }
-
-  isValidField( field: string ): boolean | null {
-    return this.registerValidatorService.isValidField(this.modifyUserForm, field);
-  }
-  getFieldError( field: string ): string | null {
-    return this.registerValidatorService.getFieldError(this.modifyUserForm, field);
-  }
-
+  // Metodo que se ejecuta al iniciar el componente. Se llama al servicio para obtener la informacion del usuario y se inicializan los formularios
   ngOnInit(): void {
     this.userService.userInfo.subscribe({
       next: (response) => {
@@ -135,6 +84,74 @@ export class ModifyProfileComponent implements OnInit{
     })
   }
 
+  // Método que configura la validación de la contraseña
+  configureValidationPassword() {
+    const passwordControl = this.modifyUserForm.get('password');
+    // Si la contraseña no es nula, se configura la validación. Si no, se limpian las validaciones
+    if (passwordControl) {
+      passwordControl.valueChanges.pipe(
+        distinctUntilChanged() // Evita manejar valores repetidos
+      ).subscribe((value) => {
+        if (value) {
+          passwordControl.setValidators([this.registerValidatorService.passwordValidator2()]);
+        } else {
+          passwordControl.clearValidators();
+        }
+
+        // Se actualizan las validaciones
+        passwordControl.updateValueAndValidity({ emitEvent: false }); // Evita disparar valueChanges de nuevo
+      });
+    }
+  }
+
+  // Método que modifica el perfil de usuario
+  modifyProperties() {
+
+    // Si no se han realizado cambios, se redirige a la pantalla de inicio con un mensaje indicándo que no hay cambios
+    if (JSON.stringify(this.modifyUserForm.value) === JSON.stringify(this.initialFormValue)) {
+      this.messageService.add({severity: 'info', summary: 'Sin cambios', detail: 'No se realizaron cambios en el perfil'});
+      this.router.navigate(['home']);
+      return;
+    }
+
+    // Si el formulario es invalido, se muestra un mensaje de error
+    if (this.modifyUserForm.invalid) {
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.'});
+      return;
+    }
+
+    // Si no ocurre ninguna de las anteriores condiciones, se modifica el perfil
+    const {activityFactor, gender, objective} = this.modifyUserForm.value
+    const noEmptyFields = Object.fromEntries(Object.entries(this.modifyUserForm.value).filter(([key, value]) => value !== ''));
+    this.userService.modifyUserInfo({
+      ...noEmptyFields,
+      activityFactor: activityFactor.value,
+      gender: gender.value,
+      objective: objective.value,
+
+    }).subscribe({
+      next: (response) => {
+        this.messageService.add({severity:'success', summary: 'Modificado', detail: 'Perfil modificado con exito'});
+        this.router.navigate(['home']);
+      },
+      error: (error) => {
+        console.log(error)
+        this.messageService.add({severity:'error', summary: 'Error', detail: 'Error al modificar el perfil'});
+      }
+    })
+  }
+
+  // Método que verifica si un campo es valido
+  isValidField( field: string ): boolean | null {
+    return this.registerValidatorService.isValidField(this.modifyUserForm, field);
+  }
+
+  // Método que obtiene el error de un campo
+  getFieldError( field: string ): string | null {
+    return this.registerValidatorService.getFieldError(this.modifyUserForm, field);
+  }
+
+  // Metodo que elimina el perfil de usuario de la base de datos
   deleteUser() {
     this.userService.deleteUser().subscribe({
       next: (response) => {

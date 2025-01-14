@@ -7,7 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PasswordModule} from 'primeng/password';
 import {ButtonModule} from 'primeng/button';
 
-
+// Se declaran los componentes que forman parte del módulo y se importan los módulos necesarios
 @NgModule({
   declarations: [
     LoginPageComponent

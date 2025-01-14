@@ -12,10 +12,13 @@ import {LocalStorageService} from '../../../shared/services/local-storage.servic
 })
 export class LoginPageComponent {
 
+  // Formulario de login
   public loginUserForm: FormGroup = this.formBuilder.group({
     username: ['', [Validators.required]],
     password: ['',[Validators.required]]
   })
+
+  // Constructor de la clase
   constructor(
     private router:Router,
     private messageService: MessageService,
@@ -25,6 +28,7 @@ export class LoginPageComponent {
   ) {
   }
 
+  // Método para iniciar sesión
   logUser(){
     const username:string =  this.loginUserForm.get('username')?.value
     const password:string =  this.loginUserForm.get('password')?.value

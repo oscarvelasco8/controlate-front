@@ -7,6 +7,8 @@ import { SectionData } from '../../interfaces/section-data.interface';
   styleUrl: './informative-section.component.css'
 })
 export class InformativeSectionComponent {
+
+  //Atributos que recibimos del componente padre
   @Input()
   data!: SectionData;
 

@@ -15,16 +15,18 @@ import {UserService} from '../../../shared/services/user.service';
   styleUrl: './search-food-diabetes.component.css'
 })
 export class SearchFoodDiabetesComponent implements OnInit{
+
+  //Atributos que recibimos del componente padre
   @Input() visible: boolean = false; // Vincula displayModal
   @Input() selectedMeal: any; // Vincula selectedMeal
   @Input() history: DiabetesHistory[] = [];
-/*  @Input() selectedDate:string = '';*/
+
+  //Atributo que enviamos al componente padre
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  proteinColor:string = 'rgb(60,50,140)';
+  //Otros atributos del componente
   carbsColor:string = 'rgb(51,133,71)';
   fatColor:string = 'rgb(189,73,98)';
-  caloriesColor:string = 'rgb(228,234,60)';
   private _foodsSearched:FoodInfo[] = [];
   private _foodAdded:DiabetesHistory[] = [];
   private originalValues: { [key: string]: FoodInfo } = {};
@@ -32,8 +34,8 @@ export class SearchFoodDiabetesComponent implements OnInit{
   private _userIcr: number = 0;
   private _userActivityFactor: string = '';
   private _userInsulineResistence: number | undefined = 0;
-  /*portions:number = 0;*/
 
+  //Formularios reactivos
   public foodForm: FormGroup = this.formBuilder.group({
     quantity: [100, [Validators.required, Validators.min(1)]]
   })
@@ -42,6 +44,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
     searchTerm: ['']
   })
 
+  //Constructor de la clase donde inyectamos los servicios
   constructor(
     public foodService: FoodService,
     private diabetesHistoryService:DiabetesHistoryService,
@@ -50,6 +53,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
   ) {
   }
 
+  //Metodo que se ejecuta al iniciar el componente
   ngOnInit(): void {
     this.userService.userInfo.subscribe(user =>{
       this._userIcr = user.icr || 0
@@ -59,11 +63,12 @@ export class SearchFoodDiabetesComponent implements OnInit{
 
   }
 
-
+  // Getter para el ICR
   get icr(): number | undefined {
     return this._userIcr;
   }
 
+  //Metodo para calcular las porciones
   calculatePortions(carbohydrates: number): number {
     let basePortions = carbohydrates / this._userIcr;
 
@@ -97,12 +102,11 @@ export class SearchFoodDiabetesComponent implements OnInit{
     }
 
     // Redondear a las unidades permitidas (0.5)
-    /*this.portions = Math.round(basePortions * 2) / 2;*/
     return Math.round(basePortions * 2) / 2;
   }
 
 
-
+  // Metodo para buscar alimentos
   searchFoods():void {
     this.foodService.getFoods(this.searchForm.get('searchTerm')?.value);
     this.foodForm.patchValue(
@@ -112,6 +116,8 @@ export class SearchFoodDiabetesComponent implements OnInit{
     );
     this.calculatePortions(100);
   }
+
+  //Metodo para cerrar el modal
   closeModal() {
     this.visible = false;
     this.visibleChange.emit(this.visible);
@@ -125,13 +131,15 @@ export class SearchFoodDiabetesComponent implements OnInit{
         searchTerm: ''
       }
     );
-    /*this.foodService.resetFoodsInfo();*/
   }
+
+  // Getter para alimentos buscados
   get foodsSearched(): FoodInfo[] {
     this._foodsSearched = this.foodService.foodsInfo();
     return this._foodsSearched;
   }
 
+  // Metodo para añadir alimentos a la comida correspondiente
   addFoodToMeal(meal:string, food:FoodInfo): void {
     this._foodAdded.push(
       {
@@ -152,12 +160,14 @@ export class SearchFoodDiabetesComponent implements OnInit{
     },0)
   }
 
+  // Metodo para obtener el historial de alimentos por comida
   getuserHistoryByMeal(meal:string):DiabetesHistory[]{
     const historyService = this.history.filter(item => item.meal == meal);
     const localHistory = this._foodAdded.filter(item => item.meal == meal);
     return [...historyService, ...localHistory];
   }
 
+  // Metodo para eliminar alimentos de la comida
   deleteFoodFromMeal(foodHistory:DiabetesHistory): void {
     this._foodDeleted.push(foodHistory);
     this._foodAdded = this._foodAdded.filter( food =>{
@@ -168,9 +178,12 @@ export class SearchFoodDiabetesComponent implements OnInit{
     });
   }
 
+  // Getter para saber si se estan buscando alimentos
   get isSearching():boolean{
     return this.foodService.searching;
   }
+
+  // Metodo para calcular dinamicamente los carbohidratos y las porciones
   calculate(id: number): void {
 
     // Encuentra el alimento en la lista según el id
@@ -209,6 +222,7 @@ export class SearchFoodDiabetesComponent implements OnInit{
     }
   }
 
+  // Metodo para guardar y eliminar alimentos de la comida en la base de datos
   saveMeal() {
     if(this._foodAdded.length > 0 ){
       this.diabetesHistoryService.insertIntoHistory(this._foodAdded);

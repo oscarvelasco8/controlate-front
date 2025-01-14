@@ -11,6 +11,7 @@ export class AppComponent implements OnInit{
   constructor(private localStorageService: LocalStorageService) {
   }
 
+  // Método que se ejecuta al iniciar la aplicación. Establece el tema de la misma.
   ngOnInit(): void {
     const link = document.getElementById("theme");
     if(this.localStorageService.darkTheme){

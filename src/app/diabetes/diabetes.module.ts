@@ -19,7 +19,8 @@ import {InputTextModule} from 'primeng/inputtext';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {TableModule} from 'primeng/table';
 
-
+// Se declaran los componentes que forman parte del módulo, se importan los módulos necesarios y se exportan los componentes que
+// se necesitarán en otros módulos
 @NgModule({
   declarations: [
     DiabetesPageComponent,

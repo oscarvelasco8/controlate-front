@@ -8,25 +8,27 @@ import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.
   styleUrl: './polar-graphic.component.css',
 })
 export class PolarGraphicComponent implements OnInit {
+
+  //Atributos de clase
   data: any;
   options: any;
 
-
+  // Constructor de la clase donde inyectamos los servicios
   constructor(private cd: ChangeDetectorRef, private diabetesHistoryService:DiabetesHistoryService) {}
 
+  // Se utiliza effect para que los datos se actualicen cuando cambien las señales
   themeEffect = effect(() => {
     this.initChart();
     this.diabetesHistoryService.portionsByMeal();
   });
 
+  // Método que se ejecuta al iniciar el componente
   ngOnInit() {
     this.initChart();
   }
 
+  // Método para inicializar el gráfico
   initChart() {
-      /*const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-      const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');*/
 
       this.data = {
         datasets: [
@@ -44,13 +46,6 @@ export class PolarGraphicComponent implements OnInit {
         labels: ['Desayuno', 'Almuerzo', 'Comida', 'Cena']
       };
       this.options = {
-        plugins: {
-          legend: {
-            /*labels: {
-              color: textColor
-            }*/
-          }
-        },
         scales: {
           r: {
             grid: {

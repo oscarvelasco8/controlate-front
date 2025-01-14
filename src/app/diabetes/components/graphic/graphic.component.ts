@@ -10,13 +10,15 @@ import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.
   styleUrl: './graphic.component.css'
 })
 export class GraphicComponent implements OnInit{
+
+  // Atributos de clase
   data: any;
   options: any;
-
   @ViewChild('chart') chart: any; // Referencia al gráfico
   days: string[] = [];
   portions: number[] = [];
 
+  // Constructor de la clase
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private cd: ChangeDetectorRef,
@@ -36,14 +38,15 @@ export class GraphicComponent implements OnInit{
     });
   }
 
+  // Método de inicialización del componente
   ngOnInit() {
     this.initChart();
   }
 
+  // Inicializar el gráfico
   initChart() {
 
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
@@ -63,13 +66,6 @@ export class GraphicComponent implements OnInit{
     this.options = {
       maintainAspectRatio: false,
       aspectRatio: 0.6,
-      plugins: {
-        legend: {
-          /*labels: {
-            color: textColor
-          }*/
-        }
-      },
       scales: {
         x: {
           ticks: {
@@ -93,7 +89,7 @@ export class GraphicComponent implements OnInit{
     };
     }
 
-
+  // Método para actualizar los datos del gráfico
   updateChartData(calories: number[], days: string[]) {
     // Actualizar los datos del gráfico
     this.data.datasets[0].data = calories;
@@ -108,7 +104,4 @@ export class GraphicComponent implements OnInit{
     this.cd.detectChanges();
   }
 
-  get isLightTheme():boolean{
-    return this.localStorageService.darkTheme;
-  }
 }

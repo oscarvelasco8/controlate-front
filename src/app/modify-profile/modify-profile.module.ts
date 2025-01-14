@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
 import {InputNumberModule} from "primeng/inputnumber";
 
+// Rutas del módulo de modificación de perfil
 const routes : Routes = [
   {
     path: '',
@@ -21,7 +22,8 @@ const routes : Routes = [
   }
 ];
 
-
+// Se declaran los componentes que forman parte del módulo, se importan los módulos necesarios y se exportan los componentes que
+// se necesitarán en otros módulos
 
 @NgModule({
   declarations: [

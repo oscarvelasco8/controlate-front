@@ -10,12 +10,16 @@ import {DiabetesHistory} from '../../../shared/interfaces/DiabetesHistory';
   encapsulation: ViewEncapsulation.None
 })
 export class FoodInfoDiabetesComponent {
+
+  // Atributos de clase
   @Input() history: DiabetesHistory[] = [];
-/*  @Input() selectedDate: string = '';*/
   meals: {name:string, foods: string[]}[] = []
   displayModal: boolean = false;
   selectedMeal:string = '';
+
+  //Constructor de clase
   constructor(private diabetesHistoryService: DiabetesHistoryService) {
+    // Se utiliza effect para que los datos se actualicen cuando cambien las señales
     effect(() => {
       this.meals = this.diabetesHistoryService.foodByMeal();
 

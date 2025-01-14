@@ -1,3 +1,5 @@
+
+// Interface para los datos de las secciones
 export interface SectionData {
   id: string;
   title: string;
