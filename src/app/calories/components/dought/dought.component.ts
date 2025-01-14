@@ -10,19 +10,21 @@ import {UserService} from '../../../shared/services/user.service';
   styleUrls: ['./dought.component.css']
 })
 export class DoughtComponent implements OnInit{
+
+  //Atributos de la clase
   doughtsData: any[] = [];
   options: any;
   data: number = 0;
 
+  // Constructor de la clase. Se inyectan los servicios necesarios
   constructor(private foodHistoryService: FoodHistoryService, private userService:UserService) {
-    // Aquí se coloca el effect dentro del constructor
+    // Se utiliza effect para que los datos se actualicen cuando cambien las señales
     effect(() => {
       const totalProtein = this.foodHistoryService.totalProtein();
       const totalCarbs = this.foodHistoryService.totalCarbs();
       const totalFat = this.foodHistoryService.totalFat();
       this.data = this.userService.caloriesObjective();
 
-      // Actualizar los datos cuando las signals cambien
       this.doughtsData = [
         {
           labels: ['PROTEÍNAS CONSUMIDAS', 'CARBOHIDRATOS CONSUMIDOS', 'GRASAS CONSUMIDAS'],
@@ -81,19 +83,13 @@ export class DoughtComponent implements OnInit{
     });
   }
 
+  // Método que se ejecuta al iniciar el componente
+
   ngOnInit() {
     console.log(this.data)
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
     this.options = {
-      cutout: '60%',
-      plugins: {
-        legend: {
-          /*labels: {
-            color: textColor
-          }*/
-        }
-      }
+      cutout: '60%'
     };
   }
 }

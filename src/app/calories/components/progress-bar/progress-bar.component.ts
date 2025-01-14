@@ -9,16 +9,21 @@ import {UserService} from '../../../shared/services/user.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ProgressBarComponent{
-  //color = "rgb(34, 197, 94)";
+
+  // Atributos de la clase
   color = "";
   dailyCalories: number = 0;
 
+  // Constructor de la clase. Se inyectan los servicios necesarios
   constructor(private foodHistoryService: FoodHistoryService, private userService:UserService) {
+
+    // Se utiliza effect para que los datos se actualicen cuando cambien las señales
     effect(() => {
       this.dailyCalories = this.userService.caloriesObjective();
     });
   }
 
+  // Método para obtener el porcentaje de calorías consumidas
   get totalCaloriesHistory(){
     return this.foodHistoryService.totalCalories;
   }

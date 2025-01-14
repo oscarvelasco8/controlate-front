@@ -20,6 +20,8 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {DropdownModule} from 'primeng/dropdown';
 import {InputTextModule} from 'primeng/inputtext';
 
+// Se declaran los componentes que forman parte del módulo, se importan los módulos necesarios y se exportan los componentes que
+// se necesitarán en otros módulos
 
 @NgModule({
   declarations: [

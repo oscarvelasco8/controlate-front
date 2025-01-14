@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CaloriesPageComponent } from './pages/calories-page/calories-page.component';
 
+//Rutas del módulo de calorías
 const routes: Routes = [
   {
     path: '',

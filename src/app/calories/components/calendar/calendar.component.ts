@@ -10,9 +10,11 @@ import {Router} from '@angular/router';
   styleUrl: './calendar.component.css'
 })
 export class CalendarComponent implements OnInit{
-  /*@Output() selectedDateChange = new EventEmitter<string>();*/
+  //Atributos de la clase
   selectedDate!: Date;
   currentRoute = '';
+
+  // Constructor de la clase. Se inyectan los servicios necesarios
   constructor(
     private primengConfig: PrimeNGConfig,
     private foodHistoryService: FoodHistoryService,
@@ -20,8 +22,12 @@ export class CalendarComponent implements OnInit{
     private router: Router
   ) {}
 
+  // Método que se ejecuta al iniciar el componente
+
   ngOnInit() {
     this.currentRoute = this.router.url;
+
+    // Si no hay una fecha seleccionada, se obtiene la fecha actual y se obtienen los datos de la semana y del día
     if (!this.selectedDate) {
       if (this.currentRoute === '/calories'){
         this.foodHistoryService.date = new Date().toISOString().split('T')[0];
@@ -33,6 +39,8 @@ export class CalendarComponent implements OnInit{
         this.diabetesHistoryService.getTotalPortionsWeek();
       }
     }
+
+    // Se configura el calendario
     this.primengConfig.setTranslation({
       dayNames: [
         "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "DOMINGO"
@@ -55,6 +63,8 @@ export class CalendarComponent implements OnInit{
       firstDayOfWeek: 1
     });
   }
+
+  // Método que se ejecuta al seleccionar una fecha. Se obtiene la fecha seleccionada y se obtienen los datos de la semana y del día
 
   onDateSelect() {
     this.currentRoute = this.router.url;

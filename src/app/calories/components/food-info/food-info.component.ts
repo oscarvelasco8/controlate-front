@@ -9,27 +9,27 @@ import {FoodHistoryService} from '../../../shared/services/food-history.service'
   encapsulation: ViewEncapsulation.None
 })
 export class FoodInfoComponent{
+  // Historial de comidas recibido desde el componente padre
   @Input() history: FoodHistory[] = [];
-/*  @Input() selectedDate!: Date;*/
+
+  // Atributos de la clase
   meals: {name:string, foods: string[]}[] = []
+  displayModal: boolean = false;
+  selectedMeal:string = '';
+
+  // Constructor de la clase. Se inyecta el servicio necesario
   constructor(private foodHistoryService: FoodHistoryService) {
+
+    // Se utiliza effect para que los datos se actualicen cuando cambien las señales
     effect(() => {
       this.meals = this.foodHistoryService.foodByMeal();
     });
   }
-  displayModal: boolean = false;
 
-
-  selectedMeal:string = '';
 
   // Abrir modal para una comida específica
   openModal(meal: any) {
     this.selectedMeal = meal;
     this.displayModal = true;
   }
-  /*addMeal(){
-    this.meals.push(
-      { name: 'Nueva comida', foods: [] }
-    )
-  }*/
 }

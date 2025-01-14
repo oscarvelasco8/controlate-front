@@ -11,18 +11,21 @@ import {LocalStorageService} from '../../../shared/services/local-storage.servic
   styleUrls: ['./graphic.component.css'],
 })
 export class GraphicComponent implements OnInit {
+
+  // Atributos de la clase
   data: any;
   options: any;
-
-  @ViewChild('chart') chart: any; // Referencia al gráfico
   days: string[] = [];
   calories: number[] = [];
 
+  // Referencia al gráfico
+  @ViewChild('chart') chart: any;
+
+
+  // Constructor de la clase. Se inyectan los servicios necesarios
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
     private cd: ChangeDetectorRef,
     private foodHistoryService: FoodHistoryService,
-    private localStorageService: LocalStorageService
   ) {
     // Uso del 'effect' para actualizar los datos cuando cambian
     effect(() => {
@@ -37,13 +40,14 @@ export class GraphicComponent implements OnInit {
     });
   }
 
+  // Método que se ejecuta al iniciar el componente
   ngOnInit() {
     this.initChart();
   }
 
+  // Método para inicializar el gráfico
   initChart() {
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
@@ -63,13 +67,6 @@ export class GraphicComponent implements OnInit {
     this.options = {
       maintainAspectRatio: false,
       aspectRatio: 0.6,
-      plugins: {
-        legend: {
-          /*labels: {
-            color: textColor
-          }*/
-        }
-      },
       scales: {
         x: {
           ticks: {
@@ -93,6 +90,7 @@ export class GraphicComponent implements OnInit {
     };
   }
 
+  // Método para actualizar los datos del gráfico
   updateChartData(calories: number[], days: string[]) {
     // Actualizar los datos del gráfico
     this.data.datasets[0].data = calories;

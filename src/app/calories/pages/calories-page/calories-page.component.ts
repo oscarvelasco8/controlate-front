@@ -5,7 +5,6 @@ import {FoodHistory} from '../../../shared/interfaces/foodHistory';
 import {UserService} from '../../../shared/services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
-import {LocalStorageService} from '../../../shared/services/local-storage.service';
 import {forkJoin} from 'rxjs';
 
 @Component({
@@ -14,6 +13,8 @@ import {forkJoin} from 'rxjs';
   styleUrl: './calories-page.component.css'
 })
 export class CaloriesPageComponent implements OnInit{
+
+  // Atributos de la clase
   userTmb:number = 0;
   userWantsModifyObjective:boolean = false;
   userObjectiveName:string = '';
@@ -25,32 +26,35 @@ export class CaloriesPageComponent implements OnInit{
     { name: 'Subir de peso ligeramente', code: '4', value: 'SUBIR_LIGERO' },
     { name: 'Subir de peso moderadamente', code: '5', value: 'SUBIR_MODERADO' }];
 
+  // Formulario para el objetivo del usuario
   public userObjectiveForm: FormGroup = this.formBuilder.group({
     objective: [null, [Validators.required]]
   });
 
+  // Constructor de la clase. Se inyectan los servicios necesarios
   constructor(
     private foodHistoryService:FoodHistoryService,
     private userService:UserService,
     private formBuilder:FormBuilder,
     private messageService:MessageService,
-    /*private localStorageService:LocalStorageService*/
   ) {
   }
 
+  // Método que se ejecuta al iniciar la página
   ngOnInit(): void {
     this.getUserData();
   }
 
+  // Método para obtener los datos del usuario
   getUserData():void{
+    // Se utiliza forkJoin para obtener los datos de manera simultánea
     forkJoin({
       dailyCalories: this.userService.getDailyCalories(),
       tmb: this.userService.getTmb(),
       userObjective: this.userService.getUserObjective(),
     }).subscribe({
       next: ({ dailyCalories, tmb, userObjective }) => {
-        // Configurar el objetivo del usuario
-
+        // Configurar el objetivo del usuario, las calorías diarias y el TMB
         this.userObjectiveName = this.userObjectiveOptions.find(
           item => item.value === userObjective
         )?.name || 'Desconocido';
@@ -70,12 +74,12 @@ export class CaloriesPageComponent implements OnInit{
     });
   }
 
+  // Método para obtener el historial de alimentos desde el servicio
   get history():FoodHistory[]{
     return this.foodHistoryService.history;
   }
 
-    protected readonly localStorage = localStorage;
-
+  // Método para guardar el objetivo del usuario
   saveUserObjective():void {
     const objective = this.userObjectiveForm.controls['objective'].value.value
     this.userService.saveUserObjective(objective).subscribe({
@@ -90,13 +94,18 @@ export class CaloriesPageComponent implements OnInit{
     this.userWantsModifyObjective = false;
   }
 
+  // Método para obtener el objetivo del usuario
   get userObjective():string{
     return this.userService.userObjective();
   }
+
+  // Método para modificar el objetivo del usuario
   modifyObjective(){
     this.userWantsModifyObjective = !this.userWantsModifyObjective;
   }
 
+
+  // Método para obtener el objetivo de macronutrientes en base a la TMB
   private getObjectivesInBaseOfTmb() {
     const tmbAdjusted: number = this.userService.tmbObjective();
     // Distribución de macronutrientes
