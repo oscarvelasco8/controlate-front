@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {MenuItem, MessageService} from 'primeng/api';
+import {MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-register-page',
@@ -9,15 +9,10 @@ import {MenuItem, MessageService} from 'primeng/api';
 
 })
 export class RegisterPageComponent implements OnInit{
-
+  //Atributo de la clase
   items: MenuItem[] = [];
 
-  activeIndex: number = 0;
-
-  constructor(private messageService: MessageService) {}
-
-
-
+  //Metodo que se ejecuta al iniciar el componente. Inicializamos los items que tendrá el formulario de registro
   ngOnInit() {
     this.items = [
       {

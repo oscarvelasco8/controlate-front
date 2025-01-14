@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {isAuthenticatedGuard} from './shared/guards/is-authenticated.guard';
 
+// Rutas del módulo principal. La carga de los módulos se realiza mediante lazy loading o carga perezosa
 const routes: Routes = [
   {
     path: '',
@@ -15,12 +16,12 @@ const routes: Routes = [
   {
     path: 'calories',
     loadChildren: () => import('./calories/calories.module').then(m => m.CaloriesModule),
-    canActivate: [isAuthenticatedGuard]
+    canActivate: [isAuthenticatedGuard] // Ruta protegida por un guardian que verifica si el usuario está autenticado o no para bloquear el acceso
   },
   {
     path: 'diabetes',
     loadChildren: () => import('./diabetes/diabetes.module').then(m => m.DiabetesModule),
-    canActivate: [isAuthenticatedGuard]
+    canActivate: [isAuthenticatedGuard] // Ruta protegida por un guardian que verifica si el usuario está autenticado o no para bloquear el acceso
   },
   {
     path: 'register',
@@ -33,11 +34,11 @@ const routes: Routes = [
   {
     path: 'modify-profile',
     loadChildren: () => import('./modify-profile/modify-profile.module').then(m => m.ModifyProfileModule),
-    canActivate: [isAuthenticatedGuard]
+    canActivate: [isAuthenticatedGuard] // Ruta protegida por un guardian que verifica si el usuario está autenticado o no para bloquear el acceso
   },
   {
     path: '**',
-    redirectTo: 'home'
+    redirectTo: 'home' // Ruta por defecto cuando esta no es reconocida
   }
 ];
 

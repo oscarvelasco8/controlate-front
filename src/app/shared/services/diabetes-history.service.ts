@@ -7,26 +7,33 @@ import {DiabetesHistory} from '../interfaces/DiabetesHistory';
   providedIn: 'root'
 })
 export class DiabetesHistoryService {
-
+  //URLs de la API, local y de producción
   private BASE_URL = 'https://controlate-back.koyeb.app/api/user-diabetes-history';
   //private BASE_URL = 'http://localhost:8080/api/user-diabetes-history';
+
+  //Signals del servicio
   public totalCarbs = signal(0);
-  private _history:DiabetesHistory[] = [];
-  private selectedDate:string = '';
   public portionsGraphicWeek: WritableSignal<{ date: string, portions: number }[]> = signal([]);
   public foodByMeal:WritableSignal<{name:string, foods:string[]}[]> = signal([]);
   public portionsByMeal:WritableSignal<number[]> = signal([]);
   private _totalPortions = signal(0);
 
+  //Otros atributos de la clase
+  private _history:DiabetesHistory[] = [];
+  private selectedDate:string = '';
+
+  //Constructor de la clase, donde se inyectan los servicios
+  constructor(private httpClient:HttpClient, private messageService: MessageService) { }
+
+  //Setter y getter del atributo selectedDate
   public set date(date:string){
     this.selectedDate = date;
   }
-
   public get date():string{
     return this.selectedDate;
   }
 
-  constructor(private httpClient:HttpClient, private messageService: MessageService) { }
+  //Metodo para insertar un registro de historial de usuario en la base de datos
 
   insertIntoHistory(foodAddedFromUser:DiabetesHistory[]) {
 
@@ -43,6 +50,8 @@ export class DiabetesHistoryService {
       });
   }
 
+  // Metodo para eliminar un registro de historial de usuario de la base de datos
+
   deleteFromHistory(foodDeletedFromUser:DiabetesHistory[]) {
     const ids = foodDeletedFromUser.map(food => food.logId).join(',');
     this.httpClient.delete(`${this.BASE_URL}?ids=${ids}`).subscribe({
@@ -57,6 +66,8 @@ export class DiabetesHistoryService {
       }
     });
   }
+
+  // Metodo para obtener el historial de un usuario en una determinada fecha
 
   getHistoryByDate(): void {
     const username = localStorage.getItem('userLogged');
@@ -82,49 +93,9 @@ export class DiabetesHistoryService {
     });
   }
 
-
+  // Metodo para obtener las unidades de insulina que ha consumido un usuario en la última semana
   getTotalPortionsWeek(): void {
 
-    /*this.portionsGraphicWeek.set([]);
-
-    const initialDate = new Date(date.split("/")[1] + "/" + date.split("/")[0] + "/" + date.split("/")[2]);
-    const username = localStorage.getItem('userLogged');
-
-    let completedRequests = 0; // Contador para verificar si hemos recibido todas las respuestas
-
-    for (let i = 0; i < 7; i++) {
-      let portions = 0;
-      let date;
-
-      if (i === 0) {
-        date = initialDate.toLocaleDateString();
-      } else {
-        date = new Date(initialDate.setDate(initialDate.getDate() - 1)).toLocaleDateString();
-      }
-
-      this.httpClient.get<DiabetesHistory[]>(`${this.BASE_URL}/by-date?username=${username}&logDate=${date}`).subscribe({
-        next: (data) => {
-          /!*this.daysGraphic().push(date); // Agregar la fecha*!/
-          data.forEach(item => {
-            portions = portions + item.portions; // Sumar las calorías del día
-          });
-
-          /!*this.caloriesGraphic().push(calories); // Agregar las calorías al gráfico*!/
-          if (!this.portionsGraphicWeek().find(item => item.date === date)) {
-            this.portionsGraphicWeek.set([...this.portionsGraphicWeek(), { date: date, portions: portions }]);
-          }
-          completedRequests++; // Incrementar el contador de solicitudes completadas
-
-          // Si todas las solicitudes han finalizado, ordenamos los datos
-          if (completedRequests === 7) {
-            this.sortData(); // Llamar a la función de ordenación
-          }
-        },
-        error: (err) => {
-          console.error('Error fetching data', err);
-        }
-      });
-    }*/
     this.portionsGraphicWeek.set([]); // Limpiar los datos anteriores
 
     const username = localStorage.getItem('userLogged');
@@ -147,30 +118,18 @@ export class DiabetesHistoryService {
     });
   }
 
-  sortData() {
-    // Ordenar los datos de caloriesGraphicWeek por la fecha
-    this.portionsGraphicWeek().sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-
-      return dateA.getTime() - dateB.getTime(); // Orden ascendente
-    });
-  }
-
-
+  // Metodo que añade unidades de insulina
   addPortions(portions:number) {
     this._totalPortions.set(this._totalPortions() + portions);
   }
 
-  get totalPortions(): number {
-    return this._totalPortions();
-  }
+  // Metodo para resetear las unidades de insulina
 
   resetPortions() {
     this._totalPortions.set(0);
   }
 
-
+  // Getter para obtener el historial de diabetes
   get history():DiabetesHistory[]{
     return this._history;
   }

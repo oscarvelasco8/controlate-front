@@ -9,34 +9,21 @@ import {FoodInfo} from '../interfaces/FoodInfo';
   providedIn: 'root'
 })
 export class FoodService{
+  //URLs de la API, local y de producción
   private BASE_URL = 'https://controlate-back.koyeb.app/api';
   //private BASE_URL = 'http://localhost:8080/api';
-  /*private _foodsInfo:WritableSignal<FoodInfo[]>= signal([
-    {
-      name:'pollo',
-      id:'1',
-      calories:'500',
-      protein:'80',
-      carbohydrate:'0',
-      fat:'10',
-      serving_description:'g'
-    },
-    {
-      name:'arroz',
-      id:'2',
-      calories:'800',
-      protein:'10',
-      carbohydrate:'90',
-      fat:'20',
-      serving_description:'g'
-    }
-  ]);*/
+
+  //Signals del servicio
   private _foodsInfo:WritableSignal<FoodInfo[]>= signal([]);
   public readonly foodsInfo = computed(() => this._foodsInfo());
+
+  //Otros atributos de la clase
   private _searching: boolean = false;
 
+  //Constructor de la clase, donde se inyectan los servicios
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }
 
+  //Metodo para buscar alimentos en la API
   getFoods(searchTerm:string):void {
     this.resetFoodsInfo();
     this._searching = true;
@@ -65,10 +52,13 @@ export class FoodService{
       }
     });
   }
+
+  // Metodo para resetear la informacion de alimentos
   resetFoodsInfo() {
     this._foodsInfo.set([]);
   }
 
+  // Metodo para traducir de ingles a español
   translateEnToEs(englishName: string): Promise<string> {
     return firstValueFrom(
 
@@ -76,12 +66,12 @@ export class FoodService{
     );
   }
 
-
-
+  // Getter que nos indica si se está buscando o no
   get searching():boolean{
     return this._searching;
   }
 
+  // Metodo asincrono para mapear la informacion de alimentos
   private async mapToFoodInfo(data: FoodElement): Promise<FoodInfo | null> {
     // Divide la cadena de "food_description" para obtener los valores nutricionales
     const descriptionParts = data.food_description.split('|').map(part => part.trim());
@@ -92,8 +82,6 @@ export class FoodService{
       return null;
     }
     // Extrae el tamaño de la porción y su unidad
-    //const servingSize = servingSizeMatch ? parseFloat(servingSizeMatch[1]) : 100;
-    //const servingUnit = servingSizeMatch ? servingSizeMatch[2].toLowerCase() : 'g'; // Normaliza la unidad a minúsculas
     const servingSize = parseFloat(servingSizeMatch[1]);
     const servingUnit = servingSizeMatch[2].toLowerCase();
 
@@ -144,15 +132,6 @@ export class FoodService{
 
     const foodName = await this.translateEnToEs(data.food_name);
 
-    /*return {
-      name: foodName,
-      id: data.food_id,
-      calories: (calories * scalingFactor).toFixed(2),
-      protein: (protein * scalingFactor).toFixed(2),
-      carbohydrate: (carbs * scalingFactor).toFixed(2),
-      fat: (fat * scalingFactor).toFixed(2),
-      serving_description: `${servingSizeInBase.toFixed(2)} ${adjustedBase}`, // Muestra la unidad convertida
-    };*/
     return {
       name: foodName,
       id: data.food_id,
@@ -160,7 +139,7 @@ export class FoodService{
       protein: (protein * scalingFactor).toFixed(2),
       carbohydrate: (carbs * scalingFactor).toFixed(2),
       fat: (fat * scalingFactor).toFixed(2),
-      serving_description: `${adjustedBase}`, // Muestra la unidad convertida
+      serving_description: `${adjustedBase}`,
     };
   }
 

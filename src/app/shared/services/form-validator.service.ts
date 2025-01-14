@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {userInfo} from '../interfaces/userInfo';
-import {UserService} from './user.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormValidatorService {
 
+  // Datos base que contienen la información de un usuario
   private _userInfo: userInfo = {
     name: '',
     lastname: '',
@@ -23,9 +24,7 @@ export class FormValidatorService {
     isDiabetic: false
   };
 
-  constructor(
-
-  ) { }
+  //Getters y Setters de la información de un usuario
 
   set isDiabetic(isDiabetic:boolean){
     this._userInfo.isDiabetic = isDiabetic;
@@ -87,12 +86,14 @@ export class FormValidatorService {
     this._userInfo.icr = icr;
   }
 
+  // Validación del formulario
   isValidForm():boolean{
     return this._userInfo.name.length > 0 && this._userInfo.lastname.length > 0 && this._userInfo.email.length > 0 &&
     this._userInfo.age > 0 && this._userInfo.weight > 0 && this._userInfo.height > 0 && this._userInfo.activityFactor.length > 0 &&
     this._userInfo.username.length > 0 && this._userInfo.password.length > 0;
   }
 
+  // Resetear el formulario
   resetForm():void{
     this._userInfo = {
       name: '',

@@ -1,3 +1,4 @@
+//Interfaz que define un objeto DiabetesHistory con los datos del historial de diabetes
 export interface DiabetesHistory {
   logId:         string;
   username:      string;

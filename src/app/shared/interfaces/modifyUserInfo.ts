@@ -1,3 +1,4 @@
+// Interfaz para modificar un usuario
 export interface modifyUserInfo{
   name?: string,
   lastname?: string,

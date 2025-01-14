@@ -5,6 +5,7 @@ import {PersonalFormComponent} from './components/personal-form/personal-form.co
 import {ActividadFormComponent} from './components/actividad-form/actividad-form.component';
 import {UserFormComponent} from './components/user-form/user-form.component';
 
+//Rutas del módulo de registro
 const routes: Routes = [
   {
     path:'',

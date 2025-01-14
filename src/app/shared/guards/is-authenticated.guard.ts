@@ -3,7 +3,8 @@ import {inject} from '@angular/core';
 import {LocalStorageService} from '../services/local-storage.service';
 import {MessageService} from 'primeng/api';
 
-export const isAuthenticatedGuard: CanActivateFn = (route, state) => {
+// Guarda para verificar si el usuario está autenticado. Si no lo está, redirige a la página de login y bloquea el acceso
+export const isAuthenticatedGuard: CanActivateFn = () => {
   const authService = inject(LocalStorageService);
   const router = inject(Router);
   const message = inject(MessageService);
