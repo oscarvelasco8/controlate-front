@@ -6,6 +6,7 @@ import {UserService} from '../../../shared/services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import {forkJoin} from 'rxjs';
+import {LocalStorageService} from '../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-calories-page',
@@ -19,6 +20,7 @@ export class CaloriesPageComponent implements OnInit{
   userWantsModifyObjective:boolean = false;
   userObjectiveName:string = '';
   dailyCalories:number = 0;
+  protected readonly localStorage = localStorage;
   userObjectiveOptions: any[] = [
     { name: 'Bajar de peso ligeramente', code: '1' , value:'BAJAR_LIGERO' },
     { name: 'Bajar de peso moderadamente', code: '2', value: 'BAJAR_MODERADO' },

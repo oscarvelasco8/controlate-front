@@ -17,7 +17,7 @@ export class ModifyProfileComponent implements OnInit{
   public modifyUserForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.minLength(2), Validators.required]],
     lastname: ['', [Validators.minLength(2), Validators.required]],
-    email: ['',[Validators.email, Validators.required]],
+    email: ['',[Validators.email, this.registerValidatorService.emailValidator]],
     gender: [''],
     age: ['', [Validators.min(1), Validators.required]],
     height: ['', [Validators.min(1), Validators.required]],
@@ -25,7 +25,7 @@ export class ModifyProfileComponent implements OnInit{
     activityFactor: [''],
     insulinaFactor: [''],
     username: ['', [Validators.minLength(3), Validators.required]],
-    password: [''],
+    password: ['', this.registerValidatorService.passwordValidator],
     objective: [''],
     icr: [''],
   })

@@ -15,7 +15,7 @@ export class PersonalFormComponent implements OnInit{
   public personalForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required]],
     lastname: ['',[Validators.required]],
-    email: ['',[Validators.required, Validators.email]],
+    email: ['',[Validators.required, this.registerValidatorService.emailValidator]],
     gender: ['',[Validators.required]]
   })
   genderOptions: any[] = [{ name: 'Hombre', code: '1', value:'MALE' }, { name: 'Mujer', code: '2', value: 'FEMALE' }];
