@@ -15,12 +15,15 @@ import {UserService} from '../../../shared/services/user.service';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchFoodComponent{
+
+  // Atributos que recibimos del componente padre y que enviamos al componente padre
   @Input() visible: boolean = false; // Vincula displayModal
   @Input() selectedMeal: any; // Vincula selectedMeal
   @Input() history: FoodHistory[] = [];
   @Input() selectedDate:string = '';
   @Output() visibleChange = new EventEmitter<boolean>();
 
+  // Otros atributos del componente
   proteinColor:string = 'rgb(60,50,140)';
   carbsColor:string = 'rgb(60,152,80)';
   fatColor:string = 'rgb(169,54,79)';
@@ -30,6 +33,7 @@ export class SearchFoodComponent{
   private originalValues: { [key: string]: FoodInfo } = {};
   private _foodDeleted:FoodHistory[] = [];
 
+  // Formularios reactivos
   public foodForm: FormGroup = this.formBuilder.group({
     quantity: [100, [Validators.required, Validators.min(1)]]
   })
@@ -38,6 +42,7 @@ export class SearchFoodComponent{
     searchTerm: ['']
   })
 
+  // Constructor de la clase donde inyectamos los servicios
   constructor(
     public foodService: FoodService,
     private formBuilder: FormBuilder,
@@ -45,10 +50,13 @@ export class SearchFoodComponent{
     private userService:UserService
   ) {
   }
+
+  // Getter para obtener el objetivo del usuario
   get userObjective():string{
     return this.userService.userObjective();
   }
 
+  // Metodo para buscar alimentos
   searchFoods():void {
     this.foodService.getFoods(this.searchForm.get('searchTerm')?.value);
     this.foodForm.patchValue(
@@ -57,6 +65,8 @@ export class SearchFoodComponent{
       }
     );
   }
+
+  // Metodo para cerrar el modal
   closeModal() {
     this.visible = false;
     this.visibleChange.emit(this.visible);
@@ -70,13 +80,15 @@ export class SearchFoodComponent{
         searchTerm: ''
       }
     );
-    /*this.foodService.resetFoodsInfo();*/
   }
+
+  // Getter para obtener los alimentos buscados
   get foodsSearched(): FoodInfo[] {
     this._foodsSearched = this.foodService.foodsInfo();
     return this._foodsSearched;
   }
 
+  // Metodo para añadir un alimento a una comida
   addFoodToMeal(meal:string, food:FoodInfo): void {
     this._foodAdded.push(
       {
@@ -99,12 +111,14 @@ export class SearchFoodComponent{
     },0)
   }
 
+  // Metodo para obtener el historial de alimentos por comida
   getuserHistoryByMeal(meal:string):FoodHistory[]{
     const historyService = this.history.filter(item => item.meal == meal);
     const localHistory = this._foodAdded.filter(item => item.meal == meal);
     return [...historyService, ...localHistory];
   }
 
+  // Metodo para eliminar un alimento de una comida
   deleteFoodFromMeal(foodHistory:FoodHistory): void {
     this._foodDeleted.push(foodHistory);
     this._foodAdded = this._foodAdded.filter( food =>{
@@ -115,9 +129,12 @@ export class SearchFoodComponent{
     });
   }
 
+  // Getter para saber si se estan buscando alimentos
   get isSearching():boolean{
     return this.foodService.searching;
   }
+
+  // Metodo para calcular dinamicamente los macronutrientes
   calculate(id: number): void {
     // Encuentra el alimento en la lista según el id
     let element = this._foodsSearched.find(item => item.id == `${id}`);
