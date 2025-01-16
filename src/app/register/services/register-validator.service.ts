@@ -64,7 +64,7 @@ export class RegisterValidatorService {
 
   emailValidator(control: FormControl):ValidationErrors | null {
     const value = control.value;
-    if ( !value.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/) ) {
+    if ( !value.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/) ) {
       return { email: true };
     }
     return null;
