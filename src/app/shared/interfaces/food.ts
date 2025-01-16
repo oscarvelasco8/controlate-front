@@ -1,3 +1,4 @@
+//Interfaz que define un alimento
 export interface Food {
   foods: Foods;
 }

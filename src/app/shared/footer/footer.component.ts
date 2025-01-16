@@ -11,6 +11,7 @@ export class FooterComponent {
 
   }
 
+  // Método para saber si se está utilizando el tema oscuro
   get isDarkTheme():boolean {
     return this.localStorageService.darkTheme;
   }

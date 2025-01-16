@@ -10,7 +10,10 @@ import {LocalStorageService} from '../services/local-storage.service';
   encapsulation: ViewEncapsulation.None
 })
 export class TopBarComponent implements OnInit{
+  // Atributos de la clase
   isLightTheme: boolean = true;
+
+  // Atributo que indica los items que tendrá la TopBar
   public items: MegaMenuItem[] = [
     {
       label: 'Home',
@@ -29,20 +32,28 @@ export class TopBarComponent implements OnInit{
     },
   ];
 
+  // Constructor de la clase donde se inyectan los servicios
   constructor(
     private localStorageService: LocalStorageService
   ) {
   }
 
+  // Metodo que se ejecuta al iniciar el componente. Establece el tema de la topbar
   ngOnInit(): void {
     this.isLightTheme = !this.localStorageService.darkTheme;
   }
+
+  // Getter que nos devuelve si el usuario se ha logado
   get userLogged(): boolean{
     return this.localStorageService.getLoginStatus();
   }
+
+  // Metodo para cerrar la sesion
   logout(): void{
     this.localStorageService.logout();
   }
+
+  // Metodo para cambiar el tema
 
   changeTheme() {
     const link = document.getElementById("theme");
@@ -56,6 +67,8 @@ export class TopBarComponent implements OnInit{
       this.localStorageService.isLightTheme();
     }
   }
+
+  // Getter para saber si el tema es oscuro
   get isDarkTheme():boolean{
     return this.localStorageService.darkTheme;
   }

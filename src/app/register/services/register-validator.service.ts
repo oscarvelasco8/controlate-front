@@ -6,11 +6,13 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn} 
 })
 export class RegisterValidatorService {
 
-  constructor() { }
+  // Metodo que verifica si un campo es valido
   isValidField( form: FormGroup, field: string ): boolean | null {
     return form.controls[field].errors
       && form.controls[field].touched;
   }
+
+  // Metodo que obtiene el error de un campo
   getFieldError(form: FormGroup, field: string ): string | null {
 
     if ( !form.controls[field] ) return null;
@@ -42,6 +44,7 @@ export class RegisterValidatorService {
     return null;
   }
 
+  // Metodo para validar la contraseña
   passwordValidator(control: FormControl):ValidationErrors | null {
     const value = control.value;
 
@@ -51,6 +54,7 @@ export class RegisterValidatorService {
     return null;
   }
 
+  // Metodo para validar la contraseña utilizado en la modificación del perfil de usuario. No es un metodo que se utilice como verficador, más bien se añade como validador
   passwordValidator2():ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
@@ -62,6 +66,7 @@ export class RegisterValidatorService {
     }
   }
 
+  // Metodo para validar el correo
   emailValidator(control: FormControl):ValidationErrors | null {
     const value = control.value;
     if ( !value.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/) ) {

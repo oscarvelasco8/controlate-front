@@ -1,3 +1,5 @@
+
+//Interfaz que define la estructura de un registro de comida en el historial
 export interface FoodHistory {
   logId:         string;
   username:      string;

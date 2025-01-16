@@ -1,3 +1,4 @@
+// Interfaz que define los datos de un usuario
 export interface userInfo{
   name: string,
   lastname: string,

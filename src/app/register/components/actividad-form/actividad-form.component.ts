@@ -12,13 +12,15 @@ import {FormValidatorService} from '../../../shared/services/form-validator.serv
   encapsulation: ViewEncapsulation.None
 })
 export class ActividadFormComponent implements OnInit{
-  /*isDiabetic: boolean = false;*/
+  // Opciones de actividad para el formulario
   activityOptions: any[] = [
     { name: 'Poco Sedentario', code: '1' , value:'POCO_SEDENTARIO' },
     { name: 'Sedentario', code: '2', value: 'SEDENTARIO' },
     { name: 'Moderadamente Sedentario', code: '3', value: 'MODERADAMENTE_SEDENTARIO' },
     { name: 'Activo', code: '4', value: 'ACTIVO' },
     { name: 'Muy Activo', code: '5', value: 'MUY_ACTIVO' }];
+
+  //Formulario reactivo de actividad del usuario
   public activityForm: FormGroup = this.formBuilder.group({
     age: [null, [Validators.required, Validators.min(1)]],
     weight: [null, [Validators.required , Validators.min(1)]],
@@ -29,6 +31,8 @@ export class ActividadFormComponent implements OnInit{
     icr:[null],
   });
 
+  //Constructor de la clase, donde se inyectan los servicios
+
   constructor(
     private router:Router,
     private messageService: MessageService,
@@ -37,6 +41,21 @@ export class ActividadFormComponent implements OnInit{
     private formValidatorService: FormValidatorService
   ) {
   }
+
+  // Metodo que se ejecuta al iniciar el componente. Iniciamos el formulario
+  ngOnInit(): void {
+    this.activityForm.patchValue({
+      age: this.formValidatorService.userInfo.age,
+      weight: this.formValidatorService.userInfo.weight,
+      height: this.formValidatorService.userInfo.height,
+      activity: this.activityOptions.find(option => option.value === this.formValidatorService.userInfo.activityFactor) || this.formValidatorService.userInfo.activityFactor,
+      diabetesFactor: this.formValidatorService.userInfo.insulinaFactor,
+      icr: this.formValidatorService.userInfo.icr,
+      isDiabetic: this.formValidatorService.isDiabetic
+    });
+  }
+
+  //Metodo para enviar los datos del formulario
   onSubmit():void{
     if (this.activityForm.invalid) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.' })
@@ -56,24 +75,17 @@ export class ActividadFormComponent implements OnInit{
 
   }
 
+  // Metodo para validar los campos
   isValidField( field: string ): boolean | null {
     return this.registerValidatorService.isValidField(this.activityForm, field);
   }
+
+  // Metodo para obtener el error de los campos
   getFieldError( field: string ): string | null {
     return this.registerValidatorService.getFieldError(this.activityForm, field);
   }
-  ngOnInit(): void {
-    this.activityForm.patchValue({
-      age: this.formValidatorService.userInfo.age,
-      weight: this.formValidatorService.userInfo.weight,
-      height: this.formValidatorService.userInfo.height,
-      activity: this.activityOptions.find(option => option.value === this.formValidatorService.userInfo.activityFactor) || this.formValidatorService.userInfo.activityFactor,
-      diabetesFactor: this.formValidatorService.userInfo.insulinaFactor,
-      icr: this.formValidatorService.userInfo.icr,
-      isDiabetic: this.formValidatorService.isDiabetic
-    });
-  }
 
+  // Metodo para saber si el usuario es diabético
   get isDiabetic(): boolean {
     return this.activityForm.controls['isDiabetic'].value;
   }

@@ -15,7 +15,7 @@ import {PasswordModule} from 'primeng/password';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {StepsModule} from 'primeng/steps';
 
-
+// Definiciónde los componentes que forman parte del módulo y se importan los módulos necesarios
 @NgModule({
   declarations: [
     RegisterPageComponent,

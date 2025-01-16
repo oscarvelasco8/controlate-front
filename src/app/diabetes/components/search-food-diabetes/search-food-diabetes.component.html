@@ -69,8 +69,11 @@
           <ng-template pTemplate="body" let-foodAdded>
             <tr>
               <td class="flex flex-column align-items-center justify-content-between gap-4">
-                <div class="flex align-items-center justify-content-between w-full">
-                  {{ foodAdded.foodName }} {{ foodAdded.quantity }} {{ foodAdded.units }}
+                <div class="flex align-items-center justify-content-between w-full gap-3">
+                  <span>
+                    {{ foodAdded.foodName }} {{ foodAdded.quantity }} {{ foodAdded.units }}
+                  </span>
+
 
                   <p-button (click)="deleteFoodFromMeal(foodAdded)" icon="pi pi-minus"></p-button>
                 </div>

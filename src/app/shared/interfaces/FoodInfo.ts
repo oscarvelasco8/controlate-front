@@ -1,3 +1,4 @@
+//Interfaz que define la estructura de un registro de comida
 export interface FoodInfo {
   name:string,
   id:string,
