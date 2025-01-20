@@ -23,3 +23,12 @@ main{
 .p-menuitem-link{
   background:none;
 }
+
+@media screen and (min-width: 1024px) {
+  main{
+  height:calc(100vh - 253px)
+  }
+}
+:host {
+  flex: 1 1 0;
+}
