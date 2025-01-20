@@ -69,4 +69,14 @@ export class LocalStorageService {
   get darkTheme():boolean{
     return localStorage.getItem("isDarkTheme") === "true";
   }
+
+  // Metodo que nos dice si el usuario es diabetico
+  get isDiabetic():boolean{
+    return localStorage.getItem("isDiabetic") === "true";
+  }
+
+  // Metodo para guardar si el usuario es diabetico
+  setIsDiabetic(isDiabetic:boolean){
+    localStorage.setItem("isDiabetic", isDiabetic.toString());
+  }
 }

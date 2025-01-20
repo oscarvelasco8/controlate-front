@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RegisterValidatorService} from '../../services/register-validator.service';
 import {FormValidatorService} from '../../../shared/services/form-validator.service';
+import {LocalStorageService} from '../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-actividad-form',
@@ -38,11 +39,12 @@ export class ActividadFormComponent implements OnInit{
     private messageService: MessageService,
     private formBuilder:FormBuilder,
     private registerValidatorService: RegisterValidatorService,
-    private formValidatorService: FormValidatorService
+    private formValidatorService: FormValidatorService,
+    public localStorageService: LocalStorageService
   ) {
   }
 
-  // Metodo que se ejecuta al iniciar el componente. Iniciamos el formulario
+  // Metodo que se ejecuta al iniciar el componente. Iniciamos el formulario y seteamos los valores por defecto
   ngOnInit(): void {
     this.activityForm.patchValue({
       age: this.formValidatorService.userInfo.age,
@@ -53,6 +55,7 @@ export class ActividadFormComponent implements OnInit{
       icr: this.formValidatorService.userInfo.icr,
       isDiabetic: this.formValidatorService.isDiabetic
     });
+    this.localStorageService.setIsDiabetic(false);
   }
 
   //Metodo para enviar los datos del formulario
@@ -89,4 +92,6 @@ export class ActividadFormComponent implements OnInit{
   get isDiabetic(): boolean {
     return this.activityForm.controls['isDiabetic'].value;
   }
+
+  protected readonly localStorage = localStorage;
 }

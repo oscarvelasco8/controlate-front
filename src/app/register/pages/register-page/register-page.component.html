@@ -1,4 +1,4 @@
-<main class="flex max-h-full min-h-0 md:min-h-full">
+<main class="flex max-h-full min-h-0 md:min-h-full" [ngClass]="!localStorageService.isDiabetic ? 'height' : null">
   <div class="hidden md:flex flex-1 justify-content-center align-items-center p-7 max-h-full w-6">
     <div class="w-6 h-full">
       <img src="register/register-image.jpg" alt="" class="decorator-img w-full h-full border-round-2xl">
