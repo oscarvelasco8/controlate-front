@@ -62,7 +62,7 @@
       </div>
     </div>
     <div class="card flex">
-      <label for="diabetes" class="mr-4">¿Eres diabetico?</label><p-inputSwitch formControlName="isDiabetic" name="isDiabetic" id="diabetes" (onChange)="this.localStorageService.setIsDiabetic(isDiabetic);"/>
+      <label for="diabetes" class="mr-4">¿Eres diabetico?</label><p-inputSwitch formControlName="isDiabetic" name="isDiabetic" id="diabetes"/>
 
     </div>
     <div class="flex flex-column gap-2" *ngIf="isDiabetic">

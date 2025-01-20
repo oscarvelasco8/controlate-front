@@ -39,8 +39,7 @@ export class ActividadFormComponent implements OnInit{
     private messageService: MessageService,
     private formBuilder:FormBuilder,
     private registerValidatorService: RegisterValidatorService,
-    private formValidatorService: FormValidatorService,
-    public localStorageService: LocalStorageService
+    private formValidatorService: FormValidatorService
   ) {
   }
 
@@ -55,7 +54,6 @@ export class ActividadFormComponent implements OnInit{
       icr: this.formValidatorService.userInfo.icr,
       isDiabetic: this.formValidatorService.isDiabetic
     });
-    this.localStorageService.setIsDiabetic(false);
   }
 
   //Metodo para enviar los datos del formulario

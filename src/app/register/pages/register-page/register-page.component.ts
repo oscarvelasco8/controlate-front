@@ -13,10 +13,6 @@ export class RegisterPageComponent implements OnInit{
   //Atributo de la clase
   items: MenuItem[] = [];
 
-  //Constructor de la clase, donde se inyectan los servicios
-  constructor(public localStorageService: LocalStorageService) {
-  }
-
   //Metodo que se ejecuta al iniciar el componente. Inicializamos los items que tendrá el formulario de registro
   ngOnInit() {
     this.items = [
@@ -34,7 +30,4 @@ export class RegisterPageComponent implements OnInit{
       }
     ];
   }
-
-
-  protected readonly localStorage = localStorage;
 }

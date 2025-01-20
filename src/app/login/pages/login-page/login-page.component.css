@@ -3,17 +3,7 @@
 }
 main{
   margin-top:140px;
-}
-@media screen and (min-width: 700px) {
-  main{
-    margin-top:70px;
-  }
-}
-@media screen and (min-width: 1500px) {
-  main{
-    margin-top:70px;
-    height: calc(100vh - 350px);
-  }
+  min-height: calc(100vh - 350px);
 }
 
 :host {
