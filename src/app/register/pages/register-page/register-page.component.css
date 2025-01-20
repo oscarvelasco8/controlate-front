@@ -24,8 +24,16 @@ main{
   background:none;
 }
 .height{
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 1500px) {
+    margin-top:140px;
     height:calc(100vh - 253px)
+  }
+}
+
+@media screen and (min-width: 700px) {
+  main{
+    height:100%;
+    margin-top:140px;
   }
 }
 
