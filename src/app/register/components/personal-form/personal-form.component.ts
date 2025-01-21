@@ -53,7 +53,7 @@ export class PersonalFormComponent implements OnInit{
     this.messageService.add({ severity: 'success', summary: 'Datos guardados', detail: 'Datos personales guardados con éxito' })
     this.formValidatorService.name = this.personalForm.get('name')?.value;
     this.formValidatorService.lastName = this.personalForm.get('lastname')?.value;
-    this.formValidatorService.email = this.personalForm.get('email')?.value;
+    this.formValidatorService.email = this.personalForm.get('email')?.value.toLowerCase();
     this.formValidatorService.gender = this.personalForm.get('gender')?.value.value.toUpperCase();
 
     this.router.navigate(['/register/activity']);

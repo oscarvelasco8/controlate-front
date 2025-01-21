@@ -44,7 +44,7 @@ export class UserFormComponent implements OnInit{
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Por favor, complete todos los campos.' })
       return
     }
-    this.formValidatorService.userName = this.userForm.get('username')?.value;
+    this.formValidatorService.userName = this.userForm.get('username')?.value.toLowerCase();
     this.formValidatorService.password = this.userForm.get('password')?.value;
 
     if (!this.formValidatorService.isValidForm()){
