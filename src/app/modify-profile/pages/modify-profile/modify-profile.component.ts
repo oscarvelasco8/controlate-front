@@ -18,7 +18,7 @@ export class ModifyProfileComponent implements OnInit{
   public modifyUserForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.minLength(2), Validators.required]],
     lastname: ['', [Validators.minLength(2), Validators.required]],
-    email: ['',[Validators.email, this.registerValidatorService.emailValidator]],
+    email: ['',[this.registerValidatorService.emailValidator]],
     gender: [''],
     age: ['', [Validators.min(1), Validators.required]],
     height: ['', [Validators.min(1), Validators.required]],
