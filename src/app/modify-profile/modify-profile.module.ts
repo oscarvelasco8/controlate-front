@@ -8,6 +8,7 @@ import {PasswordModule} from 'primeng/password';
 import {ReactiveFormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
 import {InputNumberModule} from "primeng/inputnumber";
+import {DialogModule} from 'primeng/dialog';
 
 // Rutas del módulo de modificación de perfil
 const routes : Routes = [
@@ -37,7 +38,8 @@ const routes : Routes = [
         PasswordModule,
         ReactiveFormsModule,
         DropdownModule,
-        InputNumberModule
+        InputNumberModule,
+        DialogModule
     ],
   exports: [RouterModule]
 })

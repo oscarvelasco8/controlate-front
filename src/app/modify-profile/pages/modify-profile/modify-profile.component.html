@@ -181,10 +181,18 @@
       </div>
       <div class="field w-full flex gap-6 justify-content-center">
         <p-button type="submit" label="Modificar Cuenta" [rounded]="true"></p-button>
-        <p-button type="button" severity="danger" (click)="deleteUser()" label="Eliminar Cuenta" [rounded]="true"></p-button>
+        <p-button type="button" severity="danger" (click)="openModal()" label="Eliminar Cuenta" [rounded]="true"></p-button>
       </div>
 
     </form>
+
+    <p-dialog [modal]="true" [(visible)]="visibleModal" header="¿Confirmar eliminación de la cuenta?">
+      <div class="flex justify-content-between">
+        <p-button (click)="closeModal()" label="Cancelar" [rounded]="true"></p-button>
+        <p-button (click)="deleteUser()" label="Confirmar" severity="danger" [rounded]="true"></p-button>
+      </div>
+
+    </p-dialog>
   </div>
 </main>
 

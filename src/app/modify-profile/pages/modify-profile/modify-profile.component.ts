@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {UserService} from '../../../shared/services/user.service';
@@ -48,6 +48,9 @@ export class ModifyProfileComponent implements OnInit{
   genderOptions: any[] = [{ name: 'Hombre', code: '1', value:'MALE' }, { name: 'Mujer', code: '2', value: 'FEMALE' }];
   private initialFormValue: any;
 
+  //Atributo para la modal de confirmación de la eliminación de la cuenta
+  visibleModal: boolean = false;
+
   // Constructor de la clase donde se inyectan los servicios
   constructor(
     private router:Router,
@@ -58,6 +61,11 @@ export class ModifyProfileComponent implements OnInit{
     private localStorageService:LocalStorageService
   ) {
     this.configureValidationPassword();
+  }
+
+  // Metodo para cerrar la modal
+  closeModal(){
+    this.visibleModal = false;
   }
 
   // Metodo que se ejecuta al iniciar el componente. Se llama al servicio para obtener la informacion del usuario y se inicializan los formularios
@@ -84,7 +92,12 @@ export class ModifyProfileComponent implements OnInit{
     })
   }
 
-  // Método que configura la validación de la contraseña
+  // Metodo que muestra la modal de confirmación de la eliminación de la cuenta
+  openModal(){
+    this.visibleModal = true;
+  }
+
+  // Metodo que configura la validación de la contraseña
   configureValidationPassword() {
     const passwordControl = this.modifyUserForm.get('password');
     // Si la contraseña no es nula, se configura la validación. Si no, se limpian las validaciones
@@ -104,7 +117,7 @@ export class ModifyProfileComponent implements OnInit{
     }
   }
 
-  // Método que modifica el perfil de usuario
+  // Metodo que modifica el perfil de usuario
   modifyProperties() {
 
     // Si no se han realizado cambios, se redirige a la pantalla de inicio con un mensaje indicándo que no hay cambios
@@ -122,7 +135,7 @@ export class ModifyProfileComponent implements OnInit{
 
     // Si no ocurre ninguna de las anteriores condiciones, se modifica el perfil
     const {activityFactor, gender, objective} = this.modifyUserForm.value
-    const noEmptyFields = Object.fromEntries(Object.entries(this.modifyUserForm.value).filter(([key, value]) => value !== ''));
+    const noEmptyFields = Object.fromEntries(Object.entries(this.modifyUserForm.value).filter(([value]) => value !== ''));
     this.userService.modifyUserInfo({
       ...noEmptyFields,
       activityFactor: activityFactor.value,
@@ -130,7 +143,7 @@ export class ModifyProfileComponent implements OnInit{
       objective: objective.value,
 
     }).subscribe({
-      next: (response) => {
+      next: () => {
         this.messageService.add({severity:'success', summary: 'Modificado', detail: 'Perfil modificado con exito'});
         this.router.navigate(['home']);
       },
@@ -141,12 +154,12 @@ export class ModifyProfileComponent implements OnInit{
     })
   }
 
-  // Método que verifica si un campo es valido
+  // Metodo que verifica si un campo es valido
   isValidField( field: string ): boolean | null {
     return this.registerValidatorService.isValidField(this.modifyUserForm, field);
   }
 
-  // Método que obtiene el error de un campo
+  // Metodo que obtiene el error de un campo
   getFieldError( field: string ): string | null {
     return this.registerValidatorService.getFieldError(this.modifyUserForm, field);
   }
@@ -154,7 +167,8 @@ export class ModifyProfileComponent implements OnInit{
   // Metodo que elimina el perfil de usuario de la base de datos
   deleteUser() {
     this.userService.deleteUser().subscribe({
-      next: (response) => {
+      next: () => {
+        this.visibleModal = false;
         this.localStorageService.logout();
         this.messageService.add({severity:'success', summary: 'Eliminado', detail: 'Perfil eliminado con exito'});
         this.router.navigate(['home']);
@@ -165,4 +179,6 @@ export class ModifyProfileComponent implements OnInit{
       }
     })
   }
+
+  protected readonly close = close;
 }
