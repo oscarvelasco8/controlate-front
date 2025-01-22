@@ -24,39 +24,46 @@ export class FoodService{
   constructor(private httpClient:HttpClient, private messageService: MessageService) { }
 
   //Metodo para buscar alimentos en la API
-  getFoods(searchTerm:string):void {
+  getFoods(searchTerm: string): void {
     this.resetFoodsInfo();
     this._searching = true;
+
     this.httpClient.get<Food>(this.BASE_URL + '/search-food-by-name?searchTerm=' + searchTerm + '&maxResults=10').pipe(
       map(response => response.foods.food)
     ).subscribe({
-      next: (response) => {
-        if (!response) {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La busqueda no arrojo ningun resultado' });
+      next: async (response) => {
+        if (!response || response.length === 0) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La búsqueda no arrojó ningún resultado' });
           this._searching = false;
           return;
         }
-        response.forEach(async (food)=>{
-          const element = await this.mapToFoodInfo(food);
-          if (!element) {
-            return;
-          }
-          this._foodsInfo.update(arr => [...arr, element]);
-        })
+
+        // Procesamos los alimentos en paralelo
+        const elements = await Promise.all(response.map(async (food) => {
+          return await this.mapToFoodInfo(food);
+        }));
+
+        // Filtramos los elementos nulos
+        const validElements = elements.filter(el => el !== null);
+
+        // Actualizamos el estado de los alimentos
+        this._foodsInfo.update(arr => [...arr, ...validElements]);
+
         if (this._foodsInfo().length === 0) {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La busqueda no arrojo ningun resultado' });
-          this._searching = false;
-          return;
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La búsqueda no arrojó ningún resultado' });
+        } else {
+          this.messageService.add({ severity: 'success', summary: 'Búsqueda exitosa', detail: '¡Resultados encontrados!' });
         }
-        this.messageService.add({ severity: 'success', summary: 'Busqueda exitosa', detail: '¡Resultados encontrados!' });
+
         this._searching = false;
       },
       error: () => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La busqueda no arrojo ningun resultado' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al obtener los datos del servidor' });
         this._searching = false;
       }
     });
   }
+
 
   // Metodo para resetear la informacion de alimentos
   resetFoodsInfo() {

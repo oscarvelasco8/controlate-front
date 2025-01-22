@@ -131,7 +131,7 @@ export class FoodHistoryService {
 
   // Getter para obtener las calorías
   get totalCalories(): number {
-    return this._totalCalories();
+    return parseFloat(this._totalCalories().toFixed(2));
   }
 
   // Metodo para resetear las calorías
