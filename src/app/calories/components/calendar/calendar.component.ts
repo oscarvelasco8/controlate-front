@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {FoodHistoryService} from '../../../shared/services/food-history.service';
 import {DiabetesHistoryService} from '../../../shared/services/diabetes-history.service';
@@ -68,15 +68,20 @@ export class CalendarComponent implements OnInit{
 
   onDateSelect() {
     this.currentRoute = this.router.url;
-    if (this.currentRoute === '/calories'){
-      this.foodHistoryService.date = `${this.selectedDate.getFullYear()}-${this.selectedDate.getMonth() + 1}-${this.selectedDate.getDate()}`;
-      this.foodHistoryService.getHistoryByDate();
-      this.foodHistoryService.getTotalCaloriesWeek();
-    }else{
-      this.diabetesHistoryService.date = `${this.selectedDate.getFullYear()}-${this.selectedDate.getMonth() + 1}-${this.selectedDate.getDate()}`;
-      this.diabetesHistoryService.getHistoryByDate();
-      this.diabetesHistoryService.getTotalPortionsWeek();
-    }
+
+    // Convertir la fecha seleccionada a un objeto Date
+    let date = new Date(this.selectedDate);
+
+    // Sumar un día
+    date.setDate(date.getDate() + 1);
+
+    // Formatear la fecha a "YYYY-MM-DD"
+    this.foodHistoryService.date = date.toISOString().split('T')[0];
+    this.foodHistoryService.getHistoryByDate();
+    // Llamar a los métodos correspondientes
+    this.currentRoute === '/calories'
+      ? this.foodHistoryService.getTotalCaloriesWeek()
+      : this.diabetesHistoryService.getTotalPortionsWeek();
   }
 
 }
