@@ -135,7 +135,10 @@ export class ModifyProfileComponent implements OnInit{
 
     // Si no ocurre ninguna de las anteriores condiciones, se modifica el perfil
     const {activityFactor, gender, objective} = this.modifyUserForm.value
-    const noEmptyFields = Object.fromEntries(Object.entries(this.modifyUserForm.value).filter(([value]) => value !== ''));
+    const noEmptyFields = Object.fromEntries(Object.entries(this.modifyUserForm.value).filter(([key,value]) => {
+      return value !== '';
+    }));
+    console.log(noEmptyFields);
     this.userService.modifyUserInfo({
       ...noEmptyFields,
       activityFactor: activityFactor.value,
