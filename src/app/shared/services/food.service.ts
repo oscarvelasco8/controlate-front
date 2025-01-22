@@ -43,6 +43,11 @@ export class FoodService{
           }
           this._foodsInfo.update(arr => [...arr, element]);
         })
+        if (this._foodsInfo().length === 0) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La busqueda no arrojo ningun resultado' });
+          this._searching = false;
+          return;
+        }
         this.messageService.add({ severity: 'success', summary: 'Busqueda exitosa', detail: '¡Resultados encontrados!' });
         this._searching = false;
       },
