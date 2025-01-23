@@ -41,15 +41,17 @@ export class FoodService{
         // Procesamos los alimentos en paralelo sin detener todo si uno falla
         const results = await Promise.allSettled(response.map(food => this.mapToFoodInfo(food)));
 
-        // Filtramos los elementos exitosos
+        // Filtramos los elementos exitosos y que no sean null
         const validElements = results
-          .filter(result => result.status === 'fulfilled')
-          .map(result => (result as PromiseFulfilledResult<any>).value); // Extraemos los valores
+          .filter(result => result.status === 'fulfilled' && result.value !== null)
+          .map(result => (result as PromiseFulfilledResult<any>).value);
 
+        // Verificamos si después de filtrar quedan elementos válidos
         if (validElements.length > 0) {
           this._foodsInfo.update(arr => [...arr, ...validElements]);
           this.messageService.add({ severity: 'success', summary: 'Búsqueda exitosa', detail: '¡Resultados encontrados!' });
         } else {
+          // Aquí se maneja el caso donde todos los alimentos fueron filtrados
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se encontraron alimentos válidos' });
         }
 
@@ -61,6 +63,7 @@ export class FoodService{
       }
     });
   }
+
 
 
   // Metodo para resetear la informacion de alimentos
