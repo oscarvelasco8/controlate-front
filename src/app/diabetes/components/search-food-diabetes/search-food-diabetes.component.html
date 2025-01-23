@@ -31,12 +31,12 @@
           <ng-template pTemplate="body" let-food>
             <tr class="tr-space">
               <td class="flex flex-column align-items-center justify-content-between gap-4">
-                <div>
+                <div class="w-full">
                   <form [formGroup]="foodForm" (submit)="addFoodToMeal(selectedMeal.name, food)" class="flex align-items-center justify-content-center gap-2">
-                    <label>{{food.name}}</label>
-                    <p-inputNumber formControlName="quantity" (keyup)="calculate(food.id)"/>
+                    <label class="flex-1">{{food.name}}</label>
+                    <p-inputNumber formControlName="quantity" (keyup)="calculate(food.id)" class="flex-1"/>
                     <span>{{food.serving_description}}</span>
-                    <p-button type="submit" icon="pi pi-plus"></p-button>
+                    <p-button type="submit" icon="pi pi-plus" class="flex-1"></p-button>
                   </form>
                 </div>
                 <div>
