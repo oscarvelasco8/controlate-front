@@ -1,10 +1,9 @@
-import {Component, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RegisterValidatorService} from '../../services/register-validator.service';
 import {FormValidatorService} from '../../../shared/services/form-validator.service';
-import {LocalStorageService} from '../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-actividad-form',
@@ -17,7 +16,6 @@ export class ActividadFormComponent implements OnInit{
   activityOptions: any[] = [
     { name: 'Poco Sedentario', code: '1' , value:'POCO_SEDENTARIO' },
     { name: 'Sedentario', code: '2', value: 'SEDENTARIO' },
-    { name: 'Moderadamente Sedentario', code: '3', value: 'MODERADAMENTE_SEDENTARIO' },
     { name: 'Activo', code: '4', value: 'ACTIVO' },
     { name: 'Muy Activo', code: '5', value: 'MUY_ACTIVO' }];
 
