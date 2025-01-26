@@ -28,7 +28,7 @@ export class FoodService{
     this.resetFoodsInfo();
     this._searching = true;
 
-    this.httpClient.get<Food>(this.BASE_URL + '/search-food-by-name?searchTerm=' + searchTerm + '&maxResults=10').pipe(
+    this.httpClient.get<Food>(`${this.BASE_URL}/search-food-by-name?searchTerm=${searchTerm}&maxResults=10`).pipe(
       map(response => response.foods.food)
     ).subscribe({
       next: async (response) => {
@@ -38,21 +38,21 @@ export class FoodService{
           return;
         }
 
-        // Procesamos los alimentos en paralelo
-        const elements = await Promise.all(response.map(async (food) => {
-          return await this.mapToFoodInfo(food);
-        }));
+        // Procesamos los alimentos en paralelo sin detener todo si uno falla
+        const results = await Promise.allSettled(response.map(food => this.mapToFoodInfo(food)));
 
-        // Filtramos los elementos nulos
-        const validElements = elements.filter(el => el !== null);
+        // Filtramos los elementos exitosos y que no sean null
+        const validElements = results
+          .filter(result => result.status === 'fulfilled' && result.value !== null)
+          .map(result => (result as PromiseFulfilledResult<any>).value);
 
-        // Actualizamos el estado de los alimentos
-        this._foodsInfo.update(arr => [...arr, ...validElements]);
-
-        if (this._foodsInfo().length === 0) {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La búsqueda no arrojó ningún resultado' });
-        } else {
+        // Verificamos si después de filtrar quedan elementos válidos
+        if (validElements.length > 0) {
+          this._foodsInfo.update(arr => [...arr, ...validElements]);
           this.messageService.add({ severity: 'success', summary: 'Búsqueda exitosa', detail: '¡Resultados encontrados!' });
+        } else {
+          // Aquí se maneja el caso donde todos los alimentos fueron filtrados
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se encontraron alimentos válidos' });
         }
 
         this._searching = false;
@@ -63,6 +63,7 @@ export class FoodService{
       }
     });
   }
+
 
 
   // Metodo para resetear la informacion de alimentos
@@ -116,7 +117,7 @@ export class FoodService{
 
     // Si la unidad no está en el mapa, excluye el alimento devolviendo null
     if (!(servingUnit in unitConversionToBase)) {
-      console.warn(`Unidad desconocida: ${servingUnit}. Excluyendo el alimento: ${data.food_name}`);
+      /*console.warn(`Unidad desconocida: ${servingUnit}. Excluyendo el alimento: ${data.food_name}`);*/
       return null;
     }
 
@@ -155,9 +156,70 @@ export class FoodService{
     };
   }
 
+  /*private async mapToFoodInfo(data: FoodElement): Promise<FoodInfo | null> {
+    // Divide la cadena y verifica que tenga suficientes elementos
+    const descriptionParts = data.food_description?.split('|').map(part => part.trim()) || [];
+    if (descriptionParts.length < 4) {
+      console.warn(`Formato incorrecto de food_description: ${data.food_description}. Excluyendo alimento.`);
+      return null;
+    }
 
+    // Extrae el tamaño de la porción con una regex más robusta
+    const servingSizeMatch = descriptionParts[0].match(/(?:Per\s*)?(\d+(?:\.\d+)?)\s*([a-zA-Z]+)/);
+    if (!servingSizeMatch) {
+      console.warn(`No se pudo extraer el tamaño de la porción de: ${descriptionParts[0]}`);
+      return null;
+    }
 
+    const servingSize = parseFloat(servingSizeMatch[1]);
+    const servingUnit = servingSizeMatch[2].toLowerCase();
 
+    // Mapa de conversión de unidades
+    const unitConversionToBase: { [key: string]: { base: 'g' | 'ml'; factor: number } } = {
+      g: { base: 'g', factor: 1 }, oz: { base: 'g', factor: 28.3495 }, lb: { base: 'g', factor: 453.592 },
+      kg: { base: 'g', factor: 1000 }, mg: { base: 'g', factor: 0.001 }, ml: { base: 'ml', factor: 1 },
+      l: { base: 'ml', factor: 1000 }, fl: { base: 'ml', factor: 29.5735 }, pt: { base: 'ml', factor: 473.176 },
+      qt: { base: 'ml', factor: 946.353 }, gal: { base: 'ml', factor: 3785.41 },
+    };
 
+    // Si la unidad no está en el mapa, excluir el alimento
+    if (!unitConversionToBase[servingUnit]) {
+      console.warn(`Unidad desconocida: ${servingUnit}. Excluyendo alimento: ${data.food_name}`);
+      return null;
+    }
+
+    const { base, factor } = unitConversionToBase[servingUnit];
+    const servingSizeInBase = servingSize * factor;
+    const scalingFactor = 100 / servingSizeInBase;
+
+    // Función para extraer números de los valores nutricionales
+    const extractNumber = (str: string) => {
+      const num = parseFloat(str.replace(/[^0-9.]/g, ''));
+      return isNaN(num) ? 0 : num;
+    };
+
+    const calories = extractNumber(descriptionParts[0].split(':')[1]);
+    const fat = extractNumber(descriptionParts[1].split(':')[1]);
+    const carbs = extractNumber(descriptionParts[2].split(':')[1]);
+    const protein = extractNumber(descriptionParts[3].split(':')[1]);
+
+    let foodName: string;
+    try {
+      foodName = await this.translateEnToEs(data.food_name);
+    } catch (error) {
+      console.warn(`Error al traducir ${data.food_name}:`, error);
+      foodName = data.food_name;
+    }
+
+    return {
+      name: foodName,
+      id: data.food_id,
+      calories: (calories * scalingFactor).toFixed(2),
+      protein: (protein * scalingFactor).toFixed(2),
+      carbohydrate: (carbs * scalingFactor).toFixed(2),
+      fat: (fat * scalingFactor).toFixed(2),
+      serving_description: base,
+    };
+  }*/
 
 }

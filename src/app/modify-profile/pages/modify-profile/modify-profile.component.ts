@@ -41,7 +41,6 @@ export class ModifyProfileComponent implements OnInit{
   activityOptions: any[] = [
     { name: 'Poco Sedentario', code: '1' , value:'POCO_SEDENTARIO' },
     { name: 'Sedentario', code: '2', value: 'SEDENTARIO' },
-    { name: 'Moderadamente Sedentario', code: '3', value: 'MODERADAMENTE_SEDENTARIO' },
     { name: 'Activo', code: '4', value: 'ACTIVO' },
     { name: 'Muy Activo', code: '5', value: 'MUY_ACTIVO' }];
 
