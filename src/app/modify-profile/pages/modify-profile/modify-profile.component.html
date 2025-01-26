@@ -9,7 +9,7 @@
           <div class="mb-3">
             <label for="username">Usuario</label>
           </div>
-          <input formControlName="username" pInputText id="username" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+          <input formControlName="username" pInputText id="username" type="text" class="pointer-events-none opacity-50 text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
         </div>
         <span class="p-error mb-4 inline-block" *ngIf="isValidField('username')">
           {{getFieldError('username')}}
